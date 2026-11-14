@@ -1,0 +1,1952 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#D32F2F">
+<title>Shubh Clinic</title>
+<script>
+/* Theme pehle hi set karein taaki page ki chamak (flash) na ho */
+try{var __th=localStorage.getItem("shubh_theme")||"light";document.documentElement.dataset.theme=(__th==="dark"||(__th==="auto"&&matchMedia("(prefers-color-scheme: dark)").matches))?"dark":"light";}catch(e){document.documentElement.dataset.theme="light";}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--red:#D32F2F;--red-d:#B71C1C;--red-l:#EF5350;--bg:#ffffff;--card:#ffffff;--ink:#1f1f1f;--muted:#666666;--line:#F3D3D3;--tint:#FFF3F3;--tint2:#FFEBEE;--input:#ffffff;--inputline:#c9c9c9;--nav:#ffffff;--shadow:#0002;--toast:#262626;--logo:64px;--r:18px;color-scheme:light}
+[data-theme="dark"]{--red:#E53935;--red-d:#EF5350;--red-l:#EF9A9A;--bg:#121212;--card:#1e1e1e;--ink:#f2f2f2;--muted:#b8b8b8;--line:#4a2a2a;--tint:#2a1717;--tint2:#3a1c1c;--input:#262626;--inputline:#5a5a5a;--nav:#171717;--shadow:#0008;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;font:400 16px/1.55 "Plus Jakarta Sans","Noto Sans Devanagari",system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);padding-bottom:92px;transition:background .2s,color .2s}
+h1,h2,h3{font-weight:800;line-height:1.2;margin:0 0 8px;letter-spacing:-.01em;color:var(--ink)}
+h1{font-size:1.5rem;color:var(--red)}h2{font-size:1.35rem}h3{font-size:1.1rem}
+p{margin:0 0 10px}
+a{color:var(--red-d)}
+[hidden]{display:none!important}
+button,input,select,textarea{font-family:inherit}
+.wrap{max-width:560px;margin:0 auto;padding:12px 16px}
+.center{text-align:center}
+.top6{margin:6px 0 0}
+.head{position:relative;display:flex;align-items:center;gap:14px;padding:18px 52px 8px 0;margin-bottom:6px}
+.head-logo{width:var(--logo);height:auto;flex:none}
+.head p{margin:0;font-size:.95rem}
+.kebab{position:absolute;right:0;top:20px;width:40px;height:40px;border:0;border-radius:12px;background:var(--card);box-shadow:0 2px 8px var(--shadow);font-size:1.5rem;font-weight:800;color:var(--red);cursor:pointer}
+.menu{position:absolute;right:0;top:64px;z-index:50;background:var(--card);border-radius:16px;box-shadow:0 8px 28px var(--shadow);padding:8px;min-width:210px;animation:pop .2s ease}
+.menu a{display:block;padding:11px 12px;border-radius:10px;text-decoration:none;color:var(--ink);font-weight:600}
+.menu a:active{background:var(--tint)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin:0 0 14px;animation:rise .4s ease both}
+.muted{color:var(--muted);font-size:.92rem}
+.empty{color:var(--muted)}
+.view:not([hidden]){animation:rise .38s ease both}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.tile{display:flex;flex-direction:column;justify-content:space-between;gap:6px;min-height:118px;padding:14px;border-radius:var(--r);background:var(--card);border:1px solid var(--line);color:var(--ink);text-decoration:none;font-weight:800;font-size:1.08rem;line-height:1.2;animation:rise .5s ease both;animation-delay:calc(var(--i,0)*45ms);transition:transform .15s}
+.tile .ic{font-size:1.8rem}
+.tile small{font-weight:400;color:var(--muted);font-size:.86rem;line-height:1.3}
+.tile.wa{background:var(--red);border-color:var(--red);color:#fff}
+.tile.wa small{color:#ffe4e4}
+.tile:active,.btn:active,.lrow:active{transform:scale(.96)}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:52px;margin-top:12px;padding:10px 16px;border:0;border-radius:14px;background:var(--red);color:#fff;font-weight:800;font-size:1.02rem;text-decoration:none;cursor:pointer;transition:transform .15s,background .15s}
+.btn:hover{background:var(--red-d)}
+.btn.ghost{background:var(--card);color:var(--red-d);border:2px solid var(--red)}
+.btn.ghost:hover{background:var(--tint)}
+.btn.sm{width:auto;min-height:40px;margin:0;padding:6px 14px;font-size:.92rem;border-radius:11px}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+label{display:block;font-weight:700;margin:12px 0 4px;font-size:.95rem}
+input,select,textarea{width:100%;color:var(--ink);background:var(--input);border:1.5px solid var(--inputline);border-radius:12px;padding:11px 12px;font-size:16px}
+input[type=file]{padding:9px;font-size:.9rem}
+input[type=checkbox]{width:auto}
+textarea{min-height:82px;resize:vertical}
+:focus-visible{outline:3px solid var(--red-l);outline-offset:2px}
+.check{display:flex;gap:8px;align-items:center;margin-top:12px}
+.sr{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none}
+.toast{position:fixed;left:16px;right:16px;bottom:100px;max-width:528px;margin:auto;background:var(--toast);color:#fff;padding:12px 14px;border-radius:12px;font-weight:700;z-index:5;animation:rise .3s ease}
+nav.bottom{position:fixed;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(5,1fr);background:var(--nav);border-top:1px solid var(--line);z-index:4}
+nav.bottom a{text-align:center;padding:12px 2px 14px;color:var(--muted);text-decoration:none;font-weight:800;font-size:.76rem}
+nav.bottom a[aria-current=page]{color:var(--red-d);box-shadow:inset 0 3px 0 var(--red)}
+.links{margin-top:6px}
+.lrow{display:flex;gap:14px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:16px;background:var(--card);text-decoration:none;color:var(--ink);margin-bottom:10px;box-shadow:0 2px 8px var(--shadow);transition:transform .15s}
+.lrow::after{content:"›";margin-left:auto;font-size:1.7rem;color:var(--muted)}
+.lrow b{display:block}.lrow small{color:var(--muted)}
+.li{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:1.5rem;flex:none;box-shadow:0 4px 10px #0003}
+.g1{background:linear-gradient(135deg,#EF5350,#B71C1C)}
+.g2{background:linear-gradient(135deg,#E53935,#8E0000)}
+.g3{background:linear-gradient(135deg,#EF9A9A,#D32F2F)}
+.g4{background:linear-gradient(135deg,#FFCDD2,#D32F2F)}
+.notice{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--red);padding:10px 12px;border-radius:12px;margin-bottom:8px;animation:rise .4s ease both}
+.notice.offer{background:var(--tint);border-color:var(--red-l)}
+.req{border-left:6px solid var(--red)}
+.req.consult{border-left-color:var(--red-d)}
+.admin-line{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin:12px 0}.tabs .btn{white-space:nowrap}
+.agrp{margin:14px 0 6px;font-size:.78rem;font-weight:800;color:var(--muted);letter-spacing:.06em}.agrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.agrid .btn{margin:0;flex-direction:column;gap:2px;min-height:62px;padding:8px 4px;font-size:.85rem;position:relative}.agrid .btn.on{background:var(--red);color:#fff}.abadge{position:absolute;top:4px;right:6px;background:#fff;color:var(--red);border:1px solid var(--red);border-radius:10px;font-size:.7rem;padding:0 6px}.abar{display:flex;gap:8px}.abar .btn{margin:0;flex:1}
+.pc{display:flex;gap:12px;align-items:center;cursor:pointer;margin-bottom:8px;padding:12px}.pav{width:44px;height:44px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;font-weight:800;flex:none}.pinfo{display:flex;flex-direction:column;min-width:0}.ptag{font-size:.8rem;color:var(--muted)}.chips{display:flex;gap:6px;overflow-x:auto;margin:6px 0}.chips .btn{margin:0;white-space:nowrap}.chips .btn.on{background:var(--red);color:#fff}.tl{border-left:3px solid var(--red);padding:2px 0 2px 10px;margin:10px 0}.vg{display:grid;grid-template-columns:1fr 1fr;gap:8px}#p-q{position:sticky;top:8px;z-index:5}details>summary{cursor:pointer;padding:2px 0}
+.stat{text-align:center;margin:0}.stat b{display:block;font-size:1.7rem;color:var(--red)}
+#dash{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:8px 0;margin:6px 0}
+.chip{flex:none;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 14px;font-weight:600;cursor:pointer}
+.chip.on{background:var(--red-d);color:#fff;border-color:var(--red-d)}
+#shop-q{margin-top:6px}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0 20px}
+.pcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px;display:flex;flex-direction:column;gap:3px}
+.pimg{height:110px;border-radius:12px;background:var(--tint);display:grid;place-items:center;font-size:2.6rem;overflow:hidden}
+.pimg img{width:100%;height:100%;object-fit:cover}
+.pn{font-weight:700;line-height:1.2}
+.pp{font-weight:800;font-size:1.1rem}.pp small{font-weight:400;color:var(--muted);font-size:.72rem}
+.pcard .btn{margin-top:auto;width:100%}
+.qty{display:flex;align-items:center;justify-content:space-between;margin-top:auto;border:1px solid var(--red-d);border-radius:12px;padding:2px}
+.qty button{width:38px;height:34px;border:0;background:var(--red-d);color:#fff;border-radius:10px;font-size:1.2rem;cursor:pointer}
+.rx{color:var(--red-d);font-weight:700;font-size:.9rem;margin:0 0 4px}
+.cartbar{position:sticky;top:60px;z-index:30;display:block;margin:8px 0;background:var(--red-d);color:#fff;text-decoration:none;text-align:center;font-weight:800;padding:14px;border-radius:16px;box-shadow:0 6px 20px #0004}
+.pop-bg{position:fixed;inset:0;background:#0008;display:grid;place-items:center;z-index:99;animation:fade .2s}
+.pop{background:var(--card);border-radius:20px;padding:22px;width:min(320px,86vw);text-align:center;animation:pop .35s cubic-bezier(.2,1.4,.4,1)}
+.tick{width:54px;height:54px;border-radius:50%;background:var(--red);color:#fff;font-size:1.9rem;display:grid;place-items:center;margin:0 auto 10px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.seg button{min-height:52px;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--ink);font-weight:700;font-size:.92rem;cursor:pointer;padding:6px}
+.seg button[aria-pressed=true]{background:var(--red);border-color:var(--red);color:#fff}
+.cam-row{display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px}
+.staged{display:grid;gap:8px;margin:10px 0}
+.staged-item{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:6px;background:var(--card)}
+.staged-item img{width:52px;height:52px;object-fit:cover;border-radius:10px;flex:none}
+.doc-ic{width:52px;height:52px;display:grid;place-items:center;font-size:1.8rem;background:var(--tint);border-radius:10px;flex:none}
+.sname{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.92rem}
+.staged-item .btn{margin:0;min-height:36px;width:auto;padding:4px 12px}
+.files{display:grid;gap:8px;margin-top:6px}
+.files img{width:100%;border-radius:10px;margin-top:4px}
+.files .btn{margin-top:0}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.head .kebab{top:20px}
+.head .menu{top:64px}
+nav.bottom{grid-template-columns:repeat(5,1fr)}
+.toolbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 0;margin:0 0 6px;background:var(--bg)}
+.backbtn,.cartbtn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:6px 16px;border:2px solid var(--red);border-radius:14px;background:var(--card);color:var(--red-d);font-weight:800;font-size:1rem;text-decoration:none;cursor:pointer}
+.cartbtn{margin-left:auto;background:var(--red);color:#fff}
+.badge{min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:#fff;color:var(--red-d);font-size:.8rem;display:inline-grid;place-items:center}
+.req-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.req-top h3{margin:0}
+.live{flex:none;font-size:.75rem;font-weight:800;padding:3px 9px;border-radius:999px;background:var(--tint2);color:var(--red-d)}
+.live.off{background:var(--tint);color:var(--muted)}
+.stline{margin:8px 0 6px}.stline.bad strong{color:var(--red-d)}
+.steps{display:flex;gap:4px;margin:10px 0}
+.step{flex:1;text-align:center;font-size:.72rem;color:var(--muted);line-height:1.2}
+.step i{display:grid;place-items:center;width:26px;height:26px;margin:0 auto 4px;border-radius:50%;border:2px solid var(--line);font-style:normal;font-weight:800;background:var(--card)}
+.step.ok i{background:var(--red);border-color:var(--red);color:#fff}
+.step.cur i{border-color:var(--red);color:var(--red-d);animation:pulse 1.4s infinite}
+.step.ok,.step.cur{color:var(--ink);font-weight:700}
+.small{font-size:.8rem}
+.cline{padding:10px 0;border-bottom:1px solid var(--line)}.cn{font-weight:700;margin-bottom:6px}
+.cl{display:flex;align-items:center;gap:8px}.cl b{min-width:22px;text-align:center}.cl .cp{margin-left:auto;font-weight:800}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 #D32F2F55}50%{box-shadow:0 0 0 6px #D32F2F00}}
+.mrow{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;padding:10px 0;border-bottom:1px solid var(--line)}
+.mi{min-width:0;flex:1 1 180px}.mi b{display:block}
+.mbtns{display:flex;gap:6px;flex-wrap:wrap}.mbtns .btn{margin:0}
+.tag{display:inline-block;font-size:.72rem;font-weight:800;padding:2px 8px;border-radius:999px;background:var(--tint);color:var(--red-d);margin:4px 4px 0 0}
+.tag.on{background:var(--red);color:#fff}.tag.warn{background:#FFF4D6;color:#8A5A00}.tag.off{background:var(--line);color:var(--muted)}
+.offp{color:var(--red-d);font-size:1.15rem}
+.obadge{display:inline-block;background:var(--red);color:#fff;border-radius:6px;font-size:.66rem;padding:2px 6px;vertical-align:middle;font-weight:800}
+.pcard.ison{border-color:var(--red);box-shadow:0 0 0 1px var(--red) inset}
+.pp.rate{color:var(--muted);font-weight:700;font-size:.92rem}
+.ostrip{margin:6px 0 8px}.ohead{display:block;margin:0 0 6px}
+.orow{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+.ochip{flex:none;display:flex;flex-direction:column;align-items:flex-start;gap:2px;border:1px solid var(--red);background:var(--card);color:var(--ink);border-radius:14px;padding:8px 12px;cursor:pointer;min-width:130px;text-align:left;font-family:inherit}
+.ochip span{font-weight:700;font-size:.85rem}.ochip b{color:var(--red-d)}
+.ohitem{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px solid var(--line)}
+.ohome .btn{width:auto}
+.qe{background:var(--card);border-radius:20px;padding:18px;width:min(460px,94vw);max-height:90vh;overflow:auto;animation:pop .3s ease}
+.qe-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:4px}
+.qe-pcts{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.qe-pcts .btn{width:auto;margin:0;min-height:36px;padding:4px 12px}
+.qe-img{display:flex;gap:10px;align-items:center}
+.qe-img img{width:72px;height:72px;object-fit:cover;border-radius:12px;background:var(--tint)}
+.qe .row{margin-top:12px}
+#imp-out{margin-top:10px}
+.files{display:grid}
+.sumg{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.sumg div{background:var(--tint);border-radius:12px;padding:10px}
+.sumg b{display:block;font-size:1.35rem;color:var(--red-d)}
+.sumg span{font-size:.8rem;color:var(--muted)}
+.warnnum{color:#B26A00!important}
+.snote{display:block;color:#B26A00;font-weight:700;font-size:.85rem;margin:2px 0}
+</style>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="head">
+    <svg class="head-logo" viewBox="0 0 64 60" role="img" aria-label="Shubh Clinic logo"><path d="M32 56C10 38 4 26 4 17 4 9 10 4 17 4c7 0 12 4 15 9 3-5 8-9 15-9 7 0 13 5 13 13 0 9-6 21-28 39z" fill="#D32F2F"/><path d="M7 31h14l4-9 7 20 6-26 4 15h15" fill="none" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div>
+      <h1>Shubh Clinic Lalhri</h1>
+      <p><strong>Dr. Deexshant Chaudhary</strong></p>
+      <p class="muted" data-i18n="quals">BAMS, General Physician, Anorectal Specialist</p>
+    </div>
+    <button class="kebab" id="kebab" type="button" aria-label="Menu">⋮</button>
+    <div class="menu" id="menu" hidden>
+      <a href="#/me" data-i18n="m_profile">👤 Profile</a>
+      <a href="#/settings" data-i18n="m_settings">⚙️ Settings</a>
+      <a href="#/admin" data-i18n="m_staff">🔐 Staff login</a>
+    </div>
+  </header>
+
+  <div class="toolbar" id="toolbar">
+    <button class="backbtn" id="back-btn" type="button" hidden><span aria-hidden="true">←</span> <span data-i18n="back">Back</span></button>
+    <a class="cartbtn" id="cart-btn" href="#/cart" aria-label="Cart"><span aria-hidden="true">🛒</span> <span data-i18n="cart_btn">Cart</span><b class="badge" id="cart-count" hidden>0</b></a>
+  </div>
+
+  <div class="card center"><p>📍 <strong data-i18n="addr">Shubh Clinic Lalhri, Main Gate, Tehsil Haroli, Distt. Una (HP)</strong></p><p class="top6">🕗 <span data-i18n="timing">Timing: 8 AM – 8 PM · 🚨 Emergency 24×7</span></p></div>
+
+  <!-- HOME -->
+  <section class="view" id="v-home">
+    <div id="home-notices"></div>
+    <div id="home-offers"></div>
+    <div class="tiles">
+      <a class="tile wa" id="btn-chat" target="_blank" rel="noopener"><span class="ic">💬</span><span data-i18n="t_wa">WhatsApp par baat</span><small data-i18n="t_wa_s">Clinic se seedha chat</small></a>
+      <a class="tile" href="tel:+918219404140"><span class="ic">📞</span><span data-i18n="t_call">Call karein</span><small data-i18n="t_call_s">Emergency 24×7</small></a>
+      <a class="tile" href="#/shop"><span class="ic">💊</span><span data-i18n="t_med">Medicine order</span><small data-i18n="t_med_s">Ghar par free delivery</small></a>
+      <a class="tile" href="#/reports"><span class="ic">📄</span><span data-i18n="t_rep">Report bhejein</span><small data-i18n="t_rep_s">Photo, PDF ya doc clinic ko</small></a>
+      <a class="tile" href="#/appt"><span class="ic">📅</span><span data-i18n="t_appt">Appointment</span><small data-i18n="t_appt_s">Clinic aane ka time chunein</small></a>
+      <a class="tile" href="#/status"><span class="ic">📋</span><span data-i18n="t_req">Meri requests</span><small data-i18n="t_req_s">Order / appointment status</small></a>
+    </div>
+    <section class="card">
+      <h2 data-i18n="msg_h">Sawal ya message</h2>
+      <label for="msg-text" data-i18n="msg_l">Clinic ko message likhein</label>
+      <textarea id="msg-text" data-i18n-ph="msg_ph" placeholder="Apna sawal yahan likhein"></textarea>
+      <label for="msg-phone" data-i18n="phone_l">Aapka phone number</label><input id="msg-phone" type="tel">
+      <button class="btn" id="btn-msg" type="button" data-i18n="send">Send ✈️</button>
+    </section>
+  </section>
+
+  <!-- INFO -->
+  <section class="view" id="v-info" hidden>
+    <h2 data-i18n="info_h">Clinic information</h2>
+    <div class="card">
+      <h3>Shubh Clinic Lalhri</h3>
+      <p><strong>Dr. Deexshant Chaudhary</strong><br><span class="muted" data-i18n="quals">BAMS, General Physician, Anorectal Specialist</span></p>
+      <p><span data-i18n="address_l">Address</span>: Shubh Clinic Lalhri, Main Gate, Tehsil Haroli, Distt. Una (HP)</p>
+      <p><a href="tel:+918219404140">+91 8219404140</a></p>
+      <div class="admin-line"><span data-i18n="tm_days">Somvar se Ravivar</span><strong>8:00 AM – 8:00 PM</strong></div>
+      <div class="admin-line"><span data-i18n="tm_em">🚨 Emergency</span><strong data-i18n="tm_24">24×7</strong></div>
+    </div>
+    <div class="card">
+      <h3 data-i18n="join_h">Clinic se judein</h3>
+      <div class="links">
+        <a class="lrow" id="i-group" target="_blank" rel="noopener"><span class="li g1">👥</span><span><b data-i18n="l_group">WhatsApp Group</b><small data-i18n="l_group_s">Group me judein</small></span></a>
+        <a class="lrow" id="i-insta" target="_blank" rel="noopener"><span class="li g2">📸</span><span><b>Instagram</b><small>@deexshant</small></span></a>
+        <a class="lrow" id="i-channel" target="_blank" rel="noopener"><span class="li g1">📢</span><span><b data-i18n="l_comm">Health community</b><small data-i18n="l_comm_s">Updates aur jaankari</small></span></a>
+        <a class="lrow" id="i-map" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Shubh+Clinic+Lalhri+Haroli+Una"><span class="li g3">📍</span><span><b data-i18n="l_map">Location (Map)</b><small>Shubh Clinic Lalhri, Haroli, Una</small></span></a>
+        <a class="lrow" id="i-review" target="_blank" rel="noopener"><span class="li g4">⭐</span><span><b data-i18n="l_rev">Google review</b><small data-i18n="l_rev_s">Hamein review dein</small></span></a>
+        <a class="lrow" id="i-mail" href="mailto:deexshant@gmail.com"><span class="li g2">✉️</span><span><b>Email</b><small>deexshant@gmail.com</small></span></a>
+        <a class="lrow" href="#/me"><span class="li g1">🧑</span><span><b data-i18n="l_me">Meri information</b><small data-i18n="l_me_s">Profile aur purani reports</small></span></a>
+      </div>
+    </div>
+    <div class="card"><h3 data-i18n="about_h">Doctor ke baare me</h3><p><strong>Dr. Deexshant Chaudhary</strong><br><span class="muted" data-i18n="quals">BAMS, General Physician, Anorectal Specialist</span></p><p class="muted" data-i18n="about_t1">🕗 Timing: 8 AM – 8 PM · Emergency 24×7</p><p class="muted" data-i18n="about_t2">Home medicine delivery aur online consultation uplabdh.</p></div>
+  </section>
+
+  <!-- SHOP -->
+  <section class="view" id="v-shop" hidden>
+    <h2 data-i18n="shop_h">Medicine shop</h2>
+    <a class="cartbar" id="cartbar" href="#/cart" hidden></a>
+    <div id="offer-strip"></div>
+    <input id="shop-q" type="search" data-i18n-ph="shop_ph" placeholder="🔍 Medicine ya product search karein">
+    <div id="shop-cats" class="chips"></div>
+    <div id="shop-list" class="pgrid"></div>
+    <a class="btn ghost" href="#/book" data-i18n="shop_photo">📷 Photo bhej kar order karein</a>
+  </section>
+
+  <!-- CART -->
+  <section class="view" id="v-cart" hidden>
+    <h2 data-i18n="cart_h">Aapka cart</h2>
+    <div id="cart-page"></div>
+  </section>
+
+  <!-- BOOK (medicine order) -->
+  <section class="view" id="v-book" hidden>
+    <h2 data-i18n="book_h">Medicine order karein</h2>
+    <div id="cart-box"></div>
+    <div class="card">
+      <form id="f-order">
+        <label for="o-name" data-i18n="l_name">Naam</label><input id="o-name" name="name" required autocomplete="name">
+        <label for="o-phone" data-i18n="l_phone">Phone number</label><input id="o-phone" name="phone" type="tel" required autocomplete="tel">
+        <label for="o-addr" data-i18n="l_addr_o">Address (optional)</label><textarea id="o-addr" name="address"></textarea>
+        <label for="o-pin" data-i18n="l_pin_o">PIN code (optional)</label><input id="o-pin" name="pin" inputmode="numeric" pattern="[0-9]{6}" title="6 digit PIN code">
+        <label for="o-items" data-i18n="l_items">Medicine ya items ki list (optional)</label><textarea id="o-items" name="items" data-i18n-ph="ph_items" placeholder="Optional: cart ke items bhi jud jayenge"></textarea>
+        <label for="o-photo" data-i18n="l_cam_rx">📷 Prescription / medicine ki photo (camera se)</label>
+        <input id="o-photo" type="file" accept="image/*" capture="environment">
+        <label for="o-photo2" data-i18n="l_gal_rx">Ya gallery se chunein (ek saath kai bhi)</label>
+        <input id="o-photo2" type="file" accept="image/*" multiple>
+        <button class="btn" type="submit" data-i18n="btn_order">Order bhejein</button>
+      </form>
+      <p class="muted" data-i18n="delivery_note">Free home delivery. Clinic WhatsApp par time confirm karega.</p>
+    </div>
+  </section>
+
+  <!-- APPOINTMENT -->
+  <section class="view" id="v-appt" hidden>
+    <h2 data-i18n="appt_h">Clinic appointment</h2>
+    <p class="muted" data-i18n="appt_p">Clinic aane ka din aur time chunein. Clinic WhatsApp par confirm karega.</p>
+    <a class="btn ghost" href="#/consult" data-i18n="appt_video">📹 Video / audio consultation chahiye?</a>
+    <div class="card"><form id="f-appt">
+      <label for="a-name" data-i18n="l_pname">Patient ka naam</label><input id="a-name" name="name" required>
+      <label for="a-phone" data-i18n="l_phone">Phone number</label><input id="a-phone" name="phone" type="tel" required>
+      <label for="a-date" data-i18n="l_day">Kis din</label><input id="a-date" name="date" type="date" required>
+      <label for="a-slot" data-i18n="l_slot">Time slot</label>
+      <select id="a-slot" name="slot">
+        <option value="Subah 8-11" data-i18n="s1">Subah 8-11</option>
+        <option value="Dopahar 11-2" data-i18n="s2">Dopahar 11-2</option>
+        <option value="Shaam 2-5" data-i18n="s3">Shaam 2-5</option>
+        <option value="Raat 5-8" data-i18n="s4">Raat 5-8</option>
+      </select>
+      <label for="a-concern" data-i18n="l_concern_o">Kya problem hai? (optional)</label><textarea id="a-concern" name="concern"></textarea>
+      <button class="btn" type="submit" data-i18n="btn_appt">Appointment book karein</button>
+    </form></div>
+  </section>
+
+  <!-- CONSULT -->
+  <section class="view" id="v-consult" hidden>
+    <h2 data-i18n="cons_h">Teleconsultation appointment</h2>
+    <p class="muted" data-i18n="cons_p">Request bhejein. Doctor approve karenge to yahan video room ka link dikhega.</p>
+    <div class="card"><form id="f-consult">
+      <label for="c-name" data-i18n="l_pname">Patient ka naam</label><input id="c-name" name="name" required>
+      <label for="c-phone" data-i18n="l_phone">Phone number</label><input id="c-phone" name="phone" type="tel" required>
+      <label for="c-date" data-i18n="l_day">Kis din</label><input id="c-date" name="date" type="date" required>
+      <label for="c-time" data-i18n="l_time">Kis time</label><input id="c-time" name="time" type="time" value="10:00" required>
+      <label for="c-mode" data-i18n="l_mode">Kaise baat karni hai</label>
+      <select id="c-mode" name="mode"><option value="Video" data-i18n="o_video">Video</option><option value="Audio" data-i18n="o_audio">Audio</option></select>
+      <label for="c-concern" data-i18n="l_concern">Kya problem hai?</label><textarea id="c-concern" name="concern" required></textarea>
+      <button class="btn" type="submit" data-i18n="btn_cons">Appointment request bhejein</button>
+    </form></div>
+  </section>
+
+  <!-- STATUS -->
+  <section class="view" id="v-status" hidden>
+    <h2 data-i18n="t_req">Meri requests</h2>
+    <p class="muted" data-i18n="req_p">Order, appointment aur video consultation ka status yahan live dikhega.</p>
+    <div id="my-req"></div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section class="view" id="v-settings" hidden>
+    <h2 data-i18n="set_h">Settings</h2>
+    <div class="card">
+      <h3 data-i18n="lang_h">🌐 Language / Bhasha</h3>
+      <div class="seg" id="seg-lang">
+        <button type="button" data-lang="hi">हिन्दी</button>
+        <button type="button" data-lang="en">English</button>
+        <button type="button" data-lang="hg">Hinglish</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3 data-i18n="theme_h">🌗 Theme / Mode</h3>
+      <div class="seg" id="seg-theme">
+        <button type="button" data-theme-set="light" data-i18n="th_light">☀️ Light</button>
+        <button type="button" data-theme-set="dark" data-i18n="th_dark">🌙 Dark</button>
+        <button type="button" data-theme-set="auto" data-i18n="th_auto">📱 Phone ke hisaab se</button>
+      </div>
+    </div>
+    <div class="card">
+      <button class="btn" id="set-install" type="button" data-i18n="set_install">📲 Install app (home screen)</button>
+      <button class="btn ghost" id="set-clear" type="button" data-i18n="set_clear">🗑️ Is phone ka saved data hatayein</button>
+    </div>
+  </section>
+
+  <!-- REPORTS -->
+  <section class="view" id="v-reports" hidden>
+    <div class="card">
+      <h2 data-i18n="rep_h">Report samjhein</h2>
+      <p class="muted" data-i18n="rep_p">Ye general jaankari hai, diagnosis nahi. Lab ki apni range aur doctor ki salah sabse pehle maanein.</p>
+      <label for="rep-sel" data-i18n="rep_type">Report ka type (optional)</label>
+      <select id="rep-sel"></select>
+      <div id="rep-out"></div>
+    </div>
+    <div class="card">
+      <h2 data-i18n="rep_send_h">Report clinic ko bhejein</h2>
+      <p class="muted" data-i18n="rep_send_p">Photo click karein, gallery se chunein ya PDF / doc chunein. Ek baar mein 10 tak file. Send dabane par WhatsApp khulega, aur sab files usme saath mein attach honge.</p>
+      <label for="r-name" data-i18n="l_name">Naam</label><input id="r-name" autocomplete="name">
+      <label for="r-phone" data-i18n="l_phone">Phone number</label><input id="r-phone" type="tel" autocomplete="tel">
+      <div class="cam-row">
+        <button class="btn ghost" id="btn-cam" type="button" data-i18n="btn_cam">📷 Photo click karein</button>
+        <button class="btn ghost" id="btn-gal" type="button" data-i18n="btn_gal">🖼️ Gallery se chunein</button>
+        <button class="btn ghost" id="btn-doc" type="button" data-i18n="btn_doc">📄 PDF / Word / Text</button>
+      </div>
+      <input id="r-cam" class="sr" type="file" accept="image/*" capture="environment" tabindex="-1">
+      <input id="r-gal" class="sr" type="file" accept="image/*" multiple tabindex="-1">
+      <input id="r-doc" class="sr" type="file" accept=".pdf,.doc,.docx,.txt,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain" multiple tabindex="-1">
+      <div id="r-list" class="staged"></div>
+      <p class="muted" id="r-count"></p>
+      <button class="btn" id="rep-share" type="button" data-i18n="btn_rep_share">📤 Report bhejein</button>
+    </div>
+  </section>
+
+  <!-- PROFILE (opened from Info page) -->
+  <section class="view" id="v-me" hidden>
+    <h2 data-i18n="me_h">Meri information</h2>
+    <p class="muted" data-i18n="me_p">Ek baar save karein. Ye aapke phone par aur clinic ke paas save hogi.</p>
+    <div class="card"><form id="f-me">
+      <label for="me-name" data-i18n="l_name">Naam</label><input id="me-name" name="name" required>
+      <label for="me-phone" data-i18n="l_phone">Phone number</label><input id="me-phone" name="phone" type="tel" required>
+      <label for="me-age" data-i18n="pf_age">Umar</label><input id="me-age" name="age" type="number">
+      <label for="me-gender" data-i18n="pf_gender">Gender</label>
+      <select id="me-gender" name="gender"><option value="" data-i18n="pick">Chunein</option><option value="Male" data-i18n="g_m">Purush</option><option value="Female" data-i18n="g_f">Mahila</option><option value="Other" data-i18n="g_o">Other</option></select>
+      <label for="me-blood" data-i18n="pf_blood">Blood group</label>
+      <select id="me-blood" name="blood"><option value="Pata nahi" data-i18n="unknown">Pata nahi</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option></select>
+      <label for="me-weight" data-i18n="pf_weight">Weight (kg)</label><input id="me-weight" name="weight" type="number">
+      <label for="me-height" data-i18n="pf_height">Height (cm)</label><input id="me-height" name="height" type="number">
+      <label for="me-chronic" data-i18n="pf_chronic">Purani bimari (BP / Sugar / Thyroid...)</label><input id="me-chronic" name="chronic">
+      <label for="me-emergency" data-i18n="pf_emg">Emergency contact number</label><input id="me-emergency" name="emergency" type="tel">
+      <label for="me-address" data-i18n="l_addr">Address</label><textarea id="me-address" name="address"></textarea>
+      <label for="me-problem" data-i18n="pf_prob">Bimari / problem</label><textarea id="me-problem" name="problem"></textarea>
+      <label for="me-allergy" data-i18n="pf_allergy">Medicine allergy (agar ho)</label><input id="me-allergy" name="allergy">
+      <label for="me-meds" data-i18n="pf_meds">Chal rahi medicine (agar koi)</label><textarea id="me-meds" name="meds"></textarea>
+      <label for="me-extra" data-i18n="pf_extra">Aur zaroori jaankari (optional)</label><textarea id="me-extra" name="extra"></textarea>
+      <button class="btn ghost" id="me-addx" type="button" data-i18n="pf_extra_btn">➕ Aur jaankari jodein</button>
+      <label for="me-email" data-i18n="pf_email">Email (optional)</label><input id="me-email" name="email" type="email">
+      <label for="me-dob" data-i18n="pf_dob">Janm tithi</label><input id="me-dob" name="dob" type="date">
+      <label for="me-cam" data-i18n="me_cam">📎 Reports (optional): camera se</label><input id="me-cam" type="file" accept="image/*" capture="environment">
+      <label for="me-files" data-i18n="me_files">Ya gallery / files se (PDF, photo, doc, text...)</label><input id="me-files" type="file" accept="image/*,application/pdf,.doc,.docx,.txt" multiple>
+      <button class="btn" type="submit" data-i18n="me_btn">Information save karein</button>
+    </form></div>
+  </section>
+
+  <!-- ADMIN (staff dashboard, Hinglish) -->
+  <section class="view" id="v-admin" hidden>
+    <h2>Clinic dashboard</h2>
+    <p class="muted" id="admin-note"></p>
+    <div class="card" id="admin-login" hidden>
+      <form id="f-login">
+        <label for="l-email">Email</label><input id="l-email" name="email" type="email" required autocomplete="username">
+        <label for="l-pass">Password</label><input id="l-pass" name="password" type="password" required autocomplete="current-password">
+        <button class="btn" type="submit">Login karein</button>
+      </form>
+    </div>
+    <div id="admin-dash" hidden>
+      <div class="abar">
+        <button class="btn sm" id="btn-alerts" type="button">🔔 Notification on</button>
+        <button class="btn sm ghost" id="btn-logout" type="button">Logout</button>
+      </div>
+      <div class="tabs" id="atabs"></div>
+      <div class="ap" id="ap-requests"><h3>Orders, appointments aur reports</h3><select id="req-clean"><option value="">🧹 Purani requests hatayein…</option><option value="closed">Ho chuki / reject hui</option><option value="7">7 din se purani</option><option value="30">30 din se purani</option><option value="all">Sab requests</option></select><div id="requests"></div></div>
+      <div class="ap" id="ap-patients" hidden>
+        <div id="p-listview"><input id="p-q" type="search" placeholder="🔍 Naam ya phone number se khojein" autocomplete="off">
+          <div class="row" style="align-items:center"><select id="p-sort" style="flex:1"><option value="new">Naye pehle</option><option value="az">Naam A–Z</option><option value="last">Last aaye</option></select><span class="muted" id="p-count"></span></div>
+          <details class="card" style="margin-top:10px"><summary><b>➕ Naya patient add karein</b></summary><form id="f-pat"></form></details>
+          <div id="l-patients"></div></div>
+        <div id="p-prof" hidden></div></div>
+      <div class="ap" id="ap-opd" hidden><div class="card"><h3>OPD entry</h3><form id="f-opd"></form></div><div id="l-opd"></div></div>
+      <div class="ap" id="ap-ipd" hidden><div class="card"><h3>IPD entry</h3><form id="f-ipd"></form></div><div id="l-ipd"></div></div>
+      <div class="ap" id="ap-today" hidden><div id="dash"></div><div id="sum-box"></div></div>
+      <div class="ap" id="ap-follow" hidden><h3>Aane wale follow-up</h3><div id="l-follow"></div></div>
+      <div class="ap" id="ap-wish" hidden><h3>Is hafte ke janmdin</h3><button class="btn sm ghost" id="fest" type="button">🎉 Festival wish message copy karein</button><div id="l-wish"></div></div>
+      <div class="ap" id="ap-notice" hidden><div class="card"><h3>Notice / Offer (patients ko home par dikhega)</h3><form id="f-notice"><label>Type</label><select name="type"><option>Notice</option><option>Offer</option></select><label>Message</label><textarea name="text" required></textarea><button class="btn" type="submit">Post karein</button></form></div><div id="l-notice"></div></div>
+      <div class="ap" id="ap-more" hidden><div class="card"><h3>📤 Export (Excel / CSV)</h3><label for="x-what">Kya export karna hai?</label><select id="x-what"><option value="pat">🧑 Patients</option><option value="opd">🩺 OPD</option><option value="ipd">🛏️ IPD</option><option value="req">📥 Requests</option></select><label for="x-when">Kitne din ka data?</label><select id="x-when"><option value="0">Sab</option><option value="1">Sirf aaj</option><option value="7">Pichhle 7 din</option><option value="30">Pichhle 30 din</option></select><button class="btn" id="x-go" type="button">⬇ Download CSV</button></div><div class="card"><h3>🛟 Full backup</h3><p class="muted">Patients, OPD/IPD aur Requests ek saath (3 files). Hafte mein ek baar le lein.</p><button class="btn ghost" id="x-all" type="button">⬇ Sab ka backup</button></div><div class="card"><h3>🧹 Data safai</h3><p class="muted">Ek hi phone number ke duplicate patients ko jodkar ek bana deta hai.</p><button class="btn ghost" id="x-dedupe" type="button">Duplicate patients jodein</button></div><div class="card"><h3>Clinic QR poster</h3><button class="btn" id="btn-qr" type="button">📱 QR poster banayein / print</button><div id="qr" style="display:none"></div></div><div class="card"><h3>🔧 Tools</h3><button class="btn sm ghost" id="btn-test" type="button">🧪 Firebase test</button></div></div>
+      <div class="ap" id="ap-shop" hidden>
+        <div class="card"><h3>🏷️ Category par ek saath offer</h3>
+          <p class="muted">Category chuniye, % likhiye. Har medicine ka offer price app khud nikal dega.</p>
+          <label for="bulk-cat">Category</label><select id="bulk-cat"></select>
+          <label for="bulk-pct">Kitna % off (sirf number)</label><input id="bulk-pct" type="number" min="1" max="90" step="1" placeholder="jaise 20">
+          <div class="vg"><div><label for="bulk-from">Offer kab se (optional)</label><input id="bulk-from" type="date"></div><div><label for="bulk-till">Offer kab tak (optional)</label><input id="bulk-till" type="date"></div></div>
+          <div class="row"><button class="btn" id="bulk-go" type="button">✅ Offer lagayein</button><button class="btn ghost" id="bulk-clear" type="button">Is category ke offers hatayein</button></div>
+        </div>
+        <div class="card"><h3>⚠️ Kam stock (5 ya usse kam)</h3><div id="low-list"></div></div>
+        <div class="card"><h3>🏷️ Active offers (<span id="off-count">0</span>)</h3><div id="off-list"></div></div>
+        <div class="card"><h3>📥 Medicine names import (Excel / CSV / paste)</h3>
+          <p class="muted">Sirf naam chahiye to ye use karein. Rate baad mein jodein. Ek line mein ek medicine. Excel ko .xlsx ya CSV mein chalega.</p>
+          <label for="imp-file">Excel / CSV / TXT file</label><input id="imp-file" type="file" accept=".xlsx,.xls,.csv,.txt">
+          <label for="imp-text">Ya list yahan paste karein</label><textarea id="imp-text" placeholder="Dolo 650&#10;Crocin&#10;Azithral 500"></textarea>
+          <button class="btn ghost" id="imp-prev" type="button">👀 Preview dekhein</button>
+          <div id="imp-out"></div>
+        </div>
+        <button class="btn sm" id="btn-seed" type="button">📦 Default catalog import karein (30+ products)</button>
+        <div class="card"><h3>Naya medicine / product (rate aur photo ke saath)</h3>
+          <form id="f-prod">
+            <label for="p-name">Naam</label><input id="p-name" name="name" required>
+            <label for="p-price">Price (₹)</label><input id="p-price" name="price" type="number" min="0" required>
+            <label for="p-desc">Description</label><textarea id="p-desc" name="desc"></textarea>
+            <label for="p-cat">Category</label>
+            <select id="p-cat" name="cat"><option>Fever &amp; Pain</option><option>Cold &amp; Cough</option><option>Digestion</option><option>Piles &amp; Anorectal</option><option>Vitamins</option><option>Health Devices</option><option>First Aid</option><option>Skin &amp; Care</option><option>Other</option></select>
+            <label for="p-stock">Stock (kitne pack, optional)</label><input id="p-stock" name="stock" type="number" min="0" step="1">
+            <label for="p-img">Photo (optional)</label><input id="p-img" type="file" accept="image/*">
+            <label class="check"><input type="checkbox" name="rx"> Prescription chahiye</label>
+            <button class="btn" type="submit">Product save karein</button>
+          </form></div>
+        <div class="card"><h3>Medicines: offer, rate, photo, stock</h3>
+          <input id="med-q" type="search" placeholder="🔍 Medicine ka naam khojein" autocomplete="off">
+          <div id="admin-items"></div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="pop-bg" id="qe-bg" hidden>
+  <div class="qe" role="dialog" aria-modal="true" aria-labelledby="qe-title">
+    <div class="qe-head"><h3 id="qe-title">Medicine</h3><button class="btn sm ghost" id="qe-x" type="button" aria-label="Band karein">✕</button></div>
+    <form id="qe-form">
+      <label for="qe-n">Naam</label><input id="qe-n" required>
+      <div class="vg"><div><label for="qe-p">Rate / MRP (₹)</label><input id="qe-p" type="number" min="0" step="any"></div><div><label for="qe-o">Offer price (₹)</label><input id="qe-o" type="number" min="0" step="any"></div></div>
+      <div class="qe-pcts"><span class="muted">Jaldi offer:</span><button class="btn sm ghost" data-pct="10" type="button">10% off</button><button class="btn sm ghost" data-pct="20" type="button">20% off</button><button class="btn sm ghost" data-pct="30" type="button">30% off</button></div>
+      <div class="vg"><div><label for="qe-f">Offer kab se (optional)</label><input id="qe-f" type="date"></div><div><label for="qe-t">Offer kab tak (optional)</label><input id="qe-t" type="date"></div></div>
+      <label for="qe-c">Category</label><select id="qe-c"></select>
+      <label for="qe-photo">Photo badlein (optional)</label>
+      <div class="qe-img"><img id="qe-img" alt="" hidden><input id="qe-photo" type="file" accept="image/*"></div>
+      <label for="qe-s">Stock (kitne pack; khali = track nahi)</label><input id="qe-s" type="number" min="0" step="1">
+      <label class="check"><input type="checkbox" id="qe-rx"> Prescription chahiye</label>
+      <label class="check"><input type="checkbox" id="qe-stock" checked> Stock mein hai</label>
+      <p class="muted" id="qe-hint"></p>
+      <button class="btn" type="submit">💾 Save karein</button>
+    </form>
+    <div class="row"><button class="btn sm ghost" id="qe-clear" type="button">🏷️ Offer hatayein</button><button class="btn sm ghost" id="qe-del" type="button">🗑 Medicine hatayein</button></div>
+  </div>
+</div>
+<nav class="bottom" aria-label="Main">
+  <a href="#/" data-r="home" data-i18n="n_home">Home</a><a href="#/shop" data-r="shop" data-i18n="n_med">Medicine</a><a href="#/appt" data-r="appt" data-i18n="n_appt">Appointment</a><a href="#/reports" data-r="reports" data-i18n="n_rep">Report</a><a href="#/info" data-r="info" data-i18n="n_info">Info</a>
+</nav>
+<div class="toast" id="toast" hidden></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, limit, updateDoc, deleteDoc, doc, getDoc, setDoc, arrayUnion, arrayRemove, serverTimestamp, writeBatch, increment } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
+
+/* ===== SETTINGS: yahan apni details daalein ===== */
+const CONFIG = {
+  clinicName: "Shubh Clinic Lalhri",
+  phone: "918219404140",                     // WhatsApp number: country code + number, digits only
+  address: "Shubh Clinic Lalhri, Main Gate, Tehsil Haroli, Distt. Una (HP)",
+  channelLink: "https://chat.whatsapp.com/JJpvMVvwnHdHx1UF4iy2Qv?s=cl&p=a&iam=2",
+  groupLink: "https://chat.whatsapp.com/JJpvMVvwnHdHx1UF4iy2Qv?s=cl&p=a&iam=2",
+  instagram: "https://www.instagram.com/deexshant?mdxt=aTNyMW9idjJncnE3",
+  reviewLink: "",                            // Google review ka direct link yahan paste karein (khali ho to Google search khulega)
+  cloudName: "tbutvips",             // Cloudinary cloud name (photo/PDF ke liye)
+  uploadPreset: "shubh_unsigned",       // Cloudinary unsigned upload preset
+  lowStock: 5                                // is se kam stock par staff ko alert
+};
+/* Firebase Console se copy karke yahan paste karein (SETUP-GUIDE dekhein) */
+const FIREBASE = {
+  apiKey: "AIzaSyBXUFiBuogOdRiV_oSlRCTEBu87PXJ_0Ow", authDomain: "shubh-clinic-4dcae.firebaseapp.com", projectId: "shubh-clinic-4dcae",
+  storageBucket: "shubh-clinic-4dcae.firebasestorage.app", messagingSenderId: "638233479766", appId: "1:638233479766:web:5c2802cabbc71cc42489f7"
+};
+
+/* ===== Languages: hg = Hinglish, en = English, hi = Hindi ===== */
+const DICT = {
+  off_pct: ["{a}% OFF", "{a}% OFF", "{a}% छूट"],
+  stock_low: ["Sirf {a} bachi hain", "Only {a} left", "सिर्फ़ {a} बची हैं"],
+  stock_max: ["Stock mein itni hi bachi hain", "Only this many left in stock", "स्टॉक में इतनी ही बची हैं"],
+  prof_req_t: ["Update bhej diya ✅", "Update sent ✅", "अपडेट भेज दिया ✅"],
+  prof_req_s: ["Profile pehle se hai. Clinic check karke update karega.", "Profile already exists. The clinic will check and update it.", "प्रोफ़ाइल पहले से है। क्लिनिक जाँचकर अपडेट करेगा।"],
+  offer_h: ["🏷️ Aaj ke offers", "🏷️ Today's offers", "🏷️ आज के ऑफ़र"],
+  offer_tag: ["OFFER", "OFFER", "ऑफ़र"],
+  offer_chip: ["🏷️ Offers", "🏷️ Offers", "🏷️ ऑफ़र"],
+  rate_soon: ["Rate jald batayenge", "Price coming soon", "रेट जल्द बताएँगे"],
+  home_offers_more: ["Sab offers dekhein →", "See all offers →", "सभी ऑफ़र देखें →"],
+  quals: ["BAMS, General Physician, Anorectal Specialist", "BAMS, General Physician, Anorectal Specialist", "बी.ए.एम.एस., जनरल फ़िज़िशियन, एनोरेक्टल स्पेशलिस्ट"],
+  m_profile: ["👤 Profile", "👤 Profile", "👤 प्रोफ़ाइल"],
+  l_concern_o: ["Kya problem hai? (optional)", "What is the problem? (optional)", "क्या समस्या है? (वैकल्पिक)"],
+  pf_meds: ["Chal rahi medicine (agar koi)", "Ongoing medicines (if any)", "चल रही दवा (अगर कोई)"],
+  pf_extra: ["Aur zaroori jaankari (optional)", "Other important information (optional)", "अन्य ज़रूरी जानकारी (वैकल्पिक)"],
+  pf_extra_btn: ["➕ Aur jaankari jodein", "➕ Add more information", "➕ और जानकारी जोड़ें"],
+  m_settings: ["⚙️ Settings", "⚙️ Settings", "⚙️ सेटिंग्स"],
+  m_staff: ["🔐 Staff login", "🔐 Staff login", "🔐 स्टाफ़ लॉगिन"],
+  addr: ["Shubh Clinic Lalhri, Main Gate, Tehsil Haroli, Distt. Una (HP)", "Shubh Clinic Lalhri, Main Gate, Tehsil Haroli, Distt. Una (HP)", "शुभ क्लिनिक लालहरी, मेन गेट, तहसील हरोली, ज़िला ऊना (HP)"],
+  timing: ["Timing: 8 AM – 8 PM · 🚨 Emergency 24×7", "Timing: 8 AM – 8 PM · 🚨 Emergency 24×7", "समय: सुबह 8 – रात 8 · 🚨 इमरजेंसी 24×7"],
+  t_wa: ["WhatsApp par baat", "Chat on WhatsApp", "व्हाट्सऐप पर बात"],
+  t_wa_s: ["Clinic se seedha chat", "Chat directly with clinic", "क्लिनिक से सीधी चैट"],
+  t_call: ["Call karein", "Call now", "कॉल करें"],
+  t_call_s: ["Emergency 24×7", "Emergency 24×7", "इमरजेंसी 24×7"],
+  t_med: ["Medicine order", "Order medicine", "दवा ऑर्डर करें"],
+  t_med_s: ["Ghar par free delivery", "Free home delivery", "घर पर मुफ़्त डिलीवरी"],
+  t_rep: ["Report bhejein", "Send report", "रिपोर्ट भेजें"],
+  t_rep_s: ["Photo, PDF ya doc clinic ko", "Photo, PDF or doc to clinic", "फ़ोटो, PDF या डॉक्यूमेंट क्लिनिक को"],
+  t_appt: ["Appointment", "Appointment", "अपॉइंटमेंट"],
+  t_appt_s: ["Clinic aane ka time chunein", "Choose a visit time", "क्लिनिक आने का समय चुनें"],
+  t_req: ["Meri requests", "My requests", "मेरी रिक्वेस्ट"],
+  t_req_s: ["Order / appointment status", "Order / appointment status", "ऑर्डर / अपॉइंटमेंट की स्थिति"],
+  msg_h: ["Sawal ya message", "Question or message", "सवाल या संदेश"],
+  msg_l: ["Clinic ko message likhein", "Write a message to the clinic", "क्लिनिक को संदेश लिखें"],
+  msg_ph: ["Apna sawal yahan likhein", "Write your question here", "अपना सवाल यहाँ लिखें"],
+  phone_l: ["Aapka phone number", "Your phone number", "आपका फ़ोन नंबर"],
+  send: ["Send ✈️", "Send ✈️", "भेजें ✈️"],
+  info_h: ["Clinic information", "Clinic information", "क्लिनिक की जानकारी"],
+  address_l: ["Address", "Address", "पता"],
+  join_h: ["Clinic se judein", "Connect with the clinic", "क्लिनिक से जुड़ें"],
+  l_group: ["WhatsApp Group", "WhatsApp Group", "व्हाट्सऐप ग्रुप"],
+  l_group_s: ["Group me judein", "Join the group", "ग्रुप से जुड़ें"],
+  l_comm: ["Health community", "Health community", "हेल्थ कम्युनिटी"],
+  l_comm_s: ["Updates aur jaankari", "Updates and information", "अपडेट और जानकारी"],
+  l_map: ["Location (Map)", "Location (Map)", "लोकेशन (मैप)"],
+  l_rev: ["Google review", "Google review", "गूगल रिव्यू"],
+  l_rev_s: ["Hamein review dein", "Leave us a review", "हमें रिव्यू दें"],
+  l_me: ["Meri information", "My information", "मेरी जानकारी"],
+  l_me_s: ["Profile aur purani reports", "Profile and old reports", "प्रोफ़ाइल और पुरानी रिपोर्ट"],
+  about_h: ["Doctor ke baare me", "About the doctor", "डॉक्टर के बारे में"],
+  about_t1: ["🕗 Timing: 8 AM – 8 PM · Emergency 24×7", "🕗 Timing: 8 AM – 8 PM · Emergency 24×7", "🕗 समय: सुबह 8 – रात 8 · इमरजेंसी 24×7"],
+  about_t2: ["Home medicine delivery aur online consultation uplabdh.", "Home medicine delivery and online consultation available.", "घर पर दवा डिलीवरी और ऑनलाइन कंसल्टेशन उपलब्ध।"],
+  tm_days: ["Somvar se Ravivar", "Monday to Sunday", "सोमवार से रविवार"],
+  tm_em: ["🚨 Emergency", "🚨 Emergency", "🚨 इमरजेंसी"],
+  tm_24: ["24×7", "24×7", "24×7"],
+  shop_h: ["Medicine shop", "Medicine shop", "दवा की दुकान"],
+  shop_ph: ["🔍 Medicine ya product search karein", "🔍 Search medicine or product", "🔍 दवा या प्रोडक्ट खोजें"],
+  shop_photo: ["📷 Photo bhej kar order karein", "📷 Order by sending a photo", "📷 फ़ोटो भेजकर ऑर्डर करें"],
+  all: ["All", "All", "सभी"],
+  add: ["Add", "Add", "जोड़ें"],
+  free_del: ["Free delivery", "Free delivery", "मुफ़्त डिलीवरी"],
+  rx_need: ["Prescription chahiye", "Prescription needed", "प्रिस्क्रिप्शन चाहिए"],
+  oos: ["Out of stock", "Out of stock", "स्टॉक में नहीं"],
+  no_prod: ["Koi product nahi mila.", "No product found.", "कोई प्रोडक्ट नहीं मिला।"],
+  cart_bar: ["🛒 {a} item · ₹{b} — Order karein →", "🛒 {a} item(s) · ₹{b} — Order now →", "🛒 {a} आइटम · ₹{b} — ऑर्डर करें →"],
+  added: ["{a} cart mein aa gaya.", "{a} added to cart.", "{a} कार्ट में जुड़ गया।"],
+  cart_h: ["Aapka cart", "Your cart", "आपका कार्ट"],
+  total: ["Total: ₹{a}", "Total: ₹{a}", "कुल: ₹{a}"],
+  cart_clear: ["Cart khali karein", "Clear cart", "कार्ट खाली करें"],
+  ph_items: ["Optional: cart ke items bhi jud jayenge", "Optional: cart items will be added too", "वैकल्पिक: कार्ट के आइटम भी जुड़ जाएँगे"],
+  book_h: ["Medicine order karein", "Place a medicine order", "दवा ऑर्डर करें"],
+  l_name: ["Naam", "Name", "नाम"],
+  l_phone: ["Phone number", "Phone number", "फ़ोन नंबर"],
+  l_addr: ["Address", "Address", "पता"],
+  l_pin: ["PIN code", "PIN code", "पिन कोड"],
+  l_items: ["Medicine ya items ki list (optional)", "Medicine or items list (optional)", "दवा या सामान की सूची (वैकल्पिक)"],
+  l_cam_rx: ["📷 Prescription / medicine ki photo (camera se)", "📷 Prescription / medicine photo (camera)", "📷 प्रिस्क्रिप्शन / दवा की फ़ोटो (कैमरा से)"],
+  l_gal_rx: ["Ya gallery se chunein (ek saath kai bhi)", "Or choose from gallery (several allowed)", "या गैलरी से चुनें (एक साथ कई)"],
+  btn_order: ["Order bhejein", "Send order", "ऑर्डर भेजें"],
+  delivery_note: ["Free home delivery. Clinic WhatsApp par time confirm karega.", "Free home delivery. Clinic will confirm the time on WhatsApp.", "मुफ़्त होम डिलीवरी। क्लिनिक WhatsApp पर समय की पुष्टि करेगा।"],
+  appt_h: ["Clinic appointment", "Clinic appointment", "क्लिनिक अपॉइंटमेंट"],
+  appt_p: ["Clinic aane ka din aur time chunein. Clinic WhatsApp par confirm karega.", "Choose the day and time. The clinic will confirm on WhatsApp.", "क्लिनिक आने का दिन और समय चुनें। क्लिनिक WhatsApp पर पुष्टि करेगा।"],
+  appt_video: ["📹 Video / audio consultation chahiye?", "📹 Need a video / audio consultation?", "📹 वीडियो / ऑडियो कंसल्टेशन चाहिए?"],
+  l_pname: ["Patient ka naam", "Patient's name", "मरीज़ का नाम"],
+  l_day: ["Kis din", "Which day", "किस दिन"],
+  l_slot: ["Time slot", "Time slot", "समय स्लॉट"],
+  s1: ["Subah 8-11", "Morning 8-11", "सुबह 8-11"],
+  s2: ["Dopahar 11-2", "Noon 11-2", "दोपहर 11-2"],
+  s3: ["Shaam 2-5", "Evening 2-5", "शाम 2-5"],
+  s4: ["Raat 5-8", "Night 5-8", "रात 5-8"],
+  l_concern: ["Kya problem hai?", "What is the problem?", "क्या समस्या है?"],
+  btn_appt: ["Appointment book karein", "Book appointment", "अपॉइंटमेंट बुक करें"],
+  cons_h: ["Teleconsultation appointment", "Teleconsultation appointment", "टेलीकंसल्टेशन अपॉइंटमेंट"],
+  cons_p: ["Request bhejein. Doctor approve karenge to yahan video room ka link dikhega.", "Send a request. Once the doctor approves, the video room link will appear here.", "अनुरोध भेजें। डॉक्टर मंज़ूरी देंगे तो यहाँ वीडियो रूम का लिंक दिखेगा।"],
+  l_time: ["Kis time", "What time", "किस समय"],
+  l_mode: ["Kaise baat karni hai", "How to talk", "बात कैसे करनी है"],
+  o_video: ["Video", "Video", "वीडियो"],
+  o_audio: ["Audio", "Audio", "ऑडियो"],
+  btn_cons: ["Appointment request bhejein", "Send appointment request", "अपॉइंटमेंट अनुरोध भेजें"],
+  req_p: ["Order, appointment aur video consultation ka status yahan live dikhega.", "Status of your orders, appointments and video consultations shows here live.", "ऑर्डर, अपॉइंटमेंट और वीडियो कंसल्टेशन की स्थिति यहाँ लाइव दिखेगी।"],
+  req_none: ["Abhi koi request nahi hai.", "No requests yet.", "अभी कोई रिक्वेस्ट नहीं है।"],
+  st_new: ["⏳ Approval ka intezaar", "⏳ Waiting for approval", "⏳ मंज़ूरी का इंतज़ार"],
+  st_approved: ["✅ Approved", "✅ Approved", "✅ मंज़ूर"],
+  st_rejected: ["❌ Reject hui, clinic se baat karein", "❌ Rejected, please contact the clinic", "❌ अस्वीकृत, क्लिनिक से बात करें"],
+  st_done: ["✔️ Ho gaya", "✔️ Done", "✔️ हो गया"],
+  ord_title: ["💊 Medicine order", "💊 Medicine order", "💊 दवा ऑर्डर"],
+  req_title: ["✉️ Request", "✉️ Request", "✉️ रिक्वेस्ट"],
+  room_open: ["Video room kholein", "Open video room", "वीडियो रूम खोलें"],
+  set_h: ["Settings", "Settings", "सेटिंग्स"],
+  lang_h: ["🌐 Language / Bhasha", "🌐 Language", "🌐 भाषा"],
+  theme_h: ["🌗 Theme / Mode", "🌗 Theme / Mode", "🌗 थीम / मोड"],
+  th_light: ["☀️ Light", "☀️ Light", "☀️ लाइट"],
+  th_dark: ["🌙 Dark", "🌙 Dark", "🌙 डार्क"],
+  th_auto: ["📱 Phone ke hisaab se", "📱 Follow phone", "📱 फ़ोन के अनुसार"],
+  set_install: ["📲 Install app (home screen)", "📲 Install app (home screen)", "📲 ऐप इंस्टॉल करें (होम स्क्रीन)"],
+  set_clear: ["🗑️ Is phone ka saved data hatayein", "🗑️ Clear saved data on this phone", "🗑️ इस फ़ोन का सेव डेटा हटाएँ"],
+  set_clear_q: ["Is phone ka saved data (profile, cart) hatana hai?", "Clear saved data (profile, cart) on this phone?", "इस फ़ोन का सेव डेटा (प्रोफ़ाइल, कार्ट) हटाना है?"],
+  set_cleared: ["Data hata diya.", "Data cleared.", "डेटा हटा दिया गया।"],
+  rep_h: ["Report samjhein", "Understand a report", "रिपोर्ट समझें"],
+  rep_p: ["Ye general jaankari hai, diagnosis nahi. Lab ki apni range aur doctor ki salah sabse pehle maanein.", "This is general information, not a diagnosis. Follow the lab's own range and the doctor's advice first.", "यह सामान्य जानकारी है, निदान नहीं। सबसे पहले लैब की अपनी रेंज और डॉक्टर की सलाह मानें।"],
+  rep_type: ["Report ka type (optional)", "Report type (optional)", "रिपोर्ट का प्रकार (वैकल्पिक)"],
+  rep_none: ["Pata nahi / koi bhi report", "Not sure / any report", "पता नहीं / कोई भी रिपोर्ट"],
+  normal: ["Normal range", "Normal range", "सामान्य रेंज"],
+  next: ["Aage kya karein", "What to do next", "आगे क्या करें"],
+  rep_send_h: ["Report clinic ko bhejein", "Send report to the clinic", "रिपोर्ट क्लिनिक को भेजें"],
+  rep_send_p: ["Photo click karein, gallery se chunein ya PDF / doc chunein. Ek baar mein 10 tak file. 'Report bhejein' dabate hi phone ka share menu khulega: WhatsApp chunein, clinic ki chat chunein, aur Send dabayein. Saari files saath attach hongi. Report clinic dashboard par bhi pahunch jati hai.", "Take photos, pick from gallery or choose a PDF / doc. Up to 10 files. Tap 'Send report', pick WhatsApp in the share menu, choose the clinic chat and tap Send. All files are attached. The report also reaches the clinic dashboard.", "फ़ोटो खींचें, गैलरी से चुनें या PDF / डॉक्यूमेंट चुनें। एक बार में 10 तक फ़ाइलें। 'रिपोर्ट भेजें' दबाते ही शेयर मेनू खुलेगा: WhatsApp चुनें, क्लिनिक की चैट चुनें और Send दबाएँ। सारी फ़ाइलें साथ जाएँगी। रिपोर्ट क्लिनिक डैशबोर्ड पर भी पहुँच जाती है।"],
+  btn_cam: ["📷 Photo click karein", "📷 Take photo", "📷 फ़ोटो खींचें"],
+  btn_gal: ["🖼️ Gallery se chunein", "🖼️ Choose from gallery", "🖼️ गैलरी से चुनें"],
+  btn_doc: ["📄 PDF / Word / Text", "📄 PDF / Word / Text", "📄 PDF / Word / टेक्स्ट"],
+  btn_rep_send: ["📤 WhatsApp par report bhejein", "📤 Send report on WhatsApp", "📤 WhatsApp पर रिपोर्ट भेजें"],
+  r_none: ["Abhi koi file nahi chuni gayi.", "No files selected yet.", "अभी कोई फ़ाइल नहीं चुनी गई।"],
+  r_count: ["{a} file tayaar: {b} photo, {c} PDF/doc", "{a} files ready: {b} photos, {c} PDF/doc", "{a} फ़ाइलें तैयार: {b} फ़ोटो, {c} PDF/डॉक्यूमेंट"],
+  ph_photo: ["Photo", "Photo", "फ़ोटो"],
+  rm: ["Hatayein", "Remove", "हटाएँ"],
+  rep_unknown: ["Report (type pata nahi)", "Report (type not known)", "रिपोर्ट (प्रकार पता नहीं)"],
+  rep_gen_x: ["Poori report clinic ko bhejein, doctor dekh kar guidance denge.", "Send the full report to the clinic. The doctor will review and guide you.", "पूरी रिपोर्ट क्लिनिक को भेजें, डॉक्टर देखकर मार्गदर्शन देंगे।"],
+  r_cbc_n: ["Complete blood count (CBC)", "Complete blood count (CBC)", "संपूर्ण रक्त गणना (CBC)"],
+  r_cbc_w: ["Blood cells ki ginti. Hemoglobin batata hai ki blood oxygen kitna le ja raha hai.", "Count of blood cells. Hemoglobin shows how much oxygen the blood carries.", "रक्त कोशिकाओं की गिनती। हीमोग्लोबिन बताता है कि रक्त कितनी ऑक्सीजन ले जा रहा है।"],
+  r_cbc_r: ["Hemoglobin: lagbhag 13 se 17 g/dL (purush), 12 se 15 g/dL (mahila).", "Hemoglobin: about 13 to 17 g/dL (men), 12 to 15 g/dL (women).", "हीमोग्लोबिन: लगभग 13 से 17 g/dL (पुरुष), 12 से 15 g/dL (महिला)।"],
+  r_cbc_x: ["Bahut kamzori, chakkar ya saans phoolne par hamse contact karein.", "For severe weakness, dizziness or breathlessness, contact us.", "बहुत कमज़ोरी, चक्कर या सांस फूलने पर हमसे संपर्क करें।"],
+  r_sugar_n: ["Fasting blood sugar", "Fasting blood sugar", "फ़ास्टिंग ब्लड शुगर"],
+  r_sugar_w: ["8 se 10 ghante bhookhe rehne ke baad blood sugar.", "Blood sugar after fasting for 8 to 10 hours.", "8 से 10 घंटे भूखे रहने के बाद ब्लड शुगर।"],
+  r_sugar_r: ["70 se 99 mg/dL normal. 100 se 125 pre-diabetes. 126 ya zyada baar-baar aaye to diabetes range.", "70 to 99 mg/dL normal. 100 to 125 pre-diabetes. 126 or more repeatedly is in the diabetes range.", "70 से 99 mg/dL सामान्य। 100 से 125 प्री-डायबिटीज़। 126 या ज़्यादा बार-बार आए तो डायबिटीज़ की रेंज।"],
+  r_sugar_x: ["Medicine khud se na badlein. Report hamein bhejein.", "Do not change medicines on your own. Send the report to us.", "दवा खुद से न बदलें। रिपोर्ट हमें भेजें।"],
+  r_hba1c_n: ["HbA1c", "HbA1c", "HbA1c"],
+  r_hba1c_w: ["Pichle 2 se 3 mahine ka average blood sugar.", "Average blood sugar of the last 2 to 3 months.", "पिछले 2 से 3 महीने का औसत ब्लड शुगर।"],
+  r_hba1c_r: ["5.7% se kam normal. 5.7% se 6.4% pre-diabetes. 6.5% ya zyada diabetes range.", "Below 5.7% is normal. 5.7% to 6.4% is pre-diabetes. 6.5% or more is the diabetes range.", "5.7% से कम सामान्य। 5.7% से 6.4% प्री-डायबिटीज़। 6.5% या ज़्यादा डायबिटीज़ की रेंज।"],
+  r_hba1c_x: ["Doctor ke target se zyada ho to follow-up book karein.", "If it is above the doctor's target, book a follow-up.", "डॉक्टर के लक्ष्य से ज़्यादा हो तो फ़ॉलो-अप बुक करें।"],
+  r_lipid_n: ["Lipid profile (cholesterol)", "Lipid profile (cholesterol)", "लिपिड प्रोफ़ाइल (कोलेस्ट्रॉल)"],
+  r_lipid_w: ["Blood mein fats: total cholesterol, LDL, HDL aur triglycerides.", "Fats in blood: total cholesterol, LDL, HDL and triglycerides.", "रक्त में वसा: कुल कोलेस्ट्रॉल, LDL, HDL और ट्राइग्लिसराइड्स।"],
+  r_lipid_r: ["Total cholesterol 200 mg/dL se kam achha. LDL kam aur HDL zyada behtar.", "Total cholesterol below 200 mg/dL is good. Lower LDL and higher HDL is better.", "कुल कोलेस्ट्रॉल 200 mg/dL से कम अच्छा। LDL कम और HDL ज़्यादा बेहतर।"],
+  r_lipid_x: ["Target aapke dil ke risk par tay hota hai. Poori report bhejein.", "The target depends on your heart risk. Please send the full report.", "लक्ष्य आपके हृदय के जोखिम पर तय होता है। पूरी रिपोर्ट भेजें।"],
+  r_bp_n: ["Blood pressure", "Blood pressure", "ब्लड प्रेशर"],
+  r_bp_w: ["Dhadkan se artery walls par blood ka dabav, do numbers jaise 120/80.", "Pressure of blood on artery walls, shown as two numbers like 120/80.", "धड़कन से धमनी की दीवारों पर रक्त का दबाव, जैसे 120/80 दो संख्याओं में।"],
+  r_bp_r: ["120/80 se kam normal. 130/80 ya zyada baar-baar aaye to doctor ki salah lein.", "Below 120/80 is normal. If 130/80 or more repeatedly, consult the doctor.", "120/80 से कम सामान्य। 130/80 या ज़्यादा बार-बार आए तो डॉक्टर की सलाह लें।"],
+  r_bp_x: ["High reading ke saath seene mein dard ho to abhi 112 call karein.", "If a high reading comes with chest pain, call 112 right now.", "हाई रीडिंग के साथ सीने में दर्द हो तो अभी 112 पर कॉल करें।"],
+  r_thyroid_n: ["Thyroid (TSH)", "Thyroid (TSH)", "थायरॉइड (TSH)"],
+  r_thyroid_w: ["Thyroid gland kitna kaam kar rahi hai.", "How well the thyroid gland is working.", "थायरॉइड ग्रंथि कितना काम कर रही है।"],
+  r_thyroid_r: ["TSH lagbhag 0.4 se 4.0 mIU/L (lab ke hisaab se alag ho sakta hai).", "TSH about 0.4 to 4.0 mIU/L (may vary by lab).", "TSH लगभग 0.4 से 4.0 mIU/L (लैब के अनुसार अलग हो सकता है)।"],
+  r_lft_n: ["Liver function (LFT)", "Liver function (LFT)", "लिवर फ़ंक्शन (LFT)"],
+  r_lft_w: ["Liver ki sehat: SGOT, SGPT, bilirubin.", "Liver health: SGOT, SGPT, bilirubin.", "लिवर की सेहत: SGOT, SGPT, बिलीरुबिन।"],
+  r_lft_r: ["SGOT/SGPT lagbhag 40 U/L se kam, bilirubin 1.2 mg/dL se kam.", "SGOT/SGPT about below 40 U/L, bilirubin below 1.2 mg/dL.", "SGOT/SGPT लगभग 40 U/L से कम, बिलीरुबिन 1.2 mg/dL से कम।"],
+  r_kft_n: ["Kidney function (KFT)", "Kidney function (KFT)", "किडनी फ़ंक्शन (KFT)"],
+  r_kft_w: ["Kidney ki sehat: creatinine, urea.", "Kidney health: creatinine, urea.", "किडनी की सेहत: क्रिएटिनिन, यूरिया।"],
+  r_kft_r: ["Creatinine lagbhag 0.6 se 1.3 mg/dL, urea 15 se 40 mg/dL.", "Creatinine about 0.6 to 1.3 mg/dL, urea 15 to 40 mg/dL.", "क्रिएटिनिन लगभग 0.6 से 1.3 mg/dL, यूरिया 15 से 40 mg/dL।"],
+  r_urine_n: ["Urine routine", "Urine routine", "यूरिन रूटीन"],
+  r_urine_w: ["Peshab me infection, sugar ya protein ki jaanch.", "Checks urine for infection, sugar or protein.", "पेशाब में इंफ़ेक्शन, शुगर या प्रोटीन की जाँच।"],
+  r_urine_r: ["Normal me sugar aur protein nahi hote, pus cells bahut kam.", "Normally there is no sugar or protein, and very few pus cells.", "सामान्य में शुगर और प्रोटीन नहीं होते, पस सेल बहुत कम।"],
+  r_vitd_n: ["Vitamin D", "Vitamin D", "विटामिन D"],
+  r_vitd_w: ["Haddi aur immunity ke liye zaroori vitamin.", "Vitamin needed for bones and immunity.", "हड्डियों और इम्युनिटी के लिए ज़रूरी विटामिन।"],
+  r_vitd_r: ["30 ng/mL se upar achha, 20 se kam kami maani jati hai.", "Above 30 ng/mL is good. Below 20 is considered deficiency.", "30 ng/mL से ऊपर अच्छा, 20 से कम को कमी माना जाता है।"],
+  r_ecg_n: ["ECG", "ECG", "ECG"],
+  r_ecg_w: ["Dil ki electrical activity ka record.", "Record of the heart's electrical activity.", "दिल की इलेक्ट्रिकल गतिविधि का रिकॉर्ड।"],
+  r_ecg_r: ["Report me doctor ki raay dekhein.", "See the doctor's opinion in the report.", "रिपोर्ट में डॉक्टर की राय देखें।"],
+  r_xray_n: ["X-ray", "X-ray", "X-ray"],
+  r_xray_w: ["Haddi, chhati ya pet ki photo-jaanch.", "Imaging test of bones, chest or abdomen.", "हड्डी, छाती या पेट की फ़ोटो-जाँच।"],
+  r_xray_r: ["Radiologist ki report dekhein.", "See the radiologist's report.", "रेडियोलॉजिस्ट की रिपोर्ट देखें।"],
+  r_usg_n: ["Ultrasound (USG)", "Ultrasound (USG)", "अल्ट्रासाउंड (USG)"],
+  r_usg_w: ["Pet ya anya ang ki sound-wave jaanch.", "Sound-wave scan of the abdomen or other organs.", "पेट या अन्य अंगों की साउंड-वेव जाँच।"],
+  r_usg_r: ["Radiologist ki report dekhein.", "See the radiologist's report.", "रेडियोलॉजिस्ट की रिपोर्ट देखें।"],
+  r_other_n: ["Other / koi aur report", "Other report", "अन्य रिपोर्ट"],
+  r_other_w: ["Koi bhi aur report jo aap bhejna chahein.", "Any other report you want to send.", "कोई भी अन्य रिपोर्ट जो आप भेजना चाहें।"],
+  r_other_r: ["Report ke hisaab se.", "Depends on the report.", "रिपोर्ट के अनुसार।"],
+  t_namephone: ["Naam aur phone number likhein.", "Please enter name and phone number.", "नाम और फ़ोन नंबर लिखें।"],
+  t_msg_empty: ["Pehle message likhein.", "Please write a message first.", "पहले संदेश लिखें।"],
+  t_phone_empty: ["Apna phone number likhein.", "Please enter your phone number.", "अपना फ़ोन नंबर लिखें।"],
+  t_pick: ["Photo ya file chunein.", "Please choose a photo or file.", "फ़ोटो या फ़ाइल चुनें।"],
+  t_cart_or_photo: ["Cart me medicine daalein, ya list / photo dein.", "Add medicines to the cart, or give a list / photo.", "कार्ट में दवा जोड़ें, या लिस्ट / फ़ोटो दें।"],
+  t_max: ["Ek baar mein 10 se zyada file nahi ho sakti.", "You can add up to 10 files at once.", "एक बार में 10 से ज़्यादा फ़ाइलें नहीं।"],
+  t_prep: ["Photo tayaar ho rahi hai...", "Preparing photo...", "फ़ोटो तैयार हो रही है..."],
+  t_upfail: ["{a} file upload nahi ho saki. Clinic dashboard par nahi dikhegi.", "{a} file(s) could not be uploaded. They won't show on the clinic dashboard.", "{a} फ़ाइल अपलोड नहीं हो सकी। क्लिनिक डैशबोर्ड पर नहीं दिखेगी।"],
+  t_share_ok: ["WhatsApp mein clinic ka chat chunein aur Send dabayein.", "In WhatsApp, pick the clinic chat and tap Send.", "WhatsApp में क्लिनिक की चैट चुनें और Send दबाएँ।"],
+  t_share_cancel: ["Share band kar diya. Dobara bhejne ke liye button dabayein.", "Sharing cancelled. Tap the button again to send.", "शेयर रद्द हुआ। दोबारा भेजने के लिए बटन दबाएँ।"],
+  t_share_nofile: ["Is phone par files seedhi share nahi hoti. WhatsApp mein message khul raha hai, files khud attach karein.", "This phone can't share files directly. WhatsApp will open with the message; attach the files yourself.", "इस फ़ोन पर फ़ाइलें सीधे शेयर नहीं होतीं। WhatsApp में संदेश खुलेगा, फ़ाइलें खुद जोड़ें।"],
+  t_install: ["Chrome ke ⋮ menu mein 'Add to Home screen' / 'Install app' dabayein.", "In the Chrome ⋮ menu, tap 'Add to Home screen' / 'Install app'.", "Chrome के ⋮ मेनू में 'Add to Home screen' / 'Install app' दबाएँ।"],
+  t_order_ok_t: ["Order mil gaya ✅", "Order received ✅", "ऑर्डर मिल गया ✅"],
+  t_order_ok_s: ["Clinic jald WhatsApp par confirm karega.", "Clinic will confirm on WhatsApp soon.", "क्लिनिक जल्द WhatsApp पर पुष्टि करेगा।"],
+  t_consult_ok_t: ["Request bhej di ✅", "Request sent ✅", "अनुरोध भेज दिया ✅"],
+  t_consult_ok_s: ["Doctor approve karenge to yahan status dikhega.", "Once the doctor approves, the status will show here.", "डॉक्टर मंज़ूरी देंगे तो यहाँ स्थिति दिखेगी।"],
+  t_appt_ok_t: ["Appointment request mil gayi ✅", "Appointment request received ✅", "अपॉइंटमेंट अनुरोध मिल गया ✅"],
+  t_appt_ok_s: ["Clinic jald WhatsApp par confirm karega.", "Clinic will confirm on WhatsApp soon.", "क्लिनिक जल्द WhatsApp पर पुष्टि करेगा।"],
+  t_msg_ok_t: ["Message bhej diya ✅", "Message sent ✅", "संदेश भेज दिया ✅"],
+  t_msg_ok_s: ["Clinic jald reply karega.", "The clinic will reply soon.", "क्लिनिक जल्द जवाब देगा।"],
+  me_ok_t: ["Information save ho gayi ✅", "Information saved ✅", "जानकारी सेव हो गई ✅"],
+  me_ok_s: ["Aapka data clinic ke paas surakshit hai.", "Your data is safe with the clinic.", "आपका डेटा क्लिनिक के पास सुरक्षित है।"],
+  me_local: ["Aapke phone par save ho gayi. Clinic tak bhejne ke liye internet check karein.", "Saved on your phone. Check internet to send it to the clinic.", "आपके फ़ोन पर सेव हो गई। क्लिनिक तक भेजने के लिए इंटरनेट जाँचें।"],
+  me_h: ["Meri information", "My information", "मेरी जानकारी"],
+  me_p: ["Ek baar save karein. Ye aapke phone par aur clinic ke paas save hogi.", "Save once. It is stored on your phone and with the clinic.", "एक बार सेव करें। यह आपके फ़ोन और क्लिनिक में सेव होगी।"],
+  me_btn: ["Information save karein", "Save information", "जानकारी सेव करें"],
+  me_cam: ["📎 Reports (optional): camera se", "📎 Reports (optional): camera", "📎 रिपोर्ट (वैकल्पिक): कैमरा से"],
+  me_files: ["Ya gallery / files se (PDF, photo, doc, text...)", "Or from gallery / files (PDF, photo, doc, text...)", "या गैलरी / फ़ाइलों से (PDF, फ़ोटो, डॉक्यूमेंट, टेक्स्ट...)"],
+  pf_age: ["Umar", "Age", "उम्र"],
+  pf_gender: ["Gender", "Gender", "लिंग"],
+  pick: ["Chunein", "Select", "चुनें"],
+  g_m: ["Purush", "Male", "पुरुष"],
+  g_f: ["Mahila", "Female", "महिला"],
+  g_o: ["Other", "Other", "अन्य"],
+  pf_blood: ["Blood group", "Blood group", "ब्लड ग्रुप"],
+  unknown: ["Pata nahi", "Not known", "पता नहीं"],
+  pf_weight: ["Weight (kg)", "Weight (kg)", "वज़न (kg)"],
+  pf_height: ["Height (cm)", "Height (cm)", "लंबाई (cm)"],
+  pf_chronic: ["Purani bimari (BP / Sugar / Thyroid...)", "Chronic illness (BP / Sugar / Thyroid...)", "पुरानी बीमारी (BP / शुगर / थायरॉइड...)"],
+  pf_emg: ["Emergency contact number", "Emergency contact number", "इमरजेंसी संपर्क नंबर"],
+  pf_prob: ["Bimari / problem", "Illness / problem", "बीमारी / समस्या"],
+  pf_allergy: ["Medicine allergy (agar ho)", "Medicine allergy (if any)", "दवा से एलर्जी (अगर हो)"],
+  pf_email: ["Email (optional)", "Email (optional)", "ईमेल (वैकल्पिक)"],
+  pf_dob: ["Janm tithi", "Date of birth", "जन्म तिथि"],
+  ok: ["Theek hai", "OK", "ठीक है"],
+  n_home: ["Home", "Home", "होम"],
+  n_med: ["Medicine", "Medicine", "दवा"],
+  n_appt: ["Appointment", "Appointment", "अपॉइंटमेंट"],
+  n_rep: ["Report", "Report", "रिपोर्ट"],
+  n_info: ["Info", "Info", "जानकारी"],
+  back: ["Back", "Back", "वापस"],
+  cart_btn: ["Cart", "Cart", "कार्ट"],
+  cart_empty: ["Cart khali hai", "Your cart is empty", "कार्ट खाली है"],
+  cart_empty_s: ["Medicine shop se dawa jodein.", "Add medicines from the shop.", "दुकान से दवा जोड़ें।"],
+  cart_go_shop: ["💊 Medicine dekhein", "💊 Browse medicines", "💊 दवा देखें"],
+  cart_order: ["✅ Order karein · ₹{a} →", "✅ Place order · ₹{a} →", "✅ ऑर्डर करें · ₹{a} →"],
+  cart_send_top: ["✅ Order bhejein · ₹{a}", "✅ Send order · ₹{a}", "✅ ऑर्डर भेजें · ₹{a}"],
+  cart_more: ["＋ Aur medicine jodein", "＋ Add more medicines", "＋ और दवा जोड़ें"],
+  cart_rm: ["Hatayein", "Remove", "हटाएँ"],
+  l_addr_o: ["Address (optional)", "Address (optional)", "पता (वैकल्पिक)"],
+  l_pin_o: ["PIN code (optional)", "PIN code (optional)", "पिन कोड (वैकल्पिक)"],
+  btn_rep_share: ["📤 WhatsApp par report bhejein", "📤 Send report on WhatsApp", "📤 WhatsApp पर रिपोर्ट भेजें"],
+  t_wa_wait: ["Files clinic ko bheji ja rahi hain, WhatsApp khul raha hai...", "Sending files to the clinic, opening WhatsApp...", "फ़ाइलें क्लिनिक को भेजी जा रही हैं, WhatsApp खुल रहा है..."],
+  t_wa_open: ["WhatsApp khul gaya. Bas Send dabayein.", "WhatsApp is open. Just tap Send.", "WhatsApp खुल गया। बस Send दबाएँ।"],
+  live: ["🟢 Live", "🟢 Live", "🟢 लाइव"],
+  offline: ["📴 Offline (purana status)", "📴 Offline (last known)", "📴 ऑफ़लाइन (पुरानी स्थिति)"],
+  live_err: ["Live status abhi nahi mil raha. Internet check karein.", "Live status unavailable. Check your internet.", "लाइव स्थिति अभी नहीं मिल रही। इंटरनेट जाँचें।"],
+  rt_consult: ["📹 Video consultation", "📹 Video consultation", "📹 वीडियो कंसल्टेशन"],
+  rt_appt: ["📅 Clinic appointment", "📅 Clinic appointment", "📅 क्लिनिक अपॉइंटमेंट"],
+  st_o_new: ["⏳ Order mil gaya, clinic confirm karega", "⏳ Order received, clinic will confirm", "⏳ ऑर्डर मिल गया, क्लिनिक पुष्टि करेगा"],
+  st_o_confirmed: ["✅ Order confirm ho gaya", "✅ Order confirmed", "✅ ऑर्डर कन्फ़र्म हो गया"],
+  st_o_out: ["🚚 Delivery ke liye nikal gaya", "🚚 Out for delivery", "🚚 डिलीवरी के लिए निकल गया"],
+  st_o_done: ["📦 Deliver ho gaya", "📦 Delivered", "📦 डिलीवर हो गया"],
+  st_o_rejected: ["❌ Order cancel hua, clinic se baat karein", "❌ Order cancelled, please contact the clinic", "❌ ऑर्डर रद्द हुआ, क्लिनिक से बात करें"],
+  sp_recv: ["Order mila", "Received", "मिला"],
+  sp_conf: ["Confirm", "Confirmed", "कन्फ़र्म"],
+  sp_out: ["Raste mein", "On the way", "रास्ते में"],
+  sp_deliv: ["Deliver", "Delivered", "डिलीवर"],
+  sp_sent: ["Request bheji", "Requested", "भेजी"],
+  sp_appr: ["Approved", "Approved", "मंज़ूर"],
+  sp_done: ["Ho gaya", "Done", "हो गया"],
+  r_when: ["Kab", "When", "कब"],
+  r_sent: ["Bheja", "Sent", "भेजा"],
+  r_upd: ["Update", "Updated", "अपडेट"],
+  st_changed: ["Status update: {a}", "Status update: {a}", "स्थिति अपडेट: {a}"]
+};
+
+/* ===== Language dictionary ready ===== */
+const I18N = { hg: {}, en: {}, hi: {} };
+for (const [k, v] of Object.entries(DICT)) { I18N.hg[k] = v[0]; I18N.en[k] = v[1]; I18N.hi[k] = v[2]; }
+const store = { get: (k, d) => localStorage.getItem(k) ?? d, set: (k, v) => { try { localStorage.setItem(k, v); } catch {} } };
+const jget = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
+const jset = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
+let lang = store.get("shubh_lang", "hg"); if (!I18N[lang]) lang = "hg";
+let themePref = store.get("shubh_theme", "light");
+const t = (k, v) => { let s = I18N[lang][k] ?? I18N.hg[k] ?? k; if (v) for (const x in v) s = s.split(`{${x}}`).join(v[x]); return s; };
+
+/* ===== Medicine catalog (demo, staff Firebase se badal sakta hai) ===== */
+const CAT_ROWS = {
+  "Fever & Pain": [["Paracetamol 500 mg","Strip of 10",25],["Paracetamol 650 mg","Strip of 15",35],["Ibuprofen 400 mg","Strip of 15",30],["Pain relief gel","30 g tube",95]],
+  "Cold & Cough": [["Cetirizine 10 mg","Strip of 10",20],["Cough syrup","100 ml",90],["Nasal drops","10 ml",60],["Throat lozenges","Pack of 10",40]],
+  "Digestion": [["ORS sachet","1 sachet",20],["Antacid syrup","200 ml",110],["Antacid tablets","Strip of 15",30],["Isabgol husk","100 g",95],["Digestive enzyme syrup","200 ml",120]],
+  "Piles & Anorectal": [["Piles relief ointment","20 g tube",120],["Laxative syrup","200 ml",150],["Fissure care cream","15 g tube",130],["Sitz bath tub","1 piece",350]],
+  "Vitamins": [["Vitamin D3 capsules","Strip of 4",180],["Vitamin C 500 mg","Strip of 15",60],["Multivitamin","Strip of 15",150],["Calcium + D3","Strip of 15",140],["Iron + folic acid","Strip of 15",70]],
+  "Health Devices": [["Digital thermometer","1 piece",150],["Pulse oximeter","1 piece",800],["Digital BP monitor","1 piece",1500],["Glucometer strips","Pack of 25",450]],
+  "First Aid": [["Antiseptic solution","100 ml",60],["Bandage roll","1 roll",20],["Cotton roll","100 g",40],["Adhesive bandages","Pack of 20",40],["Burn cream","20 g tube",70]],
+  "Skin & Care": [["Antifungal cream","15 g tube",70],["Moisturising lotion","200 ml",220],["Hand sanitizer","100 ml",50],["Face masks","Pack of 10",50]]
+};
+const CAT_ICON = { "Fever & Pain": "🌡️", "Cold & Cough": "🤧", "Digestion": "🥣", "Piles & Anorectal": "🩺", "Vitamins": "💊", "Health Devices": "📟", "First Aid": "🩹", "Skin & Care": "🧴" };
+const SAMPLE_PRODUCTS = Object.entries(CAT_ROWS).flatMap(([cat, rows]) => rows.map(([name, unit, price]) => ({ cat, name, unit, price, desc: unit, rx: false }))).map((p, i) => ({ ...p, id: "s" + (i + 1) }));
+const NONE = '<p class="empty">Abhi kuch nahi hai.</p>';
+
+/* ===== Helpers ===== */
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const p2 = n => String(n).padStart(2, "0");
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const toWa = raw => { const d = String(raw).replace(/\D/g, ""); return d.length === 10 ? "91" + d : d; };
+const waLink = (text, num = CONFIG.phone) => `https://wa.me/${num}?text=${encodeURIComponent(text)}`;
+const openWA = text => window.open(waLink(text), "_blank", "noopener");
+const ymd = d => `${d.getFullYear()}-${p2(d.getMonth() + 1)}-${p2(d.getDate())}`;
+const fmtTime = s => { const [h, m] = s.split(":").map(Number); return `${h % 12 || 12}:${p2(m)} ${h < 12 ? "AM" : "PM"}`; };
+const fmtDate = s => new Date(s + "T00:00").toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+const formData = f => Object.fromEntries(new FormData(f));
+const pickedFrom = sel => $$(sel).flatMap(i => [...i.files]).slice(0, 10);
+function toast(msg) { const el = $("#toast"); el.textContent = msg; el.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => (el.hidden = true), 3800); }
+function popup(title, msg) {
+  const bg = Object.assign(document.createElement("div"), { className: "pop-bg" });
+  bg.innerHTML = `<div class="pop" role="dialog"><div class="tick">✓</div><h3>${esc(title)}</h3><p class="muted">${esc(msg || "")}</p><button class="btn sm" type="button">${t("ok")}</button></div>`;
+  bg.onclick = e => { if (e.target === bg || e.target.tagName === "BUTTON") bg.remove(); };
+  document.body.appendChild(bg); setTimeout(() => bg.remove(), 6000);
+}
+
+/* ===== Firebase ===== */
+let db = null, auth = null;
+try { if (!FIREBASE.projectId.startsWith("PASTE")) { const app = initializeApp(FIREBASE); db = getFirestore(app); auth = getAuth(app); } } catch (err) { console.error(err); }
+
+/* ===== App state ===== */
+let cart = jget("shubh_cart", []);
+let mine = jget("shubh_my", []);
+let staged = [];                       // report ke liye chuni hui photo / file list
+let products = db ? [] : SAMPLE_PRODUCTS;   // Firebase ho to sample prices nahi, asli data ka wait
+let shopCat = "All", shopQ = "";
+let REQS = [], PATS = [], VISITS = [], REQDOCS = [], PATDOCS = [], patsReady = false;
+let HISTDOCS = [], HMAP = {}, histReady = false;
+let unsub = null;
+const reqs = {}, myDocs = {}, ents = {};
+const myCache = {}; let liveErr = false;
+const saveCart = () => jset("shubh_cart", cart);
+const saveMine = () => jset("shubh_my", mine);
+const cartLines = () => cart.map(l => `${l.name} x ${l.qty}`).join(", ");
+const cartTotal = () => cart.reduce((s, l) => s + l.price * l.qty, 0);
+/* ===== Offers and rate helpers ===== */
+const todayYmd = () => ymd(new Date());
+const offerOn = p => { const o = Number(p.offer), pr = Number(p.price), today = todayYmd(); return o > 0 && pr > 0 && o < pr && (!p.offerTill || p.offerTill >= today) && (!p.offerFrom || p.offerFrom <= today); };
+const outOf = p => !!p.oos || (typeof p.stock === "number" && p.stock <= 0);
+const noRate = p => p.price === null || p.price === undefined || p.price === "";
+const effPrice = p => (offerOn(p) ? Number(p.offer) : Number(p.price) || 0);
+const offerPct = p => Math.round((1 - Number(p.offer) / Number(p.price)) * 100);
+function syncCartPrices() {
+  let ch = false;
+  cart.forEach(l => { const p = products.find(x => x.id === l.id); if (p && !noRate(p) && l.price !== effPrice(p)) { l.price = effPrice(p); ch = true; } });
+  if (ch) saveCart();
+}
+function addToCart(id) {
+  const p = products.find(x => x.id === id);
+  if (!p || noRate(p) || outOf(p)) return;
+  const line = cart.find(x => x.id === p.id);
+  if (line && typeof p.stock === "number" && line.qty >= p.stock) return toast(t("stock_max"));
+  if (line) line.qty++; else cart.push({ id: p.id, name: p.name, price: effPrice(p), qty: 1 });
+  saveCart(); renderCart(); renderShop();
+  toast(t("added", { a: p.name }));
+}
+const repSel = $("#rep-sel");
+const REP_KEYS = ["cbc", "sugar", "hba1c", "lipid", "bp", "thyroid", "lft", "kft", "urine", "vitd", "ecg", "xray", "usg", "other"];
+
+/* ===== Language and theme ===== */
+function applyLang() {
+  document.documentElement.lang = lang === "hi" ? "hi" : "en";
+  $$("[data-i18n]").forEach(el => (el.textContent = t(el.dataset.i18n)));
+  $$("[data-i18n-ph]").forEach(el => (el.placeholder = t(el.dataset.i18nPh)));
+  $$("[data-lang]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+  renderAll();
+}
+$("#seg-lang").onclick = e => {
+  const b = e.target.closest("[data-lang]"); if (!b) return;
+  lang = b.dataset.lang; store.set("shubh_lang", lang); applyLang();
+};
+const mq = matchMedia("(prefers-color-scheme: dark)");
+function applyTheme() {
+  const dark = themePref === "dark" || (themePref === "auto" && mq.matches);
+  document.documentElement.dataset.theme = dark ? "dark" : "light";
+  document.querySelector('meta[name="theme-color"]').content = dark ? "#121212" : "#D32F2F";
+  $$("[data-theme-set]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.themeSet === themePref)));
+}
+mq.addEventListener?.("change", () => { if (themePref === "auto") applyTheme(); });
+$("#seg-theme").onclick = e => {
+  const b = e.target.closest("[data-theme-set]"); if (!b) return;
+  themePref = b.dataset.themeSet; store.set("shubh_theme", themePref); applyTheme();
+};
+
+/* ===== Routing and menu ===== */
+const VIEWS = ["home", "info", "shop", "cart", "book", "consult", "appt", "settings", "status", "me", "reports", "admin"];
+const navStack = [];
+function route() {
+  const r = location.hash.replace("#/", "") || "home";
+  const name = VIEWS.includes(r) ? r : "home";
+  if (navStack.length >= 2 && navStack[navStack.length - 2] === name) navStack.pop();
+  else if (navStack[navStack.length - 1] !== name) navStack.push(name);
+  $$(".view").forEach(v => (v.hidden = v.id !== "v-" + name));
+  $$("nav.bottom a").forEach(a => (a.dataset.r === name ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current")));
+  $("#back-btn").hidden = name === "home";
+  $("#cart-btn").hidden = name === "admin";
+  $("#menu").hidden = true;
+  window.scrollTo(0, 0);
+}
+$("#back-btn").onclick = () => { if (navStack.length >= 2) history.back(); else location.hash = "#/"; };
+addEventListener("hashchange", route);
+addEventListener("hashchange", () => renderShop());
+$("#kebab").onclick = e => { e.stopPropagation(); $("#menu").hidden = !$("#menu").hidden; };
+document.addEventListener("click", e => { if (!e.target.closest("#menu")) $("#menu").hidden = true; });
+
+/* ===== Setup links ===== */
+$("#btn-chat").href = waLink("Namaste, mujhe clinic se help chahiye.");
+$("#i-group").href = CONFIG.groupLink;
+$("#i-insta").href = CONFIG.instagram;
+$("#i-channel").href = CONFIG.channelLink;
+$("#i-review").href = CONFIG.reviewLink || `https://www.google.com/search?q=${encodeURIComponent(CONFIG.clinicName + " reviews")}`;
+
+/* ===== Toast / Firestore save ===== */
+async function saveRequest(data) {
+  if (!db) throw new Error("no-db");
+  return (await addDoc(collection(db, "requests"), { ...data, status: "new", createdAt: serverTimestamp() })).id;
+}
+function trackMine(id) {
+  if (!db) return;
+  onSnapshot(doc(db, "requests", id), s => {
+    liveErr = false;
+    if (!s.exists()) return;
+    const prev = myDocs[id], d = s.data();
+    myCache[id] = s.metadata.fromCache;
+    myDocs[id] = d;
+    if (prev && prev.status !== d.status && !s.metadata.hasPendingWrites) {
+      navigator.vibrate?.([120, 60, 120]);
+      toast(t("st_changed", { a: stText(d) }));
+    }
+    renderMine();
+  }, () => { liveErr = true; renderMine(); });
+}
+function addMine(id) { mine = [id, ...mine].slice(0, 10); saveMine(); trackMine(id); }
+
+/* ===== Image and file helpers ===== */
+async function shrink(file, max = 900, q = 0.6) {
+  const img = await createImageBitmap(file), k = Math.min(1, max / Math.max(img.width, img.height));
+  const c = Object.assign(document.createElement("canvas"), { width: Math.round(img.width * k), height: Math.round(img.height * k) });
+  c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+  return c.toDataURL("image/jpeg", q);
+}
+async function prepImage(file) {
+  const bmp = await createImageBitmap(file), k = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
+  const c = Object.assign(document.createElement("canvas"), { width: Math.round(bmp.width * k), height: Math.round(bmp.height * k) });
+  c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
+  const blob = await new Promise(ok => c.toBlob(ok, "image/jpeg", 0.82));
+  if (!blob) throw new Error("blob");
+  return new File([blob], `photo-${Date.now()}-${Math.random().toString(36).slice(2, 6)}.jpg`, { type: "image/jpeg" });
+}
+async function uploadImage(file) {
+  const fd = new FormData();
+  fd.append("file", file);
+  fd.append("upload_preset", CONFIG.uploadPreset);
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CONFIG.cloudName}/image/upload`, { method: "POST", body: fd });
+  if (!res.ok) throw new Error("upload failed");
+  return (await res.json()).secure_url;
+}
+async function upFile(file) {
+  const noCloud = CONFIG.cloudName.startsWith("PASTE");
+  if (file.type.startsWith("image/")) return noCloud ? await shrink(file) : await uploadImage(file);
+  if (noCloud) {
+    if (file.size > 18e4) throw new Error("big");
+    return await new Promise((ok, no) => { const r = new FileReader(); r.onload = () => ok(r.result); r.onerror = no; r.readAsDataURL(file); });
+  }
+  const fd = new FormData(); fd.append("file", file); fd.append("upload_preset", CONFIG.uploadPreset);
+  const r = await fetch(`https://api.cloudinary.com/v1_1/${CONFIG.cloudName}/auto/upload`, { method: "POST", body: fd });
+  if (!r.ok) throw new Error("up");
+  return (await r.json()).secure_url;
+}
+/* Sab files upload karta hai; jo na ja sakein unka count deta hai */
+async function uploadFiles(files) {
+  const urls = []; let failed = 0, size = 0;
+  for (const f of files) {
+    try {
+      const u = await upFile(f);
+      if (u.startsWith("data:")) { if (size + u.length > 850000) { failed++; continue; } size += u.length; }
+      urls.push(u);
+    } catch { failed++; }
+  }
+  return { urls, failed };
+}
+async function photoUrl(sel) {
+  const file = $$(sel).map(i => i.files[0]).find(Boolean);
+  if (!file) return "";
+  try { return await upFile(file); } catch { toast("Photo nahi ja saki."); return ""; }
+}
+/* Dashboard record: files upload + Firestore save (WhatsApp share ke saath parallel chalta hai) */
+async function saveAndUpload(files, data, track) {
+  const { urls, failed } = await uploadFiles(files);
+  let saved = false;
+  try {
+    const id = await saveRequest({ ...data, photos: urls, photo: urls[0] || "" });
+    if (track) addMine(id);
+    saved = true;
+  } catch {}
+  return { urls, failed, saved, picked: files.length };
+}
+/* WhatsApp message ke neeche links / note */
+function attachNote(urls, saved, picked) {
+  if (!picked) return "";
+  const links = urls.filter(u => !u.startsWith("data:"));
+  if (links.length) return "\n" + links.map((u, i) => `File ${i + 1}: ${u}`).join("\n");
+  if (saved && urls.length) return "\nFiles app se clinic ko bhej di hain.";
+  return "\nFile(s) is chat mein attach kar raha/rahi hoon.";
+}
+/* WhatsApp seedha CLINIC ke number par khulta hai; patient ko sirf Send dabana hai.
+   Files pehle app se clinic dashboard par pahunchti hain (aur Cloudinary ho to link message mein jata hai). */
+function sendWA(text, files, record) {
+  if (!files.length) {
+    const url = waLink(text), w = window.open(url, "_blank");
+    if (!w) location.href = url;
+    toast(t("t_wa_open"));
+    return Promise.resolve(true);
+  }
+  const win = window.open("", "_blank");
+  toast(t("t_wa_wait"));
+  const late = new Promise(ok => setTimeout(() => ok({ urls: [], saved: false, picked: files.length }), 20000));
+  return Promise.race([record, late]).then(({ urls, saved, picked }) => {
+    const url = waLink(text + attachNote(urls, saved, picked));
+    try { if (win) win.location.href = url; else location.href = url; } catch { location.href = url; }
+    toast(t(picked && !urls.length ? "t_share_nofile" : "t_wa_open"));
+    return true;
+  });
+}
+/* Optional: phone ka Share menu (files WhatsApp chat mein attach hoti hain, par chat khud chunni padti hai) */
+function shareWA(text, files, record) {
+  let ok = [];
+  try { if (navigator.share && navigator.canShare) ok = navigator.canShare({ files }) ? files : files.filter(f => navigator.canShare({ files: [f] })); } catch {}
+  if (!ok.length) return sendWA(text, files, record);
+  return navigator.share({ title: CONFIG.clinicName, text, files: ok })
+    .then(() => { toast(t("t_share_ok")); return true; })
+    .catch(err => {
+      if (err && err.name === "AbortError") { toast(t("t_share_cancel")); return false; }
+      toast(t("t_share_nofile"));
+      record.then(({ urls, saved, picked }) => { location.href = waLink(text + attachNote(urls, saved, picked)); });
+      return false;
+    });
+}
+
+/* ===== Report staging: camera / gallery / PDF, ek-ek karke ===== */
+function renderStaged() {
+  $("#r-list").innerHTML = staged.map((s, i) => `<div class="staged-item">${s.img ? `<img src="${s.url}" alt="">` : `<span class="doc-ic">📄</span>`}<span class="sname">${esc(s.img ? `${t("ph_photo")} ${i + 1}` : s.file.name)}</span><button class="btn sm ghost" type="button" data-rm="${s.id}" title="${esc(t("rm"))}">✕</button></div>`).join("");
+  const pics = staged.filter(s => s.img).length, docs = staged.length - pics;
+  $("#r-count").textContent = staged.length ? t("r_count", { a: staged.length, b: pics, c: docs }) : t("r_none");
+}
+function clearStaged() { staged.forEach(s => s.url && URL.revokeObjectURL(s.url)); staged = []; renderStaged(); }
+async function addStaged(files) {
+  const room = Math.max(0, 10 - staged.length);
+  const take = files.slice(0, room);
+  if (take.some(f => f.type.startsWith("image/"))) toast(t("t_prep"));
+  for (const f of take) {
+    const img = f.type.startsWith("image/");
+    let file = f;
+    if (img) { try { file = await prepImage(f); } catch {} }
+    staged.push({ id: Math.random().toString(36).slice(2), file, img, url: img ? URL.createObjectURL(file) : "" });
+    renderStaged();
+  }
+  if (files.length > take.length) toast(t("t_max"));
+}
+$("#btn-cam").onclick = () => $("#r-cam").click();
+$("#btn-gal").onclick = () => $("#r-gal").click();
+$("#btn-doc").onclick = () => $("#r-doc").click();
+["#r-cam", "#r-gal", "#r-doc"].forEach(sel => ($(sel).onchange = e => {
+  const files = [...e.target.files];
+  e.target.value = "";            // same input se agli photo bhi chal sake
+  addStaged(files);
+}));
+$("#r-list").onclick = e => {
+  const b = e.target.closest("[data-rm]"); if (!b) return;
+  const s = staged.find(x => x.id === b.dataset.rm);
+  if (s && s.url) URL.revokeObjectURL(s.url);
+  staged = staged.filter(x => x.id !== b.dataset.rm);
+  renderStaged();
+};
+
+/* ===== Report send (WhatsApp seedha clinic number par + dashboard) ===== */
+function sendReport(viaShare) {
+  const name = $("#r-name").value.trim(), phone = $("#r-phone").value.trim();
+  if (!name || !phone) return toast(t("t_namephone"));
+  if (!staged.length) return toast(t("t_pick"));
+  const files = staged.map(s => s.file);
+  const rname = repSel.value ? I18N.hg[`r_${repSel.value}_n`] : I18N.hg.rep_unknown;
+  const text = `Namaste ${CONFIG.clinicName}, ${name} (${phone}) ki ${rname} report par guidance chahiye.`;
+  const record = saveAndUpload(files, { kind: "report", name, phone, items: rname }, false);
+  record.then(({ failed }) => { if (failed) toast(t("t_upfail", { a: failed })); });
+  (viaShare ? shareWA : sendWA)(text, files, record).then(ok => { if (ok) clearStaged(); });
+}
+$("#rep-share").onclick = () => sendReport(false);   // seedha clinic ka WhatsApp chat (share menu nahi)
+
+/* ===== Report guidance ===== */
+function repInfo(k) {
+  const nk = `r_${k}_x`;
+  return { name: t(`r_${k}_n`), what: t(`r_${k}_w`), range: t(`r_${k}_r`), next: DICT[nk] ? t(nk) : t("rep_gen_x") };
+}
+function renderRepOpts() {
+  const cur = repSel.value;
+  repSel.innerHTML = `<option value="">${t("rep_none")}</option>` + REP_KEYS.map(k => `<option value="${k}">${esc(t(`r_${k}_n`))}</option>`).join("");
+  repSel.value = cur;
+}
+function showReport() {
+  const k = repSel.value;
+  if (!k) { $("#rep-out").innerHTML = ""; return; }
+  const r = repInfo(k);
+  $("#rep-out").innerHTML = `<h3>${esc(r.name)}</h3><p>${esc(r.what)}</p><p><strong>${t("normal")}:</strong> ${esc(r.range)}</p><p><strong>${t("next")}:</strong> ${esc(r.next)}</p>`;
+}
+repSel.onchange = showReport;
+
+/* ===== Medicine order (WhatsApp seedha clinic number par + dashboard) ===== */
+$("#f-order").addEventListener("submit", e => {
+  e.preventDefault();
+  const form = e.target, f = formData(form);
+  const files = pickedFrom("#o-photo,#o-photo2");
+  const total = cartTotal();
+  const lines = cart.map(l => ({ id: l.id, name: l.name, qty: l.qty, price: l.price }));
+  f.items = [f.items, cartLines()].filter(Boolean).join(" | ");
+  if (!f.items && !files.length) return toast(t("t_cart_or_photo"));
+  const addr = [f.address, f.pin && `PIN ${f.pin}`].filter(Boolean).join(", ");
+  const text = [
+    `*Medicine order: ${CONFIG.clinicName}*`,
+    `Naam: ${f.name}`, `Phone: ${f.phone}`,
+    `Address: ${addr || "WhatsApp par batayenge"}`,
+    `Medicine/items: ${f.items || "Cart / photo ke hisaab se"}`,
+    total ? `Total: ₹${total}` : ""
+  ].filter(Boolean).join("\n");
+  const record = saveAndUpload(files, { kind: "delivery", name: f.name, phone: f.phone, address: f.address || "", pin: f.pin || "", items: f.items, total: total || "", lines }, true);
+  record.then(({ saved, failed }) => {
+    if (failed) toast(t("t_upfail", { a: failed }));
+    if (saved) popup(t("t_order_ok_t"), t("t_order_ok_s"));
+  });
+  sendWA(text, files, record).then(ok => {
+    if (ok) { cart = []; saveCart(); renderCart(); renderShop(); form.reset(); }
+  });
+});
+
+/* ===== Teleconsultation and appointment ===== */
+$("#f-consult").addEventListener("submit", async e => {
+  e.preventDefault();
+  const f = formData(e.target);
+  const room = `https://meet.jit.si/ShubhClinic-${Math.random().toString(36).slice(2, 10)}`;
+  const when = `${fmtDate(f.date)}, ${fmtTime(f.time)}`;
+  try {
+    addMine(await saveRequest({ kind: "consult", name: f.name, phone: f.phone, when, mode: f.mode, concern: f.concern, room }));
+    popup(t("t_consult_ok_t"), t("t_consult_ok_s"));
+    e.target.reset();
+  } catch {
+    openWA(`*Appointment request: ${CONFIG.clinicName}*\nNaam: ${f.name}\nPhone: ${f.phone}\nKab: ${when}\nMode: ${f.mode}\nProblem: ${f.concern}`);
+  }
+});
+$("#f-appt").addEventListener("submit", async e => {
+  e.preventDefault();
+  const f = formData(e.target), when = `${fmtDate(f.date)}, ${f.slot}`;
+  try {
+    addMine(await saveRequest({ kind: "appointment", name: f.name, phone: f.phone, when, concern: f.concern || "" }));
+    popup(t("t_appt_ok_t"), t("t_appt_ok_s"));
+    e.target.reset();
+  } catch {
+    openWA(`*Appointment: ${CONFIG.clinicName}*\nNaam: ${f.name}\nPhone: ${f.phone}\nKab: ${when}${f.concern ? `\nProblem: ${f.concern}` : ""}`);
+  }
+});
+
+/* ===== Home message ===== */
+$("#btn-msg").onclick = async () => {
+  const text = $("#msg-text").value.trim();
+  if (!text) return toast(t("t_msg_empty"));
+  const ph = $("#msg-phone").value.trim();
+  if (!ph) return toast(t("t_phone_empty"));
+  try {
+    await saveRequest({ kind: "message", name: "Message", phone: ph, items: text });
+    popup(t("t_msg_ok_t"), t("t_msg_ok_s"));
+    $("#msg-text").value = "";
+  } catch { openWA(text); }
+};
+
+/* ===== Patient profile (Meri information) ===== */
+for (const [k, v] of Object.entries(jget("shubh_me", {}))) { const el = $("#f-me").elements[k]; if (el) el.value = v; }
+$("#me-addx").onclick = () => { const k = prompt("Kis baare mein? (jaise: Pregnancy, Operation, Family history)"); if (!k) return; const x = $("#me-extra"); x.value += (x.value ? "\n" : "") + k.trim() + ": "; x.focus(); };
+$("#f-me").addEventListener("submit", async e => {
+  e.preventDefault();
+  const f = formData(e.target);
+  jset("shubh_me", f);
+  const { urls, failed } = await uploadFiles(pickedFrom("#me-cam,#me-files"));
+  if (failed) toast(t("t_upfail", { a: failed }));
+  if (!urls.length && JSON.stringify(jget("shubh_me_sig", null)) === JSON.stringify(f)) return popup(t("me_ok_t"), t("me_ok_s"));
+  try {
+    if (!db) throw new Error("no-db");
+    const ph = ph10(f.phone), pdata = { ...f, reports: urls, source: "self", createdAt: serverTimestamp() };
+    if (ph.length === 10) {
+      try { await setDoc(doc(db, "patients", "p" + ph), pdata); }
+      catch (err) {
+        if (!err || err.code !== "permission-denied") throw err;
+        // Profile pehle se hai: duplicate banane ki jagah update request clinic ko bhejein
+        await addDoc(collection(db, "requests"), { kind: "profile", name: f.name, phone: f.phone, items: "Profile update", profile: { ...f, reports: urls }, status: "new", createdAt: serverTimestamp() });
+        jset("shubh_me_sig", f);
+        return popup(t("prof_req_t"), t("prof_req_s"));
+      }
+    } else await addDoc(collection(db, "patients"), pdata);
+    jset("shubh_me_sig", f);
+    popup(t("me_ok_t"), t("me_ok_s"));
+  } catch { toast(t("me_local")); }
+});
+
+/* ===== Shop and cart ===== */
+function renderShop() {
+  syncCartPrices();
+  const cats = ["All", "__offer", ...new Set(products.map(p => p.cat || "Other"))], q = shopQ.toLowerCase();
+  $("#shop-cats").innerHTML = cats.map(c => `<button type="button" class="chip ${c === shopCat ? "on" : ""}" data-cat="${esc(c)}">${c === "All" ? t("all") : c === "__offer" ? t("offer_chip") : esc(c)}</button>`).join("");
+  const list = products.filter(p => (shopCat === "All" || (shopCat === "__offer" ? offerOn(p) : (p.cat || "Other") === shopCat)) && (!q || (p.name + " " + (p.desc || "")).toLowerCase().includes(q)));
+  const offers = products.filter(offerOn);
+  $("#offer-strip").innerHTML = offers.length && shopCat === "All" && !q ? `<div class="ostrip"><b class="ohead">${t("offer_h")}</b><div class="orow">${offers.slice(0, 12).map(p => `<button type="button" class="ochip" data-oadd="${esc(p.id)}"><span>${esc(p.name)}</span><b>₹${esc(p.offer)} <span class="obadge">${t("off_pct", { a: offerPct(p) })}</span></b><small class="muted"><s>₹${esc(p.price)}</s></small></button>`).join("")}</div></div>` : "";
+  $("#shop-list").innerHTML = list.map(p => {
+    const l = cart.find(x => x.id === p.id), on = offerOn(p), rateless = noRate(p), out = outOf(p);
+    const price = rateless ? `<div class="pp rate">${t("rate_soon")}</div>` : on ? `<div class="pp"><s class="muted">₹${esc(p.price)}</s> <b class="offp">₹${esc(p.offer)}</b> <span class="obadge">${t("off_pct", { a: offerPct(p) })}</span></div>` : `<div class="pp">₹${esc(p.price)} <small>${t("free_del")}</small></div>`;
+    const low = !out && typeof p.stock === "number" && p.stock <= CONFIG.lowStock ? `<small class="snote">${t("stock_low", { a: p.stock })}</small>` : "";
+    const action = out ? `<p class="rx">${t("oos")}</p>` : rateless ? "" : l ? `<div class="qty"><button type="button" data-q2="${esc(p.id)}" data-d="-1">−</button><b>${l.qty}</b><button type="button" data-q2="${esc(p.id)}" data-d="1">+</button></div>` : `<button class="btn sm" data-add="${esc(p.id)}" type="button">${t("add")}</button>`;
+    return `<article class="pcard${on ? " ison" : ""}"><div class="pimg">${p.image ? `<img src="${esc(p.image)}" alt="">` : `<span>${CAT_ICON[p.cat] || "💊"}</span>`}</div><div class="pn">${esc(p.name)}</div><small class="muted">${esc(p.unit || p.desc || "")}</small>${price}${low}${p.rx ? `<small class="rx">${t("rx_need")}</small>` : ""}${action}</article>`;
+  }).join("") || `<p class="empty">${t("no_prod")}</p>`;
+  renderHomeOffers();
+  const n = cart.reduce((a, l) => a + l.qty, 0), bar = $("#cartbar");
+  bar.hidden = !n; bar.textContent = t("cart_bar", { a: n, b: cartTotal() });
+}
+function renderHomeOffers() {
+  const el = $("#home-offers"); if (!el) return;
+  const o = products.filter(offerOn).slice(0, 4);
+  el.innerHTML = o.length ? `<section class="card ohome"><h3>${t("offer_h")}</h3>${o.map(p => `<div class="ohitem"><span>${esc(p.name)}</span><span><s class="muted">₹${esc(p.price)}</s> <b class="offp">₹${esc(p.offer)}</b> <span class="obadge">${t("off_pct", { a: offerPct(p) })}</span></span></div>`).join("")}<a class="btn sm ghost" href="#/shop" style="margin-top:8px">${t("home_offers_more")}</a></section>` : "";
+}
+const cartLinesHtml = () => cart.map(l => `<div class="cline"><div class="cn">${esc(l.name)}</div><div class="cl"><button class="btn sm ghost" data-q="${esc(l.id)}" data-d="-1" type="button" aria-label="−">−</button><b>${l.qty}</b><button class="btn sm ghost" data-q="${esc(l.id)}" data-d="1" type="button" aria-label="+">+</button><span class="cp">₹${l.price * l.qty}</span><button class="btn sm ghost" data-q="${esc(l.id)}" data-d="-9999" type="button" title="${esc(t("cart_rm"))}">✕</button></div></div>`).join("");
+function renderCart() {
+  syncCartPrices();
+  const n = cart.reduce((a, l) => a + l.qty, 0), total = cartTotal();
+  const badge = $("#cart-count"); badge.hidden = !n; badge.textContent = n;
+  const box = $("#cart-box"), page = $("#cart-page");
+  if (!cart.length) {
+    box.innerHTML = `<p class="muted">${t("cart_empty_s")} <a href="#/shop">${t("cart_go_shop")}</a></p>`;
+    page.innerHTML = `<div class="card center"><p><strong>🛒 ${t("cart_empty")}</strong></p><p class="muted">${t("cart_empty_s")}</p><a class="btn" href="#/shop">${t("cart_go_shop")}</a></div>`;
+    return;
+  }
+  const body = head => `<div class="card" style="margin-top:12px">${head ? `<h3>${t("cart_h")}</h3>` : ""}${cartLinesHtml()}<p style="margin-top:10px"><strong>${t("total", { a: total })}</strong></p><button class="btn sm ghost" data-cartclear type="button">${t("cart_clear")}</button></div>`;
+  box.innerHTML = `<button class="btn" type="submit" form="f-order">${t("cart_send_top", { a: total })}</button>` + body(true);
+  page.innerHTML = `<a class="btn" href="#/book">${t("cart_order", { a: total })}</a>` + body(false) + `<a class="btn ghost" href="#/shop">${t("cart_more")}</a>`;
+}
+const onCartClick = e => {
+  const q = e.target.closest("[data-q]");
+  if (q) { const line = cart.find(x => x.id === q.dataset.q), pr = line && products.find(x => x.id === line.id); if (line && Number(q.dataset.d) > 0 && pr && typeof pr.stock === "number" && line.qty >= pr.stock) return toast(t("stock_max")); if (line) line.qty += Number(q.dataset.d); cart = cart.filter(x => x.qty > 0); }
+  else if (e.target.closest("[data-cartclear]")) cart = [];
+  else return;
+  saveCart(); renderCart(); renderShop();
+};
+$("#cart-box").addEventListener("click", onCartClick);
+$("#cart-page").addEventListener("click", onCartClick);
+$("#shop-q").oninput = e => { shopQ = e.target.value; renderShop(); };
+$("#shop-cats").onclick = e => { const b = e.target.closest("[data-cat]"); if (b) { shopCat = b.dataset.cat; renderShop(); } };
+$("#shop-list").addEventListener("click", e => {
+  const b2 = e.target.closest("[data-q2]");
+  if (b2) {
+    const l = cart.find(x => x.id === b2.dataset.q2); if (!l) return;
+    const pr = products.find(x => x.id === l.id); if (+b2.dataset.d > 0 && pr && typeof pr.stock === "number" && l.qty >= pr.stock) return toast(t("stock_max")); l.qty += +b2.dataset.d; if (l.qty < 1) cart = cart.filter(x => x !== l);
+    saveCart(); renderCart(); renderShop(); return;
+  }
+  const b = e.target.closest("[data-add]");
+  if (b) addToCart(b.dataset.add);
+});
+
+/* ===== My requests (patient status, live) ===== */
+const ST_KEY = { new: "st_new", approved: "st_approved", rejected: "st_rejected", done: "st_done" };
+const ST_ORDER = { new: "st_o_new", confirmed: "st_o_confirmed", out: "st_o_out", done: "st_o_done", rejected: "st_o_rejected" };
+const stText = d => { const k = (d.kind === "delivery" ? ST_ORDER : ST_KEY)[d.status]; return k ? t(k) : String(d.status || ""); };
+const SPATH = { delivery: ["new", "confirmed", "out", "done"], consult: ["new", "approved", "done"], appointment: ["new", "approved", "done"] };
+const SLAB = (kind, s) => t({ new: kind === "delivery" ? "sp_recv" : "sp_sent", confirmed: "sp_conf", out: "sp_out", approved: "sp_appr", done: kind === "delivery" ? "sp_deliv" : "sp_done" }[s]);
+const fmtTs = ts => { try { return ts.toDate().toLocaleString("en-IN", { day: "numeric", month: "short", hour: "numeric", minute: "2-digit" }); } catch { return ""; } };
+function stepsHtml(d) {
+  const path = SPATH[d.kind];
+  if (!path || d.status === "rejected") return "";
+  const cur = Math.max(0, path.indexOf(d.status)), fin = d.status === path[path.length - 1];
+  return `<div class="steps">${path.map((s, i) => `<div class="step ${i < cur || fin ? "ok" : i === cur ? "cur" : ""}"><i>${i < cur || fin ? "✓" : i + 1}</i><span>${esc(SLAB(d.kind, s))}</span></div>`).join("")}</div>`;
+}
+function renderMine() {
+  const rows = mine.filter(id => myDocs[id]);
+  $("#my-req").innerHTML = (liveErr ? `<p class="rx">${t("live_err")}</p>` : "") + (rows.map(id => {
+    const d = myDocs[id], off = myCache[id];
+    const title = d.kind === "consult" ? t("rt_consult") : d.kind === "appointment" ? t("rt_appt") : d.kind === "delivery" ? t("ord_title") : t("req_title");
+    const sub = [d.mode ? `${d.mode}: ${d.concern || ""}` : (d.concern || d.items || ""), d.total ? t("total", { a: d.total }) : ""].filter(Boolean);
+    const sent = fmtTs(d.createdAt), upd = fmtTs(d.updatedAt);
+    return `<article class="card req ${d.kind === "consult" ? "consult" : ""}">
+      <div class="req-top"><h3>${esc(title)}</h3><span class="live ${off ? "off" : ""}">${t(off ? "offline" : "live")}</span></div>
+      ${d.when ? `<p class="muted">${t("r_when")}: ${esc(d.when)}</p>` : ""}
+      <p class="stline ${d.status === "rejected" ? "bad" : ""}"><strong>${esc(stText(d))}</strong></p>
+      ${stepsHtml(d)}
+      ${sub.map(x => `<p class="muted">${esc(x)}</p>`).join("")}
+      ${d.status === "approved" && d.room ? `<a class="btn sm" href="${esc(d.room)}" target="_blank" rel="noopener">${t("room_open")}</a>` : ""}
+      <p class="muted small">${t("r_sent")}: ${esc(sent)}${upd ? ` · ${t("r_upd")}: ${esc(upd)}` : ""}</p>
+    </article>`;
+  }).join("") || `<p class="empty">${t("req_none")}</p>`);
+}
+
+/* ===== Settings ===== */
+let ip; addEventListener("beforeinstallprompt", e => { e.preventDefault(); ip = e; });
+$("#set-install").onclick = () => { if (ip) { ip.prompt(); ip = null; } else toast(t("t_install")); };
+$("#set-clear").onclick = () => {
+  if (!confirm(t("set_clear_q"))) return;
+  ["shubh_me", "shubh_my", "shubh_cart"].forEach(k => { try { localStorage.removeItem(k); } catch {} });
+  cart = []; mine = [];
+  toast(t("set_cleared"));
+  setTimeout(() => location.reload(), 800);
+};
+navigator.serviceWorker?.register("sw.js").catch(() => {});
+
+/* ===== Render everything in current language ===== */
+function renderAll() { renderRepOpts(); showReport(); renderShop(); renderCart(); renderMine(); renderStaged(); }
+
+/* ===== Home notices (staff ke post kiye hue) ===== */
+if (db) onSnapshot(query(collection(db, "notices"), orderBy("createdAt", "desc"), limit(5)), snap => {
+  $("#home-notices").innerHTML = snap.docs.map(s => s.data()).map(n => `<div class="notice ${n.type === "Offer" ? "offer" : ""}">${n.type === "Offer" ? "🎁" : "📢"} ${esc(n.text)}</div>`).join("");
+  $("#l-notice").innerHTML = snap.docs.map(s => `<div class="admin-line"><span>${esc(s.data().type)}: ${esc(s.data().text)}</span><button class="btn sm ghost" data-del="notices/${s.id}" type="button">Hatayein</button></div>`).join("") || NONE;
+});
+if (db) onSnapshot(collection(db, "products"), snap => {
+  products = snap.docs.length ? snap.docs.map(d => ({ id: d.id, ...d.data() })) : SAMPLE_PRODUCTS;
+  renderShop(); renderAdminItems();
+});
+
+/* ===== Staff dashboard (Hinglish) ===== */
+const PAT = [["name", "Naam", "text", 1], ["phone", "Phone number", "tel", 1], ["age", "Umar", "number"], ["gender", "Gender", "sel:Male|Female|Other"], ["blood", "Blood group", "sel:Pata nahi|A+|A-|B+|B-|O+|O-|AB+|AB-"], ["weight", "Weight (kg)", "number"], ["height", "Height (cm)", "number"], ["chronic", "Purani bimari (BP / Sugar / Thyroid...)"], ["emergency", "Emergency contact number", "tel"], ["address", "Address", "area"], ["problem", "Bimari / problem", "area"], ["allergy", "Medicine allergy (agar ho)"], ["meds", "Chal rahi medicine", "area"], ["extra", "Aur jaankari", "area"], ["email", "Email (optional)", "email"], ["dob", "Janm tithi", "date"]];
+const VIS = [["name", "Patient ka naam", "text", 1], ["phone", "Phone", "tel"], ["age", "Umar", "number"], ["complaint", "Complaint", "area", 1], ["bp", "BP (mmHg)"], ["sugar", "Sugar (mg/dL)"], ["pr", "Pulse (bpm)", "number"], ["spo2", "SpO₂ (%)", "number"], ["rr", "RR (/min)", "number"], ["diagnosis", "Diagnosis"], ["followup", "Follow-up date", "date"], ["treatment", "Medicine / treatment", "area"], ["amount", "Fees / bill (₹)", "number"], ["paid", "Payment", "sel:Cash|UPI|Card|Baaki"]];
+const IPDX = [["bed", "Bed / room"], ["admit", "Admit date", "date"], ["discharge", "Discharge date", "date"]];
+const F = (p, a) => a.map(([n, l, ty = "text", r]) => {
+  const id = `${p}-${n}`, req = r ? " required" : "", lb = `<label for="${id}">${l}</label>`;
+  if (ty === "area") return `${lb}<textarea id="${id}" name="${n}"${req}></textarea>`;
+  if (ty.startsWith("sel:")) return `${lb}<select id="${id}" name="${n}">${ty.slice(4).split("|").map(o => `<option>${o}</option>`).join("")}</select>`;
+  return `${lb}<input id="${id}" name="${n}" type="${ty}"${req}>`;
+}).join("");
+const btnX = x => `<button class="btn" type="submit">${x}</button>`;
+$("#f-pat").innerHTML = F("pa", PAT) + btnX("Patient save karein");
+$("#f-opd").innerHTML = F("op", VIS) + btnX("OPD entry save karein");
+$("#f-ipd").innerHTML = F("ip", [...VIS, ...IPDX]) + btnX("IPD entry save karein");
+const AT = [["Roz ka kaam", [["requests", "📥", "Requests"], ["today", "📊", "Aaj"], ["follow", "📆", "Follow-up"]]], ["Patients", [["patients", "🧑", "Patients"], ["opd", "🩺", "OPD"], ["ipd", "🛏️", "IPD"]]], ["Clinic", [["shop", "💊", "Medicine"], ["notice", "📢", "Notice"], ["wish", "🎂", "Wishes"]]], ["Export / Tools", [["more", "🧰", "Export, Backup"]]]];
+$("#atabs").className = "";
+$("#atabs").innerHTML = AT.map(([g, x]) => `<div class="agrp">${g.toUpperCase()}</div><div class="agrid">${x.map(([k, i, l]) => `<button class="btn sm ghost" data-tab="${k}" type="button">${i}<span>${l}</span>${k === "requests" ? '<b class="abadge" id="rbadge" hidden></b>' : ""}</button>`).join("")}</div>`).join("");
+const openTab = k => { $$(".ap").forEach(p => (p.hidden = p.id !== "ap-" + k)); $$("#atabs [data-tab]").forEach(b => b.classList.toggle("on", b.dataset.tab === k)); };
+$("#atabs").onclick = e => { const b = e.target.closest("[data-tab]"); if (b) openTab(b.dataset.tab); };
+openTab("requests");
+
+/* ===== Patients: search, profile, vitals, history ===== */
+let PG = [], VISDOCS = [], curP = null, curV = [], curN = [], pshown = 30, hfil = "all";
+const msOf = d => (d.createdAt && d.createdAt.toMillis ? d.createdAt.toMillis() : Date.now());
+const fdt = m => new Date(m).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" });
+const SKIP = new Set(["vitals", "notes", "reports", "createdAt", "source"]);
+function groups() {
+  const g = {};
+  PATDOCS.forEach(s => { const k = ph10(s.data().phone) || s.id; (g[k] = g[k] || { k, docs: [] }).docs.push(s); });
+  return Object.values(g).map(x => {
+    const m = {};
+    [...x.docs].reverse().forEach(s => Object.entries(s.data()).forEach(([f, v]) => { if (v && !SKIP.has(f)) m[f] = v; }));
+    x.m = m; x.id = x.docs[0].id; x.ph = ph10(m.phone);
+    x.reqs = x.ph ? (histReady ? HISTDOCS : REQDOCS).filter(r => !r.data().hidden && ph10(r.data().phone) === x.ph) : [];
+    x.vis = x.ph ? VISDOCS.filter(r => ph10(r.data().phone) === x.ph) : [];
+    x.last = Math.max(0, ...x.reqs.map(r => msOf(r.data())), ...x.vis.map(r => msOf(r.data())));
+    return x;
+  });
+}
+function refreshP() { PG = groups(); renderPatients(); if (curP) renderProfile(false); }
+const pcard = x => {
+  const m = x.m, sub = [m.age && m.age + " Y", m.gender, m.blood && m.blood !== "Pata nahi" && m.blood].filter(Boolean).join(" · ");
+  return `<article class="card pc" data-pk="${esc(x.k)}"><div class="pav">${esc(((m.name || "?").trim()[0] || "?").toUpperCase())}</div><div class="pinfo"><b>${esc(m.name || "-")}</b><span class="muted">${esc(sub)}${sub ? " · " : ""}📞 ${esc(m.phone || "-")}</span><span class="ptag">${m.allergy ? "⚠️ Allergy · " : ""}📥 ${x.reqs.length} · 🩺 ${x.vis.length}${x.last ? " · " + new Date(x.last).toLocaleDateString("en-IN") : ""}</span></div></article>`;
+};
+function renderPatients() {
+  const q = $("#p-q").value.trim().toLowerCase(), qd = q.replace(/\D/g, ""), so = $("#p-sort").value;
+  const a = PG.filter(x => !q || Object.values(x.m).join(" ").toLowerCase().includes(q) || (qd.length > 2 && x.ph.includes(qd)));
+  a.sort(so === "az" ? (p, r) => (p.m.name || "").localeCompare(r.m.name || "") : so === "last" ? (p, r) => r.last - p.last : (p, r) => msOf(r.docs[0].data()) - msOf(p.docs[0].data()));
+  $("#p-count").textContent = `${a.length} / ${PG.length} patients`;
+  $("#l-patients").innerHTML = a.slice(0, pshown).map(pcard).join("") + (a.length > pshown ? `<button class="btn ghost" id="p-more" type="button">Aur dikhayein (${a.length - pshown})</button>` : "") || NONE;
+}
+const vtxt = v => [v.bp && `BP <b>${esc(v.bp)}</b> mmHg`, v.sugar && `Sugar <b>${esc(v.sugar)}</b> mg/dL${v.st ? ` (${esc(v.st)})` : ""}`, v.pr && `PR <b>${esc(v.pr)}</b> bpm`, v.spo2 && `SpO₂ <b>${esc(v.spo2)}</b>%`, v.rr && `RR <b>${esc(v.rr)}</b>/min`].filter(Boolean).join(" · ");
+const vOf = x => [...x.docs.flatMap(s => (s.data().vitals || []).map(v => ({ ...v, _id: s.id }))), ...x.vis.flatMap(r => { const d = r.data(); return d.bp || d.sugar || d.pr || d.spo2 || d.rr ? [{ t: msOf(d), bp: String(d.bp || "").replace(/mmhg/i, "").trim(), sugar: String(d.sugar || "").replace(/mg\/?dl/i, "").trim(), pr: d.pr, spo2: d.spo2, rr: d.rr, src: d.type || "OPD" }] : []; })].sort((a, b) => b.t - a.t);
+function closeProfile() { curP = null; $("#p-prof").hidden = true; $("#p-listview").hidden = false; renderPatients(); }
+function renderProfile(full) {
+  const x = PG.find(g => g.k === curP); if (!x) return closeProfile();
+  const m = x.m;
+  if (full) {
+    $("#p-prof").innerHTML = `<button class="btn sm ghost" id="pf-back" type="button">← Sab patients</button><div class="card" id="pf-head"></div>
+    <details class="card"><summary><b>✏️ Details badlein</b></summary><form id="f-pe">${F("pe", PAT)}${btnX("Details save karein")}</form></details>
+    <div class="card"><h3>❤️ Vitals (date-wise)</h3><div id="pf-last"></div>
+      <form id="f-vit"><label>BP (mmHg)</label><div class="vg"><input name="sys" type="number" inputmode="numeric" placeholder="Upar, jaise 120"><input name="dia" type="number" inputmode="numeric" placeholder="Neeche, jaise 80"></div>
+      <label>Sugar (mg/dL)</label><div class="vg"><input name="sugar" type="number" inputmode="decimal" step="any"><select name="st"><option>Fasting</option><option>PP (khane ke baad)</option><option>Random</option></select></div>
+      <div class="vg"><div><label>Pulse (bpm)</label><input name="pr" type="number" inputmode="numeric"></div><div><label>SpO₂ (%)</label><input name="spo2" type="number" inputmode="numeric"></div></div>
+      <label>RR (/min)</label><input name="rr" type="number" inputmode="numeric">${btnX("Vitals save karein")}</form><div id="pf-vit"></div></div>
+    <div class="card"><h3>📝 Notes / History</h3><form id="f-note"><select name="type"><option>History</option><option>Allergy</option><option>Medicine</option><option>Report</option><option>Advice</option><option>Other</option></select><textarea name="text" required placeholder="Jo bhi likhna ho"></textarea>${btnX("Note save karein")}</form><div id="pf-notes"></div></div>
+    <div class="card"><h3>🕘 Poori history</h3><div class="chips" id="pf-chips"></div><div id="pf-hist"></div></div>
+    <button class="btn ghost" id="pf-del" type="button">🗑 Patient hatayein</button>`;
+    const fe = $("#f-pe").elements; Object.entries(m).forEach(([k, v]) => { if (fe[k]) fe[k].value = v; });
+  }
+  $("#pf-head").innerHTML = `<h2>${esc(m.name)}</h2>${PAT.filter(([f]) => m[f] && f !== "name").map(([f, l]) => `<p class="muted" style="margin:2px 0"><b>${l}:</b> ${esc(m[f])}</p>`).join("")}<div class="row"><a class="btn sm" target="_blank" rel="noopener" href="${waLink(`Namaste ${m.name}, ${CONFIG.clinicName} se baat ho rahi hai.`, toWa(m.phone))}">WhatsApp</a><a class="btn sm ghost" href="tel:${esc(m.phone)}">📞 Call</a></div>`;
+  const vs = (curV = vOf(x));
+  $("#pf-last").innerHTML = vs.length ? `<p><b>Pichhli reading</b> (${fdt(vs[0].t)})<br>${vtxt(vs[0])}</p>` : '<p class="muted">Abhi koi vitals save nahi hue.</p>';
+  $("#pf-vit").innerHTML = vs.map((v, i) => `<div class="admin-line"><span><small class="muted">${fdt(v.t)}${v.src ? " · " + esc(v.src) : ""}</small><br>${vtxt(v)}</span>${v._id ? `<button class="btn sm ghost" data-vdel="${i}" type="button">🗑</button>` : ""}</div>`).join("");
+  const ns = (curN = x.docs.flatMap(s => (s.data().notes || []).map(n => ({ ...n, _id: s.id }))).sort((a, b) => b.t - a.t));
+  $("#pf-notes").innerHTML = ns.map((n, i) => `<div class="admin-line"><span><small class="muted">${fdt(n.t)} · ${esc(n.type)}</small><br>${esc(n.text)}</span><button class="btn sm ghost" data-ndel="${i}" type="button">🗑</button></div>`).join("") || '<p class="muted">Abhi koi note nahi.</p>';
+  const it = [];
+  x.reqs.forEach(r => {
+    const d = r.data(), k = d.kind, cat = k === "delivery" ? "order" : k === "report" ? "rep" : k === "appointment" || k === "consult" ? "appt" : "msg";
+    const ttl = { delivery: "💊 Medicine order", appointment: "📅 Appointment", consult: "📹 Teleconsultation", report: "📄 Report", message: "✉️ Message" }[k] || "Request";
+    const body = k === "delivery" ? `${esc(d.items)}${d.total ? " · ₹" + esc(d.total) : ""}` : k === "appointment" || k === "consult" ? `Kab: ${esc(d.when)}${d.concern ? " · " + esc(d.concern) : ""}` : esc(d.items);
+    it.push({ t: msOf(d), cat, h: `<b>${ttl}</b> <span class="muted">· ${esc(STAFF_ST[d.status] || d.status || "")}</span><br>${body}${filesHtml(d)}<br><button class="btn sm ghost" data-hdel="${r.id}" type="button">🗑 History se hatayein</button>` });
+  });
+  x.vis.forEach(r => { const d = r.data(); it.push({ t: msOf(d), cat: "visit", h: `<b>${d.type === "IPD" ? "🛏️ IPD" : "🩺 OPD"}</b><br>${[d.complaint && "Complaint: " + d.complaint, d.diagnosis && "Diagnosis: " + d.diagnosis, d.treatment && "Medicine: " + d.treatment, d.amount && "Bill: ₹" + d.amount].filter(Boolean).map(esc).join("<br>")}` }); });
+  x.docs.forEach(s => { const d = s.data(); if ((d.reports || []).length) it.push({ t: msOf(d), cat: "rep", h: `<b>📄 Profile ke saath report</b>${filesHtml({ photos: d.reports })}` }); });
+  ns.forEach(n => it.push({ t: n.t, cat: "note", h: `<b>📝 ${esc(n.type)}</b><br>${esc(n.text)}` }));
+  $("#pf-chips").innerHTML = [["all", "Sab"], ["order", "💊 Orders"], ["appt", "📅 Appointments"], ["rep", "📄 Reports"], ["visit", "🩺 OPD/IPD"], ["note", "📝 Notes"]].map(([k, l]) => `<button class="btn sm ghost${hfil === k ? " on" : ""}" data-hf="${k}" type="button">${l}</button>`).join("");
+  $("#pf-hist").innerHTML = it.filter(i => hfil === "all" || i.cat === hfil).sort((a, b) => b.t - a.t).map(i => `<div class="tl"><small class="muted">${fdt(i.t)}</small><br>${i.h}</div>`).join("") || NONE;
+}
+$("#p-q").oninput = () => { pshown = 30; renderPatients(); };
+$("#p-sort").onchange = renderPatients;
+$("#ap-patients").addEventListener("click", async e => {
+  const c = s => e.target.closest(s); let el;
+  if (c("#p-more")) { pshown += 30; return renderPatients(); }
+  if ((el = c("[data-pk]"))) { curP = el.dataset.pk; hfil = "all"; $("#p-listview").hidden = true; $("#p-prof").hidden = false; renderProfile(true); return window.scrollTo(0, 0); }
+  if (c("#pf-back")) return closeProfile();
+  if ((el = c("[data-hf]"))) { hfil = el.dataset.hf; return renderProfile(false); }
+  const x = PG.find(g => g.k === curP); if (!x) return;
+  if ((el = c("[data-vdel]")) && confirm("Ye reading hatayein?")) { const { _id, ...v } = curV[+el.dataset.vdel]; updateDoc(doc(db, "patients", _id), { vitals: arrayRemove(v) }).catch(() => toast("Delete nahi hua. Login check karein.")); return; }
+  if ((el = c("[data-ndel]")) && confirm("Ye note hatayein?")) { const { _id, ...v } = curN[+el.dataset.ndel]; updateDoc(doc(db, "patients", _id), { notes: arrayRemove(v) }).catch(() => toast("Delete nahi hua. Login check karein.")); return; }
+  if ((el = c("[data-hdel]")) && confirm("Ye history entry hata dein? (sirf patient ki history se; request queue par asar nahi)")) { updateDoc(doc(db, "history", el.dataset.hdel), { hidden: true }).then(() => toast("History se hata diya.")).catch(() => toast("Delete nahi hua. Login check karein.")); return; }
+  if (c("#pf-del") && confirm(`${x.m.name} ka patient record aur uski poori history hamesha ke liye hatayein?`)) { try { await Promise.all(HISTDOCS.filter(h => !h.data().hidden && x.ph && ph10(h.data().phone) === x.ph).map(h => updateDoc(doc(db, "history", h.id), { hidden: true }))); await Promise.all(x.docs.map(s => deleteDoc(doc(db, "patients", s.id)))); closeProfile(); toast("Patient aur history hata di."); } catch { toast("Delete nahi hua. Login check karein."); } }
+});
+$("#ap-patients").addEventListener("submit", async e => {
+  const id = e.target.id; if (!["f-vit", "f-note", "f-pe"].includes(id)) return;
+  e.preventDefault(); const x = PG.find(g => g.k === curP); if (!x || !db) return; const f = formData(e.target);
+  try {
+    if (id === "f-vit") {
+      if (!f.sys !== !f.dia) return toast("BP ke dono number (upar aur neeche) daalein.");
+      const v = { t: Date.now(), bp: f.sys ? `${f.sys}/${f.dia}` : "", sugar: f.sugar || "", st: f.sugar ? f.st : "", pr: f.pr || "", spo2: f.spo2 || "", rr: f.rr || "" };
+      if (!v.bp && !v.sugar && !v.pr && !v.spo2 && !v.rr) return toast("Kam se kam ek value daalein.");
+      await updateDoc(doc(db, "patients", x.id), { vitals: arrayUnion(v) }); e.target.reset(); toast("Vitals save ho gaye ✅");
+    } else if (id === "f-note") {
+      await updateDoc(doc(db, "patients", x.id), { notes: arrayUnion({ t: Date.now(), type: f.type, text: f.text.trim() }) }); e.target.reset(); toast("Note save ho gaya ✅");
+    } else { await updateDoc(doc(db, "patients", x.id), f); curP = ph10(f.phone) || x.id; toast("Details save ho gayi ✅"); }
+  } catch { toast("Save nahi hua. Login / internet check karein."); }
+});
+
+const when = d => (d.createdAt ? d.createdAt.toDate().toLocaleDateString("en-IN") : "abhi");
+const STAFF_ST = { new: "naya", confirmed: "order confirm", out: "delivery ke liye nikla", approved: "approved", done: "ho gaya", rejected: "reject / cancel" };
+const entry = (d, id, col, fl) => (ents[id] = d, `<article class="card"><h3>${esc(d.name)} <span class="muted">${esc(d.phone)}</span></h3>
+  <p class="muted">${when(d)}${d.source === "self" ? " · patient ne khud bhari" : ""}</p>
+  <p>${fl.slice(2).filter(x => d[x[0]]).map(x => `<strong>${x[1]}:</strong> ${esc(d[x[0]])}`).join("<br>")}</p>
+  ${(d.reports || []).map((u, i) => isImg(u) ? `<img src="${esc(u)}" alt="report" style="width:100%;border-radius:10px;margin:6px 0">` : `<a href="${esc(u)}" target="_blank" rel="noopener" download="report-${i + 1}">📎 Report ${i + 1}</a>`).join(" ")}<br>${col === "visits" ? `<button class="btn sm" data-rx="${id}" type="button">🖨️ Prescription</button><button class="btn sm" data-bill="${id}" type="button">🧾 Bill</button>` : ""}<button class="btn sm ghost" data-del="${col}/${id}" type="button">Hatayein</button></article>`);
+const addEntry = (form, col, extra) => form.addEventListener("submit", async e => {
+  e.preventDefault();
+  if (!db) return toast("Pehle Firebase setup karein.");
+  try { await addDoc(collection(db, col), { ...formData(form), ...extra, createdAt: serverTimestamp() }); form.reset(); toast("Save ho gaya."); }
+  catch { toast("Save nahi hua. Login check karein."); }
+});
+addEntry($("#f-pat"), "patients", { source: "clinic" });
+addEntry($("#f-opd"), "visits", { type: "OPD" });
+addEntry($("#f-ipd"), "visits", { type: "IPD" });
+
+/* Photo / PDF dekhne ka tarika (image preview ya open link) */
+const isImg = u => u.startsWith("data:image") || /\.(jpe?g|png|gif|webp|heic|heif)(\?|$)/i.test(u);
+function filesHtml(d) {
+  const list = d.photos || (d.photo ? [d.photo] : []);
+  if (!list.length) return "";
+  return `<br><span class="files">` + list.map((u, i) => isImg(u)
+    ? `<img src="${esc(u)}" alt="file ${i + 1}">`
+    : `<a class="btn sm ghost" href="${esc(u)}" target="_blank" rel="noopener" download>📎 File ${i + 1} kholein</a>`).join("") + `</span>`;
+}
+function alertNew(d, id) {
+  const title = { consult: "Nayi appointment request", appointment: "Nayi clinic appointment", report: "Nayi report", message: "Naya message", delivery: "Naya medicine order" }[d.kind] || "Nayi request";
+  if ("Notification" in window && Notification.permission === "granted") notify(title, `${d.name}, ${d.phone}`, id);
+  navigator.vibrate?.([200, 100, 200]);
+  toast(`${title}: ${d.name}`);
+  document.title = "(naya) " + CONFIG.clinicName;
+}
+async function notify(title, body, tag) {
+  try { const reg = await navigator.serviceWorker?.getRegistration(); if (reg) return await reg.showNotification(title, { body, tag: tag || "shubh" }); } catch {}
+  try { new Notification(title, { body }); } catch {}
+}
+document.addEventListener("visibilitychange", () => { if (!document.hidden) document.title = CONFIG.clinicName; });
+const seen = new Set(jget("shubh_seen", []));
+const ph10 = p => String(p || "").replace(/\D/g, "").slice(-10);
+const busy = new Set();
+/* ===== Patient history: alag collection 'history' (request delete karne par bhi safe) ===== */
+const busyH = new Set(); let histWarned = false;
+function syncHistory(docs) {
+  if (!db || !histReady) return;
+  docs.forEach(s => {
+    const d = s.data(), h = HMAP[s.id];
+    if (d.kind === "profile") return;
+    if (h && h.status === (d.status || "") && h.kind === (d.kind || "")) return;
+    if (busyH.has(s.id)) return; busyH.add(s.id);
+    const rec = { rid: s.id, kind: d.kind || "", name: d.name || "", phone: d.phone || "", status: d.status || "", items: d.items || "", when: d.when || "", mode: d.mode || "", concern: d.concern || "", address: d.address || "", pin: d.pin || "", total: d.total || "", room: d.room || "", photos: d.photos || [], photo: d.photo || "", createdAt: d.createdAt || serverTimestamp(), hidden: h ? !!h.hidden : false };
+    setDoc(doc(db, "history", s.id), rec, { merge: true })
+      .then(() => { HMAP[s.id] = { ...(HMAP[s.id] || {}), ...rec }; })
+      .catch(() => { if (!histWarned) { histWarned = true; toast("History save nahi hui. Firestore Rules mein 'history' collection check karein."); } })
+      .finally(() => busyH.delete(s.id));
+  });
+}
+function autoSave() {
+  if (!db || !patsReady || !REQS.length) return;
+  const have = new Set(PATS.map(p => ph10(p.phone)));
+  REQDOCS.forEach(s => { const d = s.data(); if (HMAP[s.id] && HMAP[s.id].hidden) return;
+    const k = ph10(d.phone); if (k.length < 10 || have.has(k) || busy.has(k)) return;
+    busy.add(k); have.add(k);
+    const ref = doc(db, "patients", "p" + k);
+    getDoc(ref).then(x => x.exists() ? null : setDoc(ref, { name: d.name || "", phone: d.phone, source: "request", createdAt: serverTimestamp() })).catch(() => busy.delete(k));
+  });
+}
+function staffMsg(d) {
+  const n = d.name, c = CONFIG.clinicName, it = d.items || "", tot = d.total ? `\nTotal: ₹${d.total}` : "";
+  const M = {
+    consult: { new: `aapki teleconsultation request mil gayi hai. Doctor jald hi time confirm karenge.`, approved: `aapki teleconsultation appointment approve ho gayi hai.\nKab: ${d.when}\nVideo room: ${d.room}`, done: `aapki teleconsultation poori ho gayi hai. Dawai ya parhez ke baare mein koi sawal ho to isi chat mein poochein. Jaldi swasth hon.`, rejected: `aapki teleconsultation request abhi confirm nahi ho payi. Kripya naya time batayein ya clinic se sampark karein.` },
+    appointment: { new: `aapki appointment request mil gayi hai. Hum jald confirm karenge.`, approved: `aapki clinic appointment approve ho gayi hai.\nKab: ${d.when}`, done: `aapki clinic appointment complete ho gayi hai. Dhanyavaad! Dawai samay par lein aur koi dikkat ho to isi chat mein bataayein. Jaldi swasth hon.`, rejected: `aapki appointment is samay confirm nahi ho payi. Kripya naya time batayein ya clinic se sampark karein.` },
+    delivery: { new: `aapka medicine order mil gaya hai (${it}).${tot}\nHum jald confirm karenge.`, confirmed: `aapka medicine order confirm ho gaya hai.${tot}\nJald hi deliver kiya jayega.`, out: `aapka medicine order delivery ke liye nikal gaya hai. Kripya phone paas rakhein.`, done: `aapka medicine order deliver ho gaya hai. Dhanyavaad! Dawai doctor ki salah se lein. Koi dikkat ho to isi chat mein bataayein.`, rejected: `aapka medicine order abhi cancel hua hai. Details ke liye clinic se baat karein.` },
+    report: { new: `aapki report mil gayi hai. Doctor dekh kar jald batayenge.`, done: `doctor ne aapki report dekh li hai. Aage ki salah ke liye clinic aayein ya isi chat mein poochein.` },
+    message: { new: `aapka message mil gaya hai. Hum jald jawab denge.`, done: `aapke sawal ke liye dhanyavaad. Aur madad chahiye to isi chat mein likhein.` }
+  };
+  const x = (M[d.kind] || {})[d.status];
+  return x ? `Namaste ${n}, ${x}\n- ${c}` : `Namaste ${n}, ${c} se baat ho rahi hai.`;
+}
+function renderRequests(docs) {
+  $("#requests").innerHTML = docs.length ? docs.map(s => {
+    const d = s.data(), c = d.kind === "consult";
+    const whenT = d.createdAt ? d.createdAt.toDate().toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }) : "abhi";
+    reqs[s.id] = d;
+    const img = filesHtml(d);
+    const info = c
+      ? `Kab: ${esc(d.when)}<br>Mode: ${esc(d.mode)}<br>Problem: ${esc(d.concern)}<br><a href="${esc(d.room)}" target="_blank" rel="noopener">Video room kholein</a>`
+      : d.kind === "profile" ? "Profile details badli gayi hain. Merge karein to patient ki profile update ho jayegi." : d.kind === "message" ? `Message: ${esc(d.items)}`
+      : d.kind === "appointment" ? `Kab: ${esc(d.when)}<br>Problem: ${esc(d.concern)}`
+      : d.kind === "report" ? `Report: ${esc(d.items)}${img}`
+      : `${d.address || d.pin ? `Address: ${esc(d.address || "-")}${d.pin ? ", PIN " + esc(d.pin) : ""}` : "Address: nahi diya (WhatsApp par puchein)"}<br>Medicine: ${esc(d.items)}${d.total ? `<br>Total: ₹${esc(d.total)}` : ""}${img}`;
+    const st = d.status, k = d.kind;
+    const B = (v, label, ghost) => `<button class="btn sm${ghost ? " ghost" : ""}" data-st="${v}" data-id="${s.id}" type="button">${label}</button>`;
+    let acts = "";
+    if (k === "consult" || k === "appointment") {
+      if (st === "new") acts = B("approved", "✅ Approve") + B("rejected", "❌ Reject", 1) + (k === "appointment" ? B("done", "Ho gaya", 1) : "");
+      else if (st === "approved") acts = B("done", "Ho gaya", 1);
+    } else if (k === "delivery") {
+      if (st === "new") acts = B("confirmed", "✅ Order confirm") + B("rejected", "❌ Cancel", 1);
+      else if (st === "confirmed") acts = B("out", "🚚 Delivery ke liye nikla") + B("done", "📦 Deliver ho gaya", 1);
+      else if (st === "out") acts = B("done", "📦 Deliver ho gaya");
+    } else if (k === "profile") { if (st === "new") acts = B("merge", "✅ Profile merge karein") + B("rejected", "❌ Reject", 1); } else if (st === "new") acts = B("done", "Ho gaya", 1);
+    return `<article class="card req${c ? " consult" : ""}">
+      <h3>${c ? "📹 Teleconsultation" : d.kind === "profile" ? "👤 Profile update" : d.kind === "message" ? "✉️ Message" : d.kind === "appointment" ? "📅 Appointment" : d.kind === "report" ? "📄 Report" : "💊 Medicine order"}</h3>
+      <p class="muted">${whenT}, status: <strong>${esc(STAFF_ST[d.status] || d.status)}</strong></p>
+      <p><strong>${esc(d.name)}</strong>, ${esc(d.phone)}</p>
+      <p class="muted">${info}</p>
+      <div class="row">
+        <a class="btn sm" target="_blank" rel="noopener" href="${waLink(staffMsg(d), toWa(d.phone))}">WhatsApp karein</a>
+        ${acts}<button class="btn sm ghost" data-rdel="${s.id}" type="button">🗑 Hatayein</button>
+      </div>
+    </article>`;
+  }).join("") : '<p class="empty">Abhi koi order ya booking nahi hai.</p>';
+}
+function stats() {
+  renderSummary();
+  const today = ymd(new Date()), isT = d => d.createdAt && ymd(d.createdAt.toDate()) === today;
+  const vt = VISITS.filter(isT), inc = vt.reduce((a, d) => a + (Number(d.amount) || 0), 0);
+  $("#dash").innerHTML = [["📥 Naye requests (aaj)", REQS.filter(isT).length], ["🩺 OPD/IPD (aaj)", vt.length], ["💰 Aaj ki kamai", "₹" + inc], ["🧑 Total patients", PG.length]].map(([l, v]) => `<div class="card stat"><b>${v}</b><span class="muted">${l}</span></div>`).join("");
+  const fu = VISITS.filter(d => d.followup && d.followup >= today).sort((a, b) => a.followup.localeCompare(b.followup));
+  $("#l-follow").innerHTML = fu.map(d => `<article class="card"><h3>${esc(d.name)} <span class="muted">${esc(d.phone)}</span></h3><p>Follow-up: <b>${fmtDate(d.followup)}</b></p><a class="btn sm" target="_blank" rel="noopener" href="${waLink(`Namaste ${d.name}, ${CONFIG.clinicName} se yaad dilana tha: aapka follow-up ${fmtDate(d.followup)} ko hai. Kripya aayein.`, toWa(d.phone))}">WhatsApp yaad dilayein</a></article>`).join("") || NONE;
+  const md = x => x.slice(5), wk = [...Array(7)].map((_, i) => md(ymd(new Date(Date.now() + i * 864e5))));
+  $("#l-wish").innerHTML = PATS.filter(p => p.dob && wk.includes(md(p.dob))).map(p => `<article class="card"><h3>🎂 ${esc(p.name)}</h3><p class="muted">${fmtDate(p.dob)}</p><a class="btn sm" target="_blank" rel="noopener" href="${waLink(`Janmdin ki bahut bahut shubhkamnayein ${p.name}! 🎂 Swasth raheinn. - ${CONFIG.clinicName}`, toWa(p.phone))}">Wish bhejein</a></article>`).join("") || NONE;
+}
+$("#fest").onclick = () => navigator.clipboard?.writeText(`Aapko aur parivar ko tyohaar ki hardik shubhkamnayein! 🎉 Swasth aur khush rahein. - ${CONFIG.clinicName}`).then(() => toast("Copy ho gaya. WhatsApp me paste karein."));
+const csv = (rows, name) => {
+  if (!rows.length) return toast("Data nahi hai.");
+  const keys = [...new Set(rows.flatMap(Object.keys))].filter(k => k !== "reports" && k !== "photo" && k !== "photos");
+  const q = v => `"${String(v?.toDate ? v.toDate().toLocaleString("en-IN") : v ?? "").replace(/"/g, '""')}"`;
+  const text = "\ufeff" + [keys.join(","), ...rows.map(r => keys.map(k => q(r[k])).join(","))].join("\n");
+  Object.assign(document.createElement("a"), { href: URL.createObjectURL(new Blob([text], { type: "text/csv" })), download: name + ".csv" }).click();
+};
+const inDays = (rows, n) => (!n ? rows : rows.filter(d => d.createdAt && (n === 1 ? ymd(d.createdAt.toDate()) === ymd(new Date()) : Date.now() - d.createdAt.toMillis() < n * 864e5)));
+const XP = { pat: () => PATS, opd: () => VISITS.filter(d => d.type === "OPD"), ipd: () => VISITS.filter(d => d.type === "IPD"), req: () => REQS };
+$("#x-go").onclick = () => { const k = $("#x-what").value; csv(inDays(XP[k](), +$("#x-when").value), k + "-" + ymd(new Date())); };
+$("#x-all").onclick = () => [[PATS, "patients"], [VISITS, "opd-ipd"], [REQS, "requests"]].forEach(([r, n], i) => setTimeout(() => csv(r, n + "-" + ymd(new Date())), i * 700));
+$("#x-dedupe").onclick = async () => {
+  const g = {}; PATDOCS.forEach(s => { const k = ph10(s.data().phone); if (k.length === 10) (g[k] = g[k] || []).push(s); });
+  const dup = Object.values(g).filter(a => a.length > 1);
+  if (!dup.length) return toast("Koi duplicate nahi mila ✅");
+  if (!confirm(`${dup.length} patients ke duplicate mile. Jodkar ek-ek record bana dein?`)) return;
+  try {
+    for (const a of dup) {
+      const [keep, ...rest] = a, m = {};
+      [...rest.reverse(), keep].forEach(s => Object.entries(s.data()).forEach(([k, v]) => { if (v) m[k] = v; }));
+      delete m.createdAt; await updateDoc(doc(db, "patients", keep.id), m);
+      await Promise.all(rest.map(s => deleteDoc(doc(db, "patients", s.id))));
+    }
+    toast("Duplicate hata diye ✅");
+  } catch { toast("Safai nahi ho payi. Login check karein."); }
+};
+const printWin = html => { const w = window.open("", "_blank"); if (!w) return toast("Popup allow karein."); w.document.write(`<html><head><meta name="viewport" content="width=device-width"><style>body{font:16px sans-serif;padding:24px;max-width:700px;margin:auto}h2{margin:0;color:#D32F2F}hr{margin:12px 0}</style></head><body>${html}<script>onload=()=>print()<\/script></body></html>`); w.document.close(); };
+const head = d => `<h2>${CONFIG.clinicName}</h2><div>Dr. Deexshant Chaudhary · BAMS<br>${CONFIG.address}<br>+91 8219404140 · Emergency 24×7</div><hr><p><b>${esc(d.name)}</b> ${d.age ? `(${esc(d.age)} saal)` : ""} · ${esc(d.phone || "")}<br>Date: ${new Date().toLocaleDateString("en-IN")}</p>`;
+$("#admin-dash").addEventListener("click", e => {
+  const rx = e.target.closest("[data-rx]"), bl = e.target.closest("[data-bill]");
+  if (rx) { const d = ents[rx.dataset.rx]; printWin(head(d) + `<p><b>Complaint:</b> ${esc(d.complaint)}</p><p><b>BP:</b> ${esc(d.bp || "-")} &nbsp; <b>Sugar:</b> ${esc(d.sugar || "-")}</p><p><b>Diagnosis:</b> ${esc(d.diagnosis || "-")}</p><h3>℞ Medicine / treatment</h3><p style="white-space:pre-wrap">${esc(d.treatment || "")}</p><p><b>Follow-up:</b> ${d.followup ? fmtDate(d.followup) : "-"}</p><hr><small>Doctor ki salah ke bina dawa na badlein.</small>`); }
+  if (bl) { const d = ents[bl.dataset.bill]; printWin(head(d) + `<h3>Receipt</h3><table width="100%"><tr><td>Consultation / treatment</td><td align="right">₹${esc(d.amount || 0)}</td></tr><tr><td><b>Total</b></td><td align="right"><b>₹${esc(d.amount || 0)}</b></td></tr><tr><td>Payment</td><td align="right">${esc(d.paid || "-")}</td></tr></table><hr><small>Dhanyavaad 🙏</small>`); }
+  const o = e.target.closest("[data-oos]");
+  if (o && db) { const p = products.find(x => x.id === o.dataset.oos); updateDoc(doc(db, "products", p.id), { oos: !p.oos }); toast(p.oos ? "Stock me aa gaya ✅" : "Out of stock mark ho gaya"); }
+});
+$("#admin-dash").addEventListener("click", async e => {
+  const b = e.target.closest("[data-rate]"); if (!b || !db) return;
+  const p = products.find(x => x.id === b.dataset.rate), v = prompt("Naya rate (₹)", p ? p.price : "");
+  if (v === null || v === "" || isNaN(v)) return;
+  await updateDoc(doc(db, "products", p.id), { price: Number(v) }); toast("Rate badal diya.");
+});
+$("#admin-dash").addEventListener("click", async e => {
+  const b = e.target.closest("[data-edit]"); if (!b || !db) return;
+  const p = products.find(x => x.id === b.dataset.edit), v = prompt("Medicine ka naya naam", p ? p.name : "");
+  if (!v || !v.trim()) return;
+  try { await updateDoc(doc(db, "products", p.id), { name: v.trim() }); toast("Naam badal diya."); } catch { toast("Naam nahi badla."); }
+});
+$("#admin-dash").addEventListener("click", async e => {
+  const b = e.target.closest("[data-del]");
+  if (!b || !db || !confirm("Ye hatana hai?")) return;
+  const [col, id] = b.dataset.del.split("/");
+  await deleteDoc(doc(db, col, id));
+});
+/* ===== Medicine admin: offers, quick edit, names import ===== */
+const CAT_LIST = ["Fever & Pain", "Cold & Cough", "Digestion", "Piles & Anorectal", "Vitamins", "Health Devices", "First Aid", "Skin & Care", "Other"];
+$("#qe-c").innerHTML = CAT_LIST.map(c => `<option>${esc(c)}</option>`).join("");
+let qeId = null, impList = [];
+function renderAdminItems() {
+  const q = ($("#med-q").value || "").trim().toLowerCase();
+  const rows = products.filter(p => p.id.length > 12 && (!q || String(p.name || "").toLowerCase().includes(q)));
+  $("#admin-items").innerHTML = rows.length ? rows.map(p => {
+    const soon = !offerOn(p) && p.offer && p.offerFrom && p.offerFrom > todayYmd();
+    const tags = [offerOn(p) ? `<span class="tag on">🏷️ ₹${esc(p.offer)} (${offerPct(p)}% off)</span>` : "", soon ? `<span class="tag">⏳ Offer ${esc(p.offerFrom)} se</span>` : "", noRate(p) ? `<span class="tag warn">⚠️ Rate baaki</span>` : "", typeof p.stock === "number" ? `<span class="tag ${p.stock <= CONFIG.lowStock ? "warn" : ""}">Stock: ${esc(p.stock)}</span>` : "", outOf(p) ? `<span class="tag off">Out of stock</span>` : "", p.rx ? `<span class="tag">Rx</span>` : ""].join("");
+    const price = noRate(p) ? "Rate nahi daala" : offerOn(p) ? `<s>₹${esc(p.price)}</s> → ₹${esc(p.offer)}` : `₹${esc(p.price)}`;
+    return `<div class="mrow"><div class="mi"><b>${esc(p.name)}</b><small class="muted">${price} · ${esc(p.cat || "Other")}</small><div>${tags}</div></div><div class="mbtns"><button class="btn sm" data-qe="${esc(p.id)}" type="button">🏷️ Offer / Edit</button><button class="btn sm ghost" data-oos="${esc(p.id)}" type="button">${p.oos ? "Stock in" : "Stock out"}</button><button class="btn sm ghost" data-del="products/${esc(p.id)}" type="button" aria-label="Hatayein">🗑</button></div></div>`;
+  }).join("") : '<p class="empty">Abhi kuch nahi hai.</p>';
+  renderOffersAdmin(); renderLowStock();
+}
+function renderOffersAdmin() {
+  const o = products.filter(offerOn);
+  $("#off-count").textContent = o.length;
+  $("#off-list").innerHTML = o.length ? o.map(p => `<div class="admin-line"><span><b>${esc(p.name)}</b><br><small class="muted"><s>₹${esc(p.price)}</s> → <b class="offp">₹${esc(p.offer)}</b> (${offerPct(p)}% off)${p.offerTill ? ` · ${esc(p.offerTill)} tak` : ""}</small></span><button class="btn sm ghost" data-qe="${esc(p.id)}" type="button">Badlo</button></div>`).join("") : '<p class="empty">Abhi koi offer nahi hai. Medicine ki list mein 🏷️ Offer / Edit dabayein.</p>';
+}
+function openQE(id) {
+  const p = products.find(x => x.id === id); if (!p) return;
+  qeId = id;
+  $("#qe-title").textContent = p.name || "Medicine";
+  $("#qe-n").value = p.name || ""; $("#qe-p").value = noRate(p) ? "" : p.price; $("#qe-o").value = p.offer ?? ""; $("#qe-f").value = p.offerFrom || ""; $("#qe-t").value = p.offerTill || "";
+  $("#qe-s").value = typeof p.stock === "number" ? p.stock : "";
+  $("#qe-c").value = p.cat || "Other"; $("#qe-rx").checked = !!p.rx; $("#qe-stock").checked = !p.oos; $("#qe-photo").value = "";
+  $("#qe-img").src = p.image || ""; $("#qe-img").hidden = !p.image;
+  qeHint();
+  $("#qe-bg").hidden = false;
+}
+$("#ap-shop").addEventListener("click", e => { const b = e.target.closest("[data-qe]"); if (b) openQE(b.dataset.qe); });
+$("#med-q").oninput = renderAdminItems;
+$("#offer-strip").addEventListener("click", e => { const b = e.target.closest("[data-oadd]"); if (b) addToCart(b.dataset.oadd); });
+$("#qe-x").onclick = () => ($("#qe-bg").hidden = true);
+$("#qe-bg").addEventListener("click", e => {
+  const pc = e.target.closest("[data-pct]");
+  if (pc) { const pr = Number($("#qe-p").value); if (!pr) return toast("Pehle rate daalein."); $("#qe-o").value = Math.round(pr * (1 - Number(pc.dataset.pct) / 100)); return; }
+  if (e.target.id === "qe-bg") $("#qe-bg").hidden = true;
+});
+$("#qe-photo").onchange = e => { const f = e.target.files[0]; if (f) { $("#qe-img").src = URL.createObjectURL(f); $("#qe-img").hidden = false; } };
+$("#qe-form").addEventListener("submit", async e => {
+  e.preventDefault();
+  if (!db || !qeId) return toast("Pehle Firebase setup karein.");
+  const name = $("#qe-n").value.trim(), pr = $("#qe-p").value, of = $("#qe-o").value, from = $("#qe-f").value, till = $("#qe-t").value, st = $("#qe-s").value;
+  if (!name) return toast("Naam likhein.");
+  if (of !== "" && pr === "") return toast("Offer lagane ke liye pehle rate daalein.");
+  if (of !== "" && Number(of) >= Number(pr)) return toast("Offer price rate se kam hona chahiye.");
+  if (from && till && till < from) return toast("Offer 'tak' date, 'se' date se pehle nahi ho sakti.");
+  const upd = { name, cat: $("#qe-c").value || "Other", rx: $("#qe-rx").checked, oos: !$("#qe-stock").checked, price: pr === "" ? null : Number(pr), offer: of === "" ? null : Number(of), offerFrom: of === "" ? "" : from, offerTill: of === "" ? "" : till, stock: st === "" ? null : Math.max(0, Math.floor(Number(st))) };
+  try {
+    const f = $("#qe-photo").files[0]; if (f) upd.image = await upFile(f);
+    await updateDoc(doc(db, "products", qeId), upd);
+    $("#qe-bg").hidden = true; toast("Medicine update ho gayi ✅ Patients ko turant dikhega.");
+  } catch (err) { toast(err && err.code === "permission-denied" ? "Permission denied: Firestore Rules check karein." : "Save nahi hua. Internet check karein."); }
+});
+$("#qe-clear").onclick = async () => {
+  if (!db || !qeId || !confirm("Is medicine ka offer hata dein?")) return;
+  await updateDoc(doc(db, "products", qeId), { offer: null, offerFrom: "", offerTill: "" });
+  $("#qe-o").value = ""; $("#qe-f").value = ""; $("#qe-t").value = ""; qeHint(); toast("Offer hata diya ✅");
+};
+$("#qe-del").onclick = async () => {
+  if (!db || !qeId || !confirm("Ye medicine hamesha ke liye hata dein?")) return;
+  await deleteDoc(doc(db, "products", qeId)); $("#qe-bg").hidden = true; toast("Medicine hata di.");
+};
+const HDR_RE = /^(s\.?\s*no\.?|sr\.?\s*no\.?|sno|#|name|naam|medicine|medicine name|product|item|item name|drug)$/i;
+const cellsOf = line => { const out = []; let cur = "", q = false; for (const ch of line) { if (ch === '"') q = !q; else if (!q && (ch === "," || ch === "	" || ch === ";")) { out.push(cur); cur = ""; } else cur += ch; } out.push(cur); return out.map(x => x.trim()); };
+const nameOf = line => cellsOf(line).find(x => x && !/^\d+(\.\d+)?$/.test(x) && !HDR_RE.test(x)) || "";
+const cleanNames = arr => arr.map(x => String(x || "").replace(/^\uFEFF/, "").trim()).filter(n => n.length > 1 && n.length < 120 && !HDR_RE.test(n) && !/^\d+(\.\d+)?$/.test(n));
+function loadXLSX() {
+  if (window.XLSX) return Promise.resolve(window.XLSX);
+  return new Promise((ok, no) => { const s = document.createElement("script"); s.src = "https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"; s.onload = () => ok(window.XLSX); s.onerror = () => no(new Error("xlsx")); document.head.appendChild(s); });
+}
+async function readImportFile(file) {
+  if (/\.xlsx?$/i.test(file.name)) {
+    const XL = await loadXLSX(), wb = XL.read(await file.arrayBuffer(), { type: "array" });
+    const rows = XL.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { header: 1, blankrows: false });
+    return cleanNames(rows.map(r => (r || []).find(c => typeof c === "string" && c.trim() && !/^\d+$/.test(c.trim()))));
+  }
+  return cleanNames((await file.text()).split(/\r?\n/).map(nameOf));
+}
+function prepareImport(names) {
+  const have = new Set(products.map(p => String(p.name || "").trim().toLowerCase())), seen = new Set(), list = [];
+  let dup = 0;
+  names.forEach(n => { const k = n.toLowerCase(); if (have.has(k) || seen.has(k)) dup++; else { seen.add(k); list.push(n); } });
+  impList = list;
+  $("#imp-out").innerHTML = `<p><b>${list.length}</b> naye naam milenge. <span class="muted">${dup} pehle se hain ya list mein repeat hain (chhod diye).</span></p>` +
+    (list.length ? `<p class="muted">${esc(list.slice(0, 12).join(" · "))}${list.length > 12 ? " …" : ""}</p><button class="btn" id="imp-go" type="button">✅ ${list.length} medicine add karein</button>` : `<p class="empty">Koi naya naam nahi mila.</p>`);
+}
+$("#imp-prev").onclick = () => prepareImport(cleanNames($("#imp-text").value.split(/\r?\n/).map(nameOf)));
+$("#imp-file").onchange = async e => {
+  const f = e.target.files[0]; if (!f) return;
+  try { prepareImport(await readImportFile(f)); }
+  catch { toast("File padh nahi paaye. CSV ya .txt mein save karke dobara try karein."); }
+};
+$("#imp-out").addEventListener("click", async e => {
+  const btn = e.target.closest("#imp-go"); if (!btn) return;
+  if (!db) return toast("Pehle Firebase setup karein.");
+  btn.disabled = true; let done = 0;
+  try {
+    for (let i = 0; i < impList.length; i += 400) {
+      const batch = writeBatch(db);
+      impList.slice(i, i + 400).forEach(name => batch.set(doc(collection(db, "products")), { name, price: null, desc: "", unit: "", rx: false, oos: false, image: "", cat: "Other", offer: null, offerTill: "", createdAt: serverTimestamp() }));
+      await batch.commit(); done += Math.min(400, impList.length - i);
+      $("#imp-out").innerHTML = `<p>Save ho raha hai… ${done} / ${impList.length}</p>`;
+    }
+    toast(`${done} medicine add ho gayi ✅ Ab har medicine ka rate jodein.`);
+    impList = []; $("#imp-out").innerHTML = ""; $("#imp-text").value = ""; $("#imp-file").value = "";
+  } catch (err) { toast(err && err.code === "permission-denied" ? "Permission denied: Firestore Rules check karein." : "Import nahi hua. Internet check karein."); btn.disabled = false; }
+});
+$("#btn-seed").onclick = async () => {
+  if (!db) return toast("Pehle Firebase setup karein.");
+  if (products.some(p => p.id.length > 12) && !confirm("Products pehle se hain. Phir bhi import karein?")) return;
+  for (const p of SAMPLE_PRODUCTS) await addDoc(collection(db, "products"), { name: p.name, price: p.price, desc: p.unit, unit: p.unit, rx: false, image: "", cat: p.cat });
+  toast("Default catalog import ho gaya ✅");
+};
+$("#f-prod").addEventListener("submit", async e => {
+  e.preventDefault();
+  if (!db) return toast("Pehle Firebase setup karein.");
+  const f = formData(e.target);
+  try {
+    const image = await photoUrl("#p-img");
+    await addDoc(collection(db, "products"), { name: f.name.trim(), price: Number(f.price), desc: f.desc || "", unit: f.desc || "", rx: !!f.rx, image, cat: f.cat || "Other", stock: f.stock === "" || f.stock === undefined ? null : Math.max(0, Math.floor(Number(f.stock))), offer: null, offerFrom: "", offerTill: "" });
+    e.target.reset();
+    toast("Medicine add ho gayi ✅ Ab patients ko dikhegi.");
+  } catch (err) { toast(err && err.code === "permission-denied" ? "Permission denied: Firestore Rules mein staff email check karein." : "Save nahi hua. Internet / Firebase check karein."); }
+});
+$("#f-notice").addEventListener("submit", async e => {
+  e.preventDefault(); if (!db) return toast("Pehle Firebase setup karein.");
+  const f = formData(e.target); await addDoc(collection(db, "notices"), { type: f.type, text: f.text, createdAt: serverTimestamp() }); e.target.reset(); toast("Post ho gaya.");
+});
+$("#btn-qr").onclick = () => {
+  if (!window.QRCode) return toast("QR library load nahi hui. Internet check karein.");
+  const box = $("#qr"); box.innerHTML = ""; new QRCode(box, { text: location.href.split("#")[0], width: 240, height: 240 });
+  setTimeout(() => { const c = box.querySelector("canvas"), src = c ? c.toDataURL() : box.querySelector("img")?.src; printWin(`<div style="text-align:center"><h1 style="color:#D32F2F">${CONFIG.clinicName}</h1><h2>Dr. Deexshant Chaudhary</h2><img src="${src}" width="320"><h2>Scan karein</h2><p>Appointment · Medicine order · Reports<br>Emergency 24×7: +91 8219404140</p></div>`); }, 400);
+};
+$("#btn-test").onclick = async () => {
+  if (!db) return popup("Firebase set nahi hai", "FIREBASE me apni details paste karein.");
+  try { const r = await addDoc(collection(db, "_test"), { t: serverTimestamp() }); await deleteDoc(doc(db, "_test", r.id)); popup("Firebase OK ✅", "Save aur delete dono chal gaye."); }
+  catch (err) { popup("Firebase error", err.code || err.message); }
+};
+if (auth) {
+  onAuthStateChanged(auth, user => {
+    $("#admin-login").hidden = !!user;
+    $("#admin-dash").hidden = !user;
+    $("#admin-note").textContent = user ? "Naye orders yahan live aayenge." : "Clinic staff ke liye login.";
+    if (user && !unsub) startAdmin();
+    if (!user && unsub) { unsub(); unsub = null; }
+  });
+  $("#f-login").addEventListener("submit", async e => {
+    e.preventDefault();
+    const f = formData(e.target);
+    try { await signInWithEmailAndPassword(auth, f.email, f.password); }
+    catch { toast("Login nahi hua. Email ya password check karein."); }
+  });
+  $("#btn-logout").onclick = () => signOut(auth);
+  $("#btn-alerts").onclick = async () => {
+    if (!("Notification" in window)) return toast("Ye browser notification support nahi karta.");
+    const r = await Notification.requestPermission();
+    toast(r === "granted" ? "Notification on hai." : "Notification allow karein, browser settings mein.");
+  };
+  $("#req-clean").onchange = async e => {
+    const m = e.target.value; e.target.value = ""; if (!m) return;
+    const age = d => (d.createdAt ? (Date.now() - d.createdAt.toMillis()) / 864e5 : 0);
+    const list = REQDOCS.filter(s => { const d = s.data(); return m === "all" || (m === "closed" ? ["done", "rejected"].includes(d.status) : age(d) > Number(m)); });
+    if (!list.length) return toast("Aisi koi request nahi mili.");
+    if (!confirm(`${list.length} requests queue se hatayein? Patient ki history safe rahegi.`)) return;
+    try { await Promise.all(list.map(s => deleteDoc(doc(db, "requests", s.id)))); toast(`${list.length} requests hata di.`); } catch { toast("Delete nahi hua. Login check karein."); }
+  };
+  $("#requests").addEventListener("click", async e => {
+    const x = e.target.closest("[data-rdel]");
+    if (x) { if (confirm("Ye request queue se hata dein? Patient ki history safe rahegi.")) deleteDoc(doc(db, "requests", x.dataset.rdel)).then(() => toast("Request hata di.")).catch(() => toast("Delete nahi hua. Login check karein.")); return; }
+    const b = e.target.closest("[data-st]");
+    if (!b) return;
+    const d = reqs[b.dataset.id];
+    if (b.dataset.st === "approved" && d) {
+      const msg = staffMsg({ ...d, status: "approved" });
+      window.open(waLink(msg, toWa(d.phone)), "_blank", "noopener");
+    }
+    if (b.dataset.st === "merge" && d && d.profile) {
+      const { createdAt, ...rest } = d.profile;
+      await setDoc(doc(db, "patients", "p" + ph10(d.phone)), { ...rest, reports: arrayUnion(...(rest.reports || [])), phone: d.phone, source: "self" }, { merge: true });
+    }
+    if (b.dataset.st === "done" && d && d.kind === "delivery" && Array.isArray(d.lines) && d.lines.length && !d.stockDone) {
+      await Promise.all(d.lines.map(l => { const pr = products.find(x => x.id === l.id); return pr && typeof pr.stock === "number" && Number(l.qty) ? updateDoc(doc(db, "products", l.id), { stock: increment(-Number(l.qty)) }) : null; }).filter(Boolean)).catch(() => {});
+      await updateDoc(doc(db, "requests", b.dataset.id), { stockDone: true }).catch(() => {});
+    }
+    try { await updateDoc(doc(db, "requests", b.dataset.id), { status: b.dataset.st === "merge" ? "done" : b.dataset.st, updatedAt: serverTimestamp() }); }
+    catch { toast("Status badal nahi paya. Login check karein."); }
+  });
+  function startAdmin() {
+    let first = true;
+    const col = c => query(collection(db, c), orderBy("createdAt", "desc"), limit(500));
+    const u1 = onSnapshot(col("requests"), snap => {
+      REQDOCS = snap.docs; REQS = snap.docs.map(s => s.data());
+      const fresh = snap.docs.filter(s => !seen.has(s.id));
+      fresh.forEach(s => seen.add(s.id)); if (fresh.length) jset("shubh_seen", [...seen].slice(-500));
+      if (!first) fresh.forEach(s => { const d = s.data(); if (d.status === "new" && (!d.createdAt || Date.now() - d.createdAt.toMillis() < 6e5)) alertNew(d, s.id); });
+      first = false; const n = REQS.filter(d => d.status === "new").length;
+      const bd = $("#rbadge"); if (bd) { bd.hidden = !n; bd.textContent = n; }
+      refreshP(); stats(); renderRequests(snap.docs); syncHistory(snap.docs); autoSave();
+    });
+    const u2 = onSnapshot(col("patients"), snap => { PATDOCS = snap.docs; PATS = snap.docs.map(s => s.data()); patsReady = true; autoSave(); refreshP(); stats(); });
+    const u3 = onSnapshot(col("visits"), snap => {
+      VISDOCS = snap.docs; VISITS = snap.docs.map(s => s.data()); refreshP(); stats();
+      for (const tp of ["OPD", "IPD"]) $("#l-" + tp.toLowerCase()).innerHTML = snap.docs.filter(s => s.data().type === tp).map(s => entry(s.data(), s.id, "visits", [...VIS, ...IPDX])).join("") || NONE;
+    });
+    const u4 = onSnapshot(query(collection(db, "history"), limit(2000)), snap => {
+      HISTDOCS = snap.docs; HMAP = Object.fromEntries(snap.docs.map(s => [s.id, s.data()]));
+      histReady = true; syncHistory(REQDOCS); refreshP();
+    }, () => { if (!histWarned) { histWarned = true; toast("History collection ki permission nahi hai. Firestore Rules update karein."); } });
+    unsub = () => { u1(); u2(); u3(); u4(); };
+  }
+} else {
+  $("#admin-note").textContent = "Firebase abhi set nahi hai. SETUP-GUIDE ke steps follow karein aur index.html mein FIREBASE config paste karein.";
+}
+
+/* ===== Offer % hint, bulk category offer, low stock, daily summary ===== */
+function qeHint() {
+  const el = $("#qe-hint"), pr = Number($("#qe-p").value), v = $("#qe-o").value, from = $("#qe-f").value;
+  if (v === "" || !pr) { el.textContent = "Offer lagane ke liye offer price daalein. Percentage app khud nikalega."; return; }
+  const of = Number(v);
+  if (of >= pr) { el.textContent = "⚠️ Offer price rate se kam hona chahiye."; return; }
+  const pct = Math.round((1 - of / pr) * 100);
+  el.textContent = `${pct}% OFF — patient ko dikhega: ₹${pr} → ₹${of}` + (from && from > todayYmd() ? ` (offer ${from} se shuru hoga)` : "");
+}
+$("#qe-p").oninput = qeHint; $("#qe-o").oninput = qeHint; $("#qe-f").oninput = qeHint;
+$("#bulk-cat").innerHTML = CAT_LIST.map(c => `<option>${esc(c)}</option>`).join("");
+async function batchUpdate(pairs) {
+  for (let i = 0; i < pairs.length; i += 400) {
+    const batch = writeBatch(db);
+    pairs.slice(i, i + 400).forEach(([id, data]) => batch.update(doc(db, "products", id), data));
+    await batch.commit();
+  }
+}
+$("#bulk-go").onclick = async () => {
+  if (!db) return toast("Pehle Firebase setup karein.");
+  const cat = $("#bulk-cat").value, pct = Number($("#bulk-pct").value);
+  if (!pct || pct < 1 || pct > 90) return toast("1 se 90 ke beech % likhein.");
+  const from = $("#bulk-from").value, till = $("#bulk-till").value;
+  if (from && till && till < from) return toast("Offer 'tak' date, 'se' date se pehle nahi ho sakti.");
+  const list = products.filter(p => p.id.length > 12 && (p.cat || "Other") === cat && !noRate(p) && Number(p.price) > 0);
+  const pairs = list.map(p => [p.id, { offer: Math.round(Number(p.price) * (1 - pct / 100)), offerFrom: from, offerTill: till }]).filter(([id, d]) => d.offer > 0 && d.offer < Number(products.find(x => x.id === id).price));
+  if (!pairs.length) return toast("Is category mein rate wali medicine nahi mili.");
+  if (!confirm(`${cat} ki ${pairs.length} medicine par ${pct}% offer lagayein?`)) return;
+  try { await batchUpdate(pairs); toast(`${pairs.length} medicine par ${pct}% offer lag gaya ✅`); }
+  catch (err) { toast(err && err.code === "permission-denied" ? "Permission denied: Firestore Rules check karein." : "Offer nahi laga. Internet check karein."); }
+};
+$("#bulk-clear").onclick = async () => {
+  if (!db) return toast("Pehle Firebase setup karein.");
+  const cat = $("#bulk-cat").value;
+  const pairs = products.filter(p => p.id.length > 12 && (p.cat || "Other") === cat && (p.offer || p.offerFrom || p.offerTill)).map(p => [p.id, { offer: null, offerFrom: "", offerTill: "" }]);
+  if (!pairs.length) return toast("Is category mein koi offer nahi hai.");
+  if (!confirm(`${cat} ke ${pairs.length} offers hatayein?`)) return;
+  try { await batchUpdate(pairs); toast("Offers hata diye ✅"); }
+  catch { toast("Offer nahi hata. Internet check karein."); }
+};
+function renderLowStock() {
+  const el = $("#low-list"); if (!el) return;
+  const rows = products.filter(p => typeof p.stock === "number" && p.stock <= CONFIG.lowStock);
+  el.innerHTML = rows.length ? rows.map(p => `<div class="admin-line"><span><b>${esc(p.name)}</b><br><small class="muted">Stock: ${esc(p.stock)}</small></span><button class="btn sm ghost" data-qe="${esc(p.id)}" type="button">Stock badlo</button></div>`).join("") : '<p class="empty">Sab medicine ka stock theek hai ✅</p>';
+}
+function parseItems(str) {
+  return String(str || "").split(/\s*\|\s*|\s*,\s*/).map(x => x.trim()).filter(Boolean).map(x => {
+    const m = x.match(/^(.*?)\s+x\s*(\d+)$/i);
+    return m ? { name: m[1].trim(), qty: Number(m[2]) } : { name: x, qty: 1 };
+  });
+}
+function renderSummary() {
+  const el = $("#sum-box"); if (!el) return;
+  const today = ymd(new Date()), isT = d => d.createdAt && d.createdAt.toDate && ymd(d.createdAt.toDate()) === today;
+  const rq = REQS.filter(isT), del = rq.filter(d => d.kind === "delivery");
+  const ordVal = del.reduce((a, d) => a + (Number(d.total) || 0), 0);
+  const delivered = REQS.filter(d => d.kind === "delivery" && d.status === "done" && isT(d)).length;
+  const vt = VISITS.filter(isT), coll = vt.reduce((a, d) => a + (Number(d.amount) || 0), 0);
+  const cut = Date.now() - 30 * 864e5, top = {};
+  REQS.filter(d => d.kind === "delivery" && d.createdAt && d.createdAt.toMillis && d.createdAt.toMillis() > cut).forEach(d => {
+    (Array.isArray(d.lines) && d.lines.length ? d.lines.map(l => ({ name: l.name, qty: Number(l.qty) || 1 })) : parseItems(d.items))
+      .forEach(l => { top[l.name] = (top[l.name] || 0) + l.qty; });
+  });
+  const topList = Object.entries(top).sort((a, b) => b[1] - a[1]).slice(0, 5);
+  const low = products.filter(p => typeof p.stock === "number" && p.stock <= CONFIG.lowStock).length;
+  el.innerHTML = `<div class="card"><h3>📊 Aaj ka summary</h3>
+    <div class="sumg">
+      <div><b>${rq.length}</b><span>Naye requests</span></div>
+      <div><b>${del.length}</b><span>Medicine orders (₹${ordVal})</span></div>
+      <div><b>${delivered}</b><span>Delivered aaj</span></div>
+      <div><b>${vt.length}</b><span>OPD / IPD (₹${coll})</span></div>
+      <div><b class="${low ? "warnnum" : ""}">${low}</b><span>Kam stock</span></div>
+    </div>
+    <h3 style="margin-top:12px">🏆 Top medicines (pichhle 30 din)</h3>
+    ${topList.length ? topList.map(([n, q], i) => `<div class="admin-line"><span>${i + 1}. ${esc(n)}</span><b>${q} pack</b></div>`).join("") : '<p class="empty">Abhi data nahi hai.</p>'}
+  </div>`;
+}
+
+/* ===== Startup ===== */
+addEventListener("offline", () => toast("Internet nahi hai. Data abhi taaza nahi aayega; kuch der baad dobara kholein."));
+addEventListener("online", () => toast("Internet wapas aa gaya ✅"));
+mine.forEach(trackMine);
+applyTheme();
+applyLang();
+route();
+renderAdminItems();
+</script>
+</body>
+</html>
