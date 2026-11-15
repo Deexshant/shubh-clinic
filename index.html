@@ -168,6 +168,7 @@ nav.bottom{grid-template-columns:repeat(5,1fr)}
 .sumg span{font-size:.8rem;color:var(--muted)}
 .warnnum{color:#B26A00!important}
 .snote{display:block;color:#B26A00;font-weight:700;font-size:.85rem;margin:2px 0}
+.vt{width:100%;border-collapse:collapse;font-size:.82rem}.vt th,.vt td{border-bottom:1px solid #ddd;padding:6px 3px;text-align:center}.vt td:first-child,.vt th:first-child{text-align:left}
 </style>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -1215,9 +1216,9 @@ $("#f-me").addEventListener("submit", async e => {
   if (!urls.length && JSON.stringify(jget("shubh_me_sig", null)) === JSON.stringify(f)) return popup(t("me_ok_t"), t("me_ok_s"));
   try {
     if (!db) throw new Error("no-db");
-    const ph = ph10(f.phone), pdata = { ...f, reports: urls, source: "self", createdAt: serverTimestamp() };
+    const ph = ph10(f.phone), pid = "p" + ph + "_" + nk(f.name), pdata = { ...f, reports: urls, source: "self", createdAt: serverTimestamp() };
     if (ph.length === 10) {
-      try { await setDoc(doc(db, "patients", "p" + ph), pdata); }
+      try { await setDoc(doc(db, "patients", pid), pdata); }
       catch (err) {
         if (!err || err.code !== "permission-denied") throw err;
         // Profile pehle se hai: duplicate banane ki jagah update request clinic ko bhejein
@@ -1377,13 +1378,13 @@ const fdt = m => new Date(m).toLocaleString("en-IN", { dateStyle: "medium", time
 const SKIP = new Set(["vitals", "notes", "reports", "createdAt", "source"]);
 function groups() {
   const g = {};
-  PATDOCS.forEach(s => { const k = ph10(s.data().phone) || s.id; (g[k] = g[k] || { k, docs: [] }).docs.push(s); });
+  PATDOCS.forEach(s => { const k = pk(s.data()) || s.id; (g[k] = g[k] || { k, docs: [] }).docs.push(s); });
   return Object.values(g).map(x => {
     const m = {};
     [...x.docs].reverse().forEach(s => Object.entries(s.data()).forEach(([f, v]) => { if (v && !SKIP.has(f)) m[f] = v; }));
     x.m = m; x.id = x.docs[0].id; x.ph = ph10(m.phone);
-    x.reqs = x.ph ? (histReady ? HISTDOCS : REQDOCS).filter(r => !r.data().hidden && ph10(r.data().phone) === x.ph) : [];
-    x.vis = x.ph ? VISDOCS.filter(r => ph10(r.data().phone) === x.ph) : [];
+    x.reqs = x.ph ? (histReady ? HISTDOCS : REQDOCS).filter(r => !r.data().hidden && pk(r.data()) === x.k) : [];
+    x.vis = x.ph ? VISDOCS.filter(r => pk(r.data()) === x.k) : [];
     x.last = Math.max(0, ...x.reqs.map(r => msOf(r.data())), ...x.vis.map(r => msOf(r.data())));
     return x;
   });
@@ -1422,7 +1423,7 @@ function renderProfile(full) {
   $("#pf-head").innerHTML = `<h2>${esc(m.name)}</h2>${PAT.filter(([f]) => m[f] && f !== "name").map(([f, l]) => `<p class="muted" style="margin:2px 0"><b>${l}:</b> ${esc(m[f])}</p>`).join("")}<div class="row"><a class="btn sm" target="_blank" rel="noopener" href="${waLink(`Namaste ${m.name}, ${CONFIG.clinicName} se baat ho rahi hai.`, toWa(m.phone))}">WhatsApp</a><a class="btn sm ghost" href="tel:${esc(m.phone)}">📞 Call</a></div>`;
   const vs = (curV = vOf(x));
   $("#pf-last").innerHTML = vs.length ? `<p><b>Pichhli reading</b> (${fdt(vs[0].t)})<br>${vtxt(vs[0])}</p>` : '<p class="muted">Abhi koi vitals save nahi hue.</p>';
-  $("#pf-vit").innerHTML = vs.map((v, i) => `<div class="admin-line"><span><small class="muted">${fdt(v.t)}${v.src ? " · " + esc(v.src) : ""}</small><br>${vtxt(v)}</span>${v._id ? `<button class="btn sm ghost" data-vdel="${i}" type="button">🗑</button>` : ""}</div>`).join("");
+  $("#pf-vit").innerHTML = vs.length ? `<div style="overflow-x:auto"><table class="vt"><thead><tr><th>Date, time</th><th>BP<br>mmHg</th><th>Sugar<br>mg/dL</th><th>Pulse<br>bpm</th><th>RR<br>/min</th><th>SpO₂<br>%</th><th></th></tr></thead><tbody>${vs.map((v, i) => `<tr><td>${fdt(v.t)}${v.src ? "<br><small>" + esc(v.src) + "</small>" : ""}</td><td>${esc(v.bp || "-")}</td><td>${esc(v.sugar || "-")}${v.st ? "<br><small>" + esc(v.st) + "</small>" : ""}</td><td>${esc(v.pr || "-")}</td><td>${esc(v.rr || "-")}</td><td>${esc(v.spo2 || "-")}</td><td>${v._id ? `<button class="btn sm ghost" data-vdel="${i}" type="button">🗑</button>` : ""}</td></tr>`).join("")}</tbody></table></div>` : "";
   const ns = (curN = x.docs.flatMap(s => (s.data().notes || []).map(n => ({ ...n, _id: s.id }))).sort((a, b) => b.t - a.t));
   $("#pf-notes").innerHTML = ns.map((n, i) => `<div class="admin-line"><span><small class="muted">${fdt(n.t)} · ${esc(n.type)}</small><br>${esc(n.text)}</span><button class="btn sm ghost" data-ndel="${i}" type="button">🗑</button></div>`).join("") || '<p class="muted">Abhi koi note nahi.</p>';
   const it = [];
@@ -1450,7 +1451,7 @@ $("#ap-patients").addEventListener("click", async e => {
   if ((el = c("[data-vdel]")) && confirm("Ye reading hatayein?")) { const { _id, ...v } = curV[+el.dataset.vdel]; updateDoc(doc(db, "patients", _id), { vitals: arrayRemove(v) }).catch(() => toast("Delete nahi hua. Login check karein.")); return; }
   if ((el = c("[data-ndel]")) && confirm("Ye note hatayein?")) { const { _id, ...v } = curN[+el.dataset.ndel]; updateDoc(doc(db, "patients", _id), { notes: arrayRemove(v) }).catch(() => toast("Delete nahi hua. Login check karein.")); return; }
   if ((el = c("[data-hdel]")) && confirm("Ye history entry hata dein? (sirf patient ki history se; request queue par asar nahi)")) { updateDoc(doc(db, "history", el.dataset.hdel), { hidden: true }).then(() => toast("History se hata diya.")).catch(() => toast("Delete nahi hua. Login check karein.")); return; }
-  if (c("#pf-del") && confirm(`${x.m.name} ka patient record aur uski poori history hamesha ke liye hatayein?`)) { try { await Promise.all(HISTDOCS.filter(h => !h.data().hidden && x.ph && ph10(h.data().phone) === x.ph).map(h => updateDoc(doc(db, "history", h.id), { hidden: true }))); await Promise.all(x.docs.map(s => deleteDoc(doc(db, "patients", s.id)))); closeProfile(); toast("Patient aur history hata di."); } catch { toast("Delete nahi hua. Login check karein."); } }
+  if (c("#pf-del") && confirm(`${x.m.name} ka patient record aur uski poori history hamesha ke liye hatayein?`)) { try { await Promise.all(HISTDOCS.filter(h => !h.data().hidden && x.ph && pk(h.data()) === x.k).map(h => updateDoc(doc(db, "history", h.id), { hidden: true }))); await Promise.all(x.docs.map(s => deleteDoc(doc(db, "patients", s.id)))); closeProfile(); toast("Patient aur history hata di."); } catch { toast("Delete nahi hua. Login check karein."); } }
 });
 $("#ap-patients").addEventListener("submit", async e => {
   const id = e.target.id; if (!["f-vit", "f-note", "f-pe"].includes(id)) return;
@@ -1463,7 +1464,7 @@ $("#ap-patients").addEventListener("submit", async e => {
       await updateDoc(doc(db, "patients", x.id), { vitals: arrayUnion(v) }); e.target.reset(); toast("Vitals save ho gaye ✅");
     } else if (id === "f-note") {
       await updateDoc(doc(db, "patients", x.id), { notes: arrayUnion({ t: Date.now(), type: f.type, text: f.text.trim() }) }); e.target.reset(); toast("Note save ho gaya ✅");
-    } else { await updateDoc(doc(db, "patients", x.id), f); curP = ph10(f.phone) || x.id; toast("Details save ho gayi ✅"); }
+    } else { await updateDoc(doc(db, "patients", x.id), f); curP = pk(f) || x.id; toast("Details save ho gayi ✅"); }
   } catch { toast("Save nahi hua. Login / internet check karein."); }
 });
 
@@ -1506,6 +1507,8 @@ async function notify(title, body, tag) {
 document.addEventListener("visibilitychange", () => { if (!document.hidden) document.title = CONFIG.clinicName; });
 const seen = new Set(jget("shubh_seen", []));
 const ph10 = p => String(p || "").replace(/\D/g, "").slice(-10);
+const nk = n => String(n || "").toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
+const pk = d => { const p = ph10(d.phone); return p ? p + "_" + nk(d.name) : ""; }; /* ek person = phone + naam */
 const busy = new Set();
 /* ===== Patient history: alag collection 'history' (request delete karne par bhi safe) ===== */
 const busyH = new Set(); let histWarned = false;
@@ -1525,9 +1528,9 @@ function syncHistory(docs) {
 }
 function autoSave() {
   if (!db || !patsReady || !REQS.length) return;
-  const have = new Set(PATS.map(p => ph10(p.phone)));
+  const have = new Set(PATS.map(pk));
   REQDOCS.forEach(s => { const d = s.data(); if (HMAP[s.id] && HMAP[s.id].hidden) return;
-    const k = ph10(d.phone); if (k.length < 10 || have.has(k) || busy.has(k)) return;
+    const k = pk(d); if (ph10(d.phone).length < 10 || have.has(k) || busy.has(k)) return;
     busy.add(k); have.add(k);
     const ref = doc(db, "patients", "p" + k);
     getDoc(ref).then(x => x.exists() ? null : setDoc(ref, { name: d.name || "", phone: d.phone, source: "request", createdAt: serverTimestamp() })).catch(() => busy.delete(k));
@@ -1603,7 +1606,7 @@ const XP = { pat: () => PATS, opd: () => VISITS.filter(d => d.type === "OPD"), i
 $("#x-go").onclick = () => { const k = $("#x-what").value; csv(inDays(XP[k](), +$("#x-when").value), k + "-" + ymd(new Date())); };
 $("#x-all").onclick = () => [[PATS, "patients"], [VISITS, "opd-ipd"], [REQS, "requests"]].forEach(([r, n], i) => setTimeout(() => csv(r, n + "-" + ymd(new Date())), i * 700));
 $("#x-dedupe").onclick = async () => {
-  const g = {}; PATDOCS.forEach(s => { const k = ph10(s.data().phone); if (k.length === 10) (g[k] = g[k] || []).push(s); });
+  const g = {}; PATDOCS.forEach(s => { const k = pk(s.data()); if (ph10(s.data().phone).length === 10) (g[k] = g[k] || []).push(s); });
   const dup = Object.values(g).filter(a => a.length > 1);
   if (!dup.length) return toast("Koi duplicate nahi mila ✅");
   if (!confirm(`${dup.length} patients ke duplicate mile. Jodkar ek-ek record bana dein?`)) return;
@@ -1836,6 +1839,7 @@ if (auth) {
   });
   function startAdmin() {
     let first = true;
+    const errH = n => e => toast(`${n} load nahi hua (${e.code || "error"}). Logout karke dobara login karein aur Firestore Rules check karein.`);
     const col = c => query(collection(db, c), orderBy("createdAt", "desc"), limit(500));
     const u1 = onSnapshot(col("requests"), snap => {
       REQDOCS = snap.docs; REQS = snap.docs.map(s => s.data());
@@ -1845,12 +1849,12 @@ if (auth) {
       first = false; const n = REQS.filter(d => d.status === "new").length;
       const bd = $("#rbadge"); if (bd) { bd.hidden = !n; bd.textContent = n; }
       refreshP(); stats(); renderRequests(snap.docs); syncHistory(snap.docs); autoSave();
-    });
-    const u2 = onSnapshot(col("patients"), snap => { PATDOCS = snap.docs; PATS = snap.docs.map(s => s.data()); patsReady = true; autoSave(); refreshP(); stats(); });
+    }, errH("Requests"));
+    const u2 = onSnapshot(col("patients"), snap => { PATDOCS = snap.docs; PATS = snap.docs.map(s => s.data()); patsReady = true; autoSave(); refreshP(); stats(); }, errH("Patients"));
     const u3 = onSnapshot(col("visits"), snap => {
       VISDOCS = snap.docs; VISITS = snap.docs.map(s => s.data()); refreshP(); stats();
       for (const tp of ["OPD", "IPD"]) $("#l-" + tp.toLowerCase()).innerHTML = snap.docs.filter(s => s.data().type === tp).map(s => entry(s.data(), s.id, "visits", [...VIS, ...IPDX])).join("") || NONE;
-    });
+    }, errH("OPD/IPD"));
     const u4 = onSnapshot(query(collection(db, "history"), limit(2000)), snap => {
       HISTDOCS = snap.docs; HMAP = Object.fromEntries(snap.docs.map(s => [s.id, s.data()]));
       histReady = true; syncHistory(REQDOCS); refreshP();
