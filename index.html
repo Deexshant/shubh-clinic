@@ -1370,6 +1370,7 @@ $("#atabs").innerHTML = AT.map(([g, x]) => `<div class="agrp">${g.toUpperCase()}
 const openTab = k => { $$(".ap").forEach(p => (p.hidden = p.id !== "ap-" + k)); $$("#atabs [data-tab]").forEach(b => b.classList.toggle("on", b.dataset.tab === k)); };
 $("#atabs").onclick = e => { const b = e.target.closest("[data-tab]"); if (b) openTab(b.dataset.tab); };
 openTab("requests");
+(() => { const bar = document.createElement("div"); bar.innerHTML = `<div class="chips" id="r-chips">${[["all", "Sab"], ["new", "🆕 Naye"], ["order", "💊 Orders"], ["appt", "📅 Appointments"], ["rep", "📄 Report/Msg"]].map(([k, l]) => `<button class="btn sm ghost${k === "all" ? " on" : ""}" data-rf="${k}" type="button">${l}</button>`).join("")}</div><input id="r-q" type="search" placeholder="🔍 Naam ya phone khojein" autocomplete="off">`; $("#requests").before(bar); bar.onclick = e => { const b = e.target.closest("[data-rf]"); if (!b) return; rfil = b.dataset.rf; $$("#r-chips [data-rf]").forEach(x => x.classList.toggle("on", x === b)); renderRequests(LASTREQ); }; $("#r-q").oninput = () => renderRequests(LASTREQ); })();
 
 /* ===== Patients: search, profile, vitals, history ===== */
 let PG = [], VISDOCS = [], curP = null, curV = [], curN = [], pshown = 30, hfil = "all";
@@ -1383,8 +1384,8 @@ function groups() {
     const m = {};
     [...x.docs].reverse().forEach(s => Object.entries(s.data()).forEach(([f, v]) => { if (v && !SKIP.has(f)) m[f] = v; }));
     x.m = m; x.id = x.docs[0].id; x.ph = ph10(m.phone);
-    x.reqs = x.ph ? (histReady ? HISTDOCS : REQDOCS).filter(r => !r.data().hidden && pk(r.data()) === x.k) : [];
-    x.vis = x.ph ? VISDOCS.filter(r => pk(r.data()) === x.k) : [];
+    x.reqs = x.ph ? (histReady ? HISTDOCS : REQDOCS).filter(r => !r.data().hidden && sameP(r.data(), x.m)) : [];
+    x.vis = x.ph ? VISDOCS.filter(r => sameP(r.data(), x.m)) : [];
     x.last = Math.max(0, ...x.reqs.map(r => msOf(r.data())), ...x.vis.map(r => msOf(r.data())));
     return x;
   });
@@ -1451,7 +1452,7 @@ $("#ap-patients").addEventListener("click", async e => {
   if ((el = c("[data-vdel]")) && confirm("Ye reading hatayein?")) { const { _id, ...v } = curV[+el.dataset.vdel]; updateDoc(doc(db, "patients", _id), { vitals: arrayRemove(v) }).catch(() => toast("Delete nahi hua. Login check karein.")); return; }
   if ((el = c("[data-ndel]")) && confirm("Ye note hatayein?")) { const { _id, ...v } = curN[+el.dataset.ndel]; updateDoc(doc(db, "patients", _id), { notes: arrayRemove(v) }).catch(() => toast("Delete nahi hua. Login check karein.")); return; }
   if ((el = c("[data-hdel]")) && confirm("Ye history entry hata dein? (sirf patient ki history se; request queue par asar nahi)")) { updateDoc(doc(db, "history", el.dataset.hdel), { hidden: true }).then(() => toast("History se hata diya.")).catch(() => toast("Delete nahi hua. Login check karein.")); return; }
-  if (c("#pf-del") && confirm(`${x.m.name} ka patient record aur uski poori history hamesha ke liye hatayein?`)) { try { await Promise.all(HISTDOCS.filter(h => !h.data().hidden && x.ph && pk(h.data()) === x.k).map(h => updateDoc(doc(db, "history", h.id), { hidden: true }))); await Promise.all(x.docs.map(s => deleteDoc(doc(db, "patients", s.id)))); closeProfile(); toast("Patient aur history hata di."); } catch { toast("Delete nahi hua. Login check karein."); } }
+  if (c("#pf-del") && confirm(`${x.m.name} ka patient record aur uski poori history hamesha ke liye hatayein?`)) { try { await Promise.all(HISTDOCS.filter(h => !h.data().hidden && x.ph && sameP(h.data(), x.m)).map(h => updateDoc(doc(db, "history", h.id), { hidden: true }))); await Promise.all(x.docs.map(s => deleteDoc(doc(db, "patients", s.id)))); closeProfile(); toast("Patient aur history hata di."); } catch { toast("Delete nahi hua. Login check karein."); } }
 });
 $("#ap-patients").addEventListener("submit", async e => {
   const id = e.target.id; if (!["f-vit", "f-note", "f-pe"].includes(id)) return;
@@ -1509,9 +1510,13 @@ const seen = new Set(jget("shubh_seen", []));
 const ph10 = p => String(p || "").replace(/\D/g, "").slice(-10);
 const nk = n => String(n || "").toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
 const pk = d => { const p = ph10(d.phone); return p ? p + "_" + nk(d.name) : ""; }; /* ek person = phone + naam */
+const toks = n => String(n || "").toLowerCase().split(/[^\p{L}\p{N}]+/u).filter(Boolean);
+const nmatch = (a, b) => { const x = toks(a), y = toks(b); if (!x.length || !y.length) return true; const [sm, lg] = x.length <= y.length ? [x, y] : [y, x]; return sm.every(t => lg.includes(t)); };
+const sameP = (a, b) => ph10(a.phone) && ph10(a.phone) === ph10(b.phone) && nmatch(a.name, b.name);
 const busy = new Set();
 /* ===== Patient history: alag collection 'history' (request delete karne par bhi safe) ===== */
 const busyH = new Set(); let histWarned = false;
+function histRec(s) { const d = s.data(), h = HMAP[s.id]; return { rid: s.id, kind: d.kind || "", name: d.name || "", phone: d.phone || "", status: d.status || "", items: d.items || "", when: d.when || "", mode: d.mode || "", concern: d.concern || "", address: d.address || "", pin: d.pin || "", total: d.total || "", room: d.room || "", photos: d.photos || [], photo: d.photo || "", createdAt: d.createdAt || serverTimestamp(), hidden: h ? !!h.hidden : false }; }
 function syncHistory(docs) {
   if (!db || !histReady) return;
   docs.forEach(s => {
@@ -1519,7 +1524,7 @@ function syncHistory(docs) {
     if (d.kind === "profile") return;
     if (h && h.status === (d.status || "") && h.kind === (d.kind || "")) return;
     if (busyH.has(s.id)) return; busyH.add(s.id);
-    const rec = { rid: s.id, kind: d.kind || "", name: d.name || "", phone: d.phone || "", status: d.status || "", items: d.items || "", when: d.when || "", mode: d.mode || "", concern: d.concern || "", address: d.address || "", pin: d.pin || "", total: d.total || "", room: d.room || "", photos: d.photos || [], photo: d.photo || "", createdAt: d.createdAt || serverTimestamp(), hidden: h ? !!h.hidden : false };
+    const rec = histRec(s);
     setDoc(doc(db, "history", s.id), rec, { merge: true })
       .then(() => { HMAP[s.id] = { ...(HMAP[s.id] || {}), ...rec }; })
       .catch(() => { if (!histWarned) { histWarned = true; toast("History save nahi hui. Firestore Rules mein 'history' collection check karein."); } })
@@ -1530,7 +1535,7 @@ function autoSave() {
   if (!db || !patsReady || !REQS.length) return;
   const have = new Set(PATS.map(pk));
   REQDOCS.forEach(s => { const d = s.data(); if (HMAP[s.id] && HMAP[s.id].hidden) return;
-    const k = pk(d); if (ph10(d.phone).length < 10 || have.has(k) || busy.has(k)) return;
+    const k = pk(d); if (ph10(d.phone).length < 10 || have.has(k) || busy.has(k) || PATS.some(p => sameP(p, d))) return;
     busy.add(k); have.add(k);
     const ref = doc(db, "patients", "p" + k);
     getDoc(ref).then(x => x.exists() ? null : setDoc(ref, { name: d.name || "", phone: d.phone, source: "request", createdAt: serverTimestamp() })).catch(() => busy.delete(k));
@@ -1548,7 +1553,11 @@ function staffMsg(d) {
   const x = (M[d.kind] || {})[d.status];
   return x ? `Namaste ${n}, ${x}\n- ${c}` : `Namaste ${n}, ${c} se baat ho rahi hai.`;
 }
+let LASTREQ = [], rfil = "all";
+const RF = { all: () => true, new: d => d.status === "new", order: d => d.kind === "delivery", appt: d => d.kind === "appointment" || d.kind === "consult", rep: d => d.kind === "report" || d.kind === "message" || d.kind === "profile" };
 function renderRequests(docs) {
+  LASTREQ = docs; const rq = ($("#r-q") ? $("#r-q").value : "").trim().toLowerCase();
+  docs = docs.filter(s => RF[rfil](s.data()) && (!rq || `${s.data().name} ${s.data().phone} ${s.data().items || ""}`.toLowerCase().includes(rq)));
   $("#requests").innerHTML = docs.length ? docs.map(s => {
     const d = s.data(), c = d.kind === "consult";
     const whenT = d.createdAt ? d.createdAt.toDate().toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }) : "abhi";
@@ -1680,6 +1689,13 @@ function openQE(id) {
 }
 $("#ap-shop").addEventListener("click", e => { const b = e.target.closest("[data-qe]"); if (b) openQE(b.dataset.qe); });
 $("#med-q").oninput = renderAdminItems;
+(() => { const P = $("#ap-shop"), kids = [...P.children];
+  const kind = el => el.querySelector("#bulk-go") ? "x" : el.querySelector("#low-list") ? "stock" : el.querySelector("#off-list") ? "offers" : (el.querySelector("#imp-file") || el.id === "btn-seed") ? "import" : el.querySelector("#f-prod") ? "add" : "list";
+  kids.forEach(k => { k.dataset.sub = kind(k); });
+  const bar = document.createElement("div"); bar.className = "chips"; bar.innerHTML = [["list", "💊 List"], ["add", "➕ Naya"], ["offers", "🏷️ Offers"], ["stock", "⚠️ Stock"], ["import", "📥 Import"]].map(([k, l]) => `<button class="btn sm ghost" data-ms="${k}" type="button">${l}</button>`).join("");
+  P.prepend(bar);
+  const show = k => { kids.forEach(e => { e.hidden = e.dataset.sub === "x" || e.dataset.sub !== k; }); bar.querySelectorAll("[data-ms]").forEach(b => b.classList.toggle("on", b.dataset.ms === k)); };
+  bar.onclick = e => { const b = e.target.closest("[data-ms]"); if (b) show(b.dataset.ms); }; show("list"); })();
 $("#offer-strip").addEventListener("click", e => { const b = e.target.closest("[data-oadd]"); if (b) addToCart(b.dataset.oadd); });
 $("#qe-x").onclick = () => ($("#qe-bg").hidden = true);
 $("#qe-bg").addEventListener("click", e => {
@@ -1818,7 +1834,7 @@ if (auth) {
   };
   $("#requests").addEventListener("click", async e => {
     const x = e.target.closest("[data-rdel]");
-    if (x) { if (confirm("Ye request queue se hata dein? Patient ki history safe rahegi.")) deleteDoc(doc(db, "requests", x.dataset.rdel)).then(() => toast("Request hata di.")).catch(() => toast("Delete nahi hua. Login check karein.")); return; }
+    if (x) { if (confirm("Ye request queue se hata dein? Patient ki history safe rahegi.")) { const id = x.dataset.rdel, rs = REQDOCS.find(r => r.id === id); (async () => { try { if (rs && rs.data().kind !== "profile") await setDoc(doc(db, "history", id), histRec(rs), { merge: true }); await deleteDoc(doc(db, "requests", id)); toast("Request hata di. History safe hai ✅"); } catch { toast("History save nahi hui, isliye request nahi hatayi. Firestore Rules check karein."); } })(); } return; }
     const b = e.target.closest("[data-st]");
     if (!b) return;
     const d = reqs[b.dataset.id];
