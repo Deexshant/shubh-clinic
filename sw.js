@@ -1,4 +1,4 @@
-const CACHE = "shubh-v16";
+const CACHE = "shubh-v17";
 const SHELL = ["./", "index.html", "manifest.json", "icon-192.png", "icon-512.png"];
 /* Ye requests hamesha network se (data kabhi purana na dikhe) */
 const NET_ONLY = /firestore\.googleapis\.com|identitytoolkit|securetoken|firebaseinstallations|api\.cloudinary\.com|wa\.me/;
